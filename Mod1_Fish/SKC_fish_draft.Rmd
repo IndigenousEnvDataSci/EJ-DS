@@ -4,7 +4,7 @@ output: html_document
 date: "2023-10-24"
 ---
 
-##DRAFT: Background of the vignette for fish
+# DRAFT: Background of the vignette for fish
 
 Members of the K’avi have fished the waters on their land for many years
 to provide food for their community. To manage these waters, K'avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community. 
@@ -34,7 +34,7 @@ In this module, there are three main goals:
 to communicate the fishery managers' findings to their community. 
 
 --------------------------------------------------------------------------------
-#WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
+# WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
 
 1. Students become more comfortable opening R and loading in data from an 
 external data file. 
@@ -60,14 +60,14 @@ across different sites)
 
 
 --------------------------------------------------------------------------------
-##PART 1: Loading in and exploring the data
+# PART 1: Loading in and exploring the data
 
 Before we begin to analyze the data, we first need to upload our raw data into R. 
 Once we do that, we can then explore...
 
 **QUESTION: do we want students to jump in using tidyverse right away?
 
-##First, we check and set our working directory(is this something we want students
+## First, we check and set our working directory(is this something we want students
 to do?)
 
 ```{r set wd}
@@ -77,7 +77,7 @@ list.files()
 ```
 
 
-##Load in packages 
+## Load in packages 
 
 ```{r load packages}
 
@@ -88,7 +88,7 @@ library(ggplot2)
 
 
 
-##Now we will load in the dataset for the physical fish data
+## Now we will load in the dataset for the physical fish data
 
 ```{r fish}
 fish <- read.csv(.....)
@@ -96,7 +96,7 @@ fish <- read.csv(.....)
 
 
 
-##Exploring the structure data (again in dplyr/tidyverse or Base?). Look at the 
+## Exploring the structure data (again in dplyr/tidyverse or Base?). Look at the 
 different columns, what they contain etc. 
 
 ```{r explore data structure}
@@ -105,19 +105,18 @@ different columns, what they contain etc.
 
 
 
-##Explore data types (we will have at least numeric and character data)
+## Explore data types (we will have at least numeric and character data)
 
 ```{r explore data types}
 
 ```
 
 
---------------------------------------------------------------------------------
-##PART 2: Pulling (subsetting) variables/columns of interest and running summary
+# PART 2: Pulling (subsetting) variables/columns of interest and running summary
 stats on them that can inform us of the situation at hand. 
 
 
-#Draft lead in text: According to the EPA, the maximum safe level of mercury to 
+## Draft lead in text: According to the EPA, the maximum safe level of mercury to 
 be consumed is around 0.1 mg/kg/day. Tribal fishery managers are interested in how
 mercury levels in fish belly fat vary across different monitoring sites. They are 
 also interested in if the amount of mercury in fish is connected to fish 
@@ -127,7 +126,7 @@ Below, we will analyze data points from the "fish" data set to try and answer
 these questions. 
 
 
-##What is the mean amount of mercury found in fish across all sites? Across 
+## What is the mean amount of mercury found in fish across all sites? Across 
 different sites? 
 
 ```{r mean amount of mercury}
@@ -135,7 +134,7 @@ different sites?
 ```
 
 
-##What is the median amount of mercury found in fish across all sites? Across 
+## What is the median amount of mercury found in fish across all sites? Across 
 different sites? 
 
 ```{r median amount of mercury}
@@ -143,17 +142,15 @@ different sites?
 ```
 
 
-##More to be added! But may be better to work on it as a whole group (vignette
+## More to be added! But may be better to work on it as a whole group (vignette
 and code). 
 
-
---------------------------------------------------------------------------------
-##PART 3: Working with ggplot to generate a graph of mercury concentrations in 
+# PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
 fish age). 
 
 
-#Introducing ggplot and the syntax? Give a commented out example maybe for 
+## Introducing ggplot and the syntax? Give a commented out example maybe for 
 Georgia to walk through (ggplot(data, aes(x,y) etc.)) ? 
 
 ```{r ggplot}
