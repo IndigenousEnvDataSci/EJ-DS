@@ -78,9 +78,8 @@ list.files()
 
 
 ## Load in packages 
-
+Think of packages as tools for you to use in R that aren't automatically part of R when you first installed it. The packages below allow you to do way more things in R, and for coding to be much easier! These packages actually work in harmony with one another, and are part of the "tidyverse". 
 ```{r load packages}
-
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
