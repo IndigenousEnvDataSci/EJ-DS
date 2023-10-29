@@ -155,39 +155,13 @@ fish age).
 #Introducing ggplot and the syntax? Give a commented out example maybe for 
 Georgia to walk through (ggplot(data, aes(x,y) etc.)) ? 
 
-
-<<<<<<< HEAD
-fish_1998- name of data
-%>%- sets the data frame
-ggplot- calls up the package
-aes- what you can see (so the axes)
-+- to add components to the plot
-geom_jitter- makes the ribbon plot
-
-```
-```{r}
-```{r ggplot}
-# For this plot, we want to see the distributions of lengths across the fish and how many of them are above 60 cm. We'll start with a very similar order of steps as the scatterplot we just made.
-fish_1998 %>%
-  ggplot(aes(y=length, x= "fish"))+
-# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
-  geom_hline(yintercept = 50, color= "red")+
-  geom_jitter()
-# the jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above 60 cm. To see the difference, try geom_point () and then geom_jitter ()!
-```
-
-
-
-  
 ```{r ggplot, Scatter Plot}
 
 #Again, setting the data frame, this time we are creating a plot using the 
 #fish_1998 data
+# %>% is the way that we tell the computer what data we are drawing from
 fish_1998 %>%
-#ggplot is just a function that we are using to create a plot. It needs some
-#information which is stored in the aes() function, such as what variable 
-#is on the x-axis (which is the x = length part)
-#and what variable is on the y (the y= mercury part)
+#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot #what we want to see on each axis, in this case x= length and y= mercury.
   ggplot(aes(x = length, y = mercury)) +
 #Since ggplot is just a function to create plots, we need to further specify
 #what kind of plot it should create. We can do this by using the geom_point
@@ -203,6 +177,16 @@ fish_1998 %>%
   geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
 ```
 
+
+```{r}
+# For this plot, we want to see the distributions of lengths across the fish and how many #of them are above 60 cm. We'll start with a very similar order of steps as the scatterplot #we just made.
+fish_1998 %>%
+  ggplot(aes(y=length, x= "fish"))+
+# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This #allows us to look at the variation in lengths of fish independent of another variable.
+  geom_hline(yintercept = 50, color= "red")+
+  geom_jitter()
+# the jitter plot is a variation on the scatterplot, but it separates the data so that we #can distinguish how many points are above 60 cm. To see the difference, try geom_point () #and then geom_jitter ()!
+```
 
 
 
