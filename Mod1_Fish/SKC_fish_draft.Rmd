@@ -127,15 +127,12 @@ dim(data) #shows the dimensions of the dataset, which will be important later on
 ```
 
 
-# PART 2: Pulling (subsetting) variables/columns of interest and running summary
-stats on them that can inform us of the situation at hand. 
+# PART 2: Running some basic statistics! 
 
-
-## Draft lead in text: According to the EPA, the maximum safe level of mercury to 
-be consumed is around 0.1 mg/kg/day. Tribal fishery managers are interested in how
-mercury levels in fish belly fat vary across different monitoring sites. They are 
-also interested in if the amount of mercury in fish is connected to fish 
-size. 
+According to the EPA, the maximum safe level of mercury to be consumed is around
+0.1 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
+fish belly fat vary across different monitoring sites. They are 
+also interested in if the amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer 
 these questions. 
@@ -145,14 +142,21 @@ these questions.
 different sites? 
 
 ```{r mean amount of mercury}
-
+mean(fish$mercury_1998)
+#you can see that $ is how you tell R what variable/column you want to work with
 ```
 
 
-## What is the median amount of mercury found in fish across all sites? Across 
-different sites? 
+## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
+median(fish$mercury_1998)
+```
+
+## Now figure out what the maximum and minimum amount of mercury was found in fish:
+
+``` {r max and minimum amount of mercury}
+
 
 ```
 
