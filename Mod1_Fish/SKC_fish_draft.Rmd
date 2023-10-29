@@ -127,14 +127,6 @@ dim(data) #shows the dimensions of the dataset, which will be important later on
 ```
 
 
-
-## Explore data types (we will have at least numeric and character data)
-
-```{r explore data types}
-
-```
-
-
 # PART 2: Pulling (subsetting) variables/columns of interest and running summary
 stats on them that can inform us of the situation at hand. 
 
