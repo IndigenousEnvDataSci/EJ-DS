@@ -156,14 +156,29 @@ fish age).
 #Introducing ggplot and the syntax? Give a commented out example maybe for 
 Georgia to walk through (ggplot(data, aes(x,y) etc.)) ? 
 
+
+fish_1998- name of data
+%>%- sets the data frame
+ggplot- calls up the package
+aes- what you can see (so the axes)
++- to add components to the plot
+geom_jitter- makes the ribbon plot
 ```{r ggplot}
 
 
 
 
 
-
-
+```
+```{r}
+```{r ggplot}
+# For this plot, we want to see the distributions of lengths across the fish and how many of them are above 60 cm. We'll start with a very similar order of steps as the scatterplot we just made.
+fish_1998 %>%
+  ggplot(aes(y=length, x= "fish"))+
+# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
+  geom_hline(yintercept = 50, color= "red")+
+  geom_jitter()
+# the jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above 60 cm. To see the difference, try geom_point () and then geom_jitter ()!
 ```
 
 
