@@ -78,48 +78,60 @@ list.files()
 
 ## Load in packages 
 
-```{r load packages}
+Think of packages as tools for you to use in R that aren't automatically part of
+R when you first installed it. The packages below allow you to do way more things
+in R, and for coding to be much easier! These packages actually work in harmony 
+with one another, and are part of the "tidyverse".
 
+```{r load packages}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
 ```
-
+#Troubleshoot: If that didn't work, it might be because you don't already have 
+#these packages installed. To install them, copy this code: install.packages("tidyverse") 
+#above the line library(tidyverse), and see if that works. 
 
 
 ## Now we will load in the dataset for the physical fish data
 
 ```{r fish}
-fish <- read.csv(.....)
+fish <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
+```
+
+Let's break down the different parts of what just happened:
+1) We told R to read the data (a .csv file) using the command read.csv()
+2) Within the (""), we identify the data file from our working directory that we want to load into R
+3) header = TRUE just tells R that the first row of data is the column names. The alternative is header = FALSE
+4) sep is short for the word "separate", and it tells R that each column in the csv is separated by a comma ','
+3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
+4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
+
+## Viewing the data
+```{View data pt. 1}
+View(fish) 
+```
+
+## Different way to view the data
+``` {View data pt. 2}
+head(fish) #just shows the column names and the first few rows of the data
+```
+
+What data do we have? What sort of questions can we ask with this data?
+
+## Exploring the dimensions of the data
+
+```{r explore data dimensions}
+dim(data) #shows the dimensions of the dataset, which will be important later on
 ```
 
 
+# PART 2: Running some basic statistics! 
 
-## Exploring the structure data (again in dplyr/tidyverse or Base?). Look at the 
-different columns, what they contain etc. 
-
-```{r explore data structure}
-
-```
-
-
-
-## Explore data types (we will have at least numeric and character data)
-
-```{r explore data types}
-
-```
-
-
-# PART 2: Pulling (subsetting) variables/columns of interest and running summary
-stats on them that can inform us of the situation at hand. 
-
-
-## Draft lead in text: According to the EPA, the maximum safe level of mercury to 
-be consumed is around 0.1 mg/kg/day. Tribal fishery managers are interested in how
-mercury levels in fish belly fat vary across different monitoring sites. They are 
-also interested in if the amount of mercury in fish is connected to fish 
-size. 
+According to the EPA, the maximum safe level of mercury to be consumed is around
+0.1 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
+fish belly fat vary across different monitoring sites. They are 
+also interested in if the amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer 
 these questions. 
@@ -129,20 +141,28 @@ these questions.
 different sites? 
 
 ```{r mean amount of mercury}
-
+mean(fish$mercury_1998)
+#you can see that $ is how you tell R what variable/column you want to work with
 ```
 
 
-## What is the median amount of mercury found in fish across all sites? Across 
-different sites? 
+## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
-
+median(fish$mercury_1998)
 ```
 
+#How would we interpret these median and mean values? Should the Kavi community be concerned?
 
-## More to be added! But may be better to work on it as a whole group (vignette
-and code). 
+
+
+## Now figure out what the maximum and minimum amount of mercury was found in fish:
+
+``` {r max and minimum amount of mercury}
+
+
+```
+ 
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
