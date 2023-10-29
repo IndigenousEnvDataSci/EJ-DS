@@ -153,16 +153,17 @@ mean(fish$mercury_1998)
 median(fish$mercury_1998)
 ```
 
+#How would we interpret these median and mean values? Should the Kavi community be concerned?
+
+
+
 ## Now figure out what the maximum and minimum amount of mercury was found in fish:
 
 ``` {r max and minimum amount of mercury}
 
 
 ```
-
-
-## More to be added! But may be better to work on it as a whole group (vignette
-and code). 
+ 
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
