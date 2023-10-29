@@ -72,7 +72,6 @@ to do?)
 
 ```{r set wd}
 getwd()
-setwd()
 list.files()
 ```
 
@@ -153,16 +152,38 @@ fish age).
 ## Introducing ggplot and the syntax? Give a commented out example maybe for 
 Georgia to walk through (ggplot(data, aes(x,y) etc.)) ? 
 
-```{r ggplot}
+```{r ggplot, Scatter Plot}
 
-
-
-
-
-
-
+#Again, setting the data frame, this time we are creating a plot using the 
+#fish_1998 data
+# %>% is the way that we tell the computer what data we are drawing from
+fish_1998 %>%
+#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot #what we want to see on each axis, in this case x= length and y= mercury.
+  ggplot(aes(x = length, y = mercury)) +
+#Since ggplot is just a function to create plots, we need to further specify
+#what kind of plot it should create. We can do this by using the geom_point
+#function. Because we are making a scatter plot, we use the function geom_point().
+#We can also add a few more parameters to the graph, such as changing the color
+#of the points (color = 'blue), or the size of them (size [2]).
+  geom_point(color = 'blue', size = 2) +
+#We can also add shapes to the plot. Here we added a dashed line to show where 
+#the EPA's guideline for unsafe levels of mercury in fish would fall. To create 
+#this we used the geom_hline function which simply creates a horizontal line at
+#a y-intercept that you set. We can also adjust the color and appearance of the 
+#line with linetype and color.
+  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
 ```
 
+
+```{r}
+# For this plot, we want to see the distributions of lengths across the fish and how many #of them are above 60 cm. We'll start with a very similar order of steps as the scatterplot #we just made.
+fish_1998 %>%
+  ggplot(aes(y=length, x= "fish"))+
+# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This #allows us to look at the variation in lengths of fish independent of another variable.
+  geom_hline(yintercept = 50, color= "red")+
+  geom_jitter()
+# the jitter plot is a variation on the scatterplot, but it separates the data so that we #can distinguish how many points are above 60 cm. To see the difference, try geom_point () #and then geom_jitter ()!
+```
 
 
 
