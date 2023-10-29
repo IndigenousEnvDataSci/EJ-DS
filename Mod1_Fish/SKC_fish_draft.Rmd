@@ -120,8 +120,7 @@ head(fish) #just shows the column names and the first few rows of the data
 
 What data do we have? What sort of questions can we ask with this data?
 
-## Exploring the structure data (again in dplyr/tidyverse or Base?). Look at the 
-different columns, what they contain etc. 
+## Exploring the dimensions of the data
 
 ```{r explore data dimensions}
 dim(data) #shows the dimensions of the dataset, which will be important later on
