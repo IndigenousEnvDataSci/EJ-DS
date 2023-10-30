@@ -150,7 +150,7 @@ these questions.
 different sites? 
 
 ```{r mean amount of mercury}
-mean(fish$mercury_1998)
+mean(fish$mercury)
 #you can see that $ is how you tell R what variable/column you want to work with
 ```
 
@@ -158,7 +158,7 @@ mean(fish$mercury_1998)
 ## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
-median(fish$mercury_1998)
+median(fish$mercury)
 ```
 
 #How would we interpret these median and mean values? Should the K'avi community be concerned?
@@ -176,7 +176,7 @@ median(fish$mercury_1998)
 
 #There is a faster way to get all of these basic statistics at once:
 ``` {r summary stats}
-summary(fish$mercury_1998)
+summary(fish$mercury)
 ```
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
