@@ -129,7 +129,11 @@ What data do we have? What sort of questions can we ask with this data?
 ```{r explore data dimensions}
 dim(fish) #shows the dimensions of the dataset, which will be important later on
 ```
-We see that we have 300 rows and 2 columns.
+#What do these dimensions mean? 
+
+#How would you describe our dataset and its structure?
+
+
 
 # PART 2: Running some basic statistics! 
 
