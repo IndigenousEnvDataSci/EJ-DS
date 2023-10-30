@@ -153,7 +153,7 @@ mean(fish$mercury_1998)
 median(fish$mercury_1998)
 ```
 
-#How would we interpret these median and mean values? Should the Kavi community be concerned?
+#How would we interpret these median and mean values? Should the K'avi community be concerned?
 
 
 
