@@ -164,7 +164,12 @@ median(fish$mercury_1998)
 
 ```
 
-#How would we interpret these maximum and minimum values? Are they as important as the average? 
+#How would we interpret these maximum and minimum values? Are they as important as the average?
+
+#There is a faster way to get all of these basic statistics at once:
+``` {r summary stats}
+summary(fish$mercury_1998)
+```
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
