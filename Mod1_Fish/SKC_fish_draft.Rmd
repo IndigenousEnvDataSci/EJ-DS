@@ -70,10 +70,14 @@ Once we do that, we can then explore...
 ## First, we check and set our working directory(is this something we want students
 to do?)
 
+In the following code we will tell the computer where we want it to look for 
+  files on our computer. This is called a working directory. We will discuss this
+  more in depth later. --- Hannah: or will we? Did we do this in module 0? ---
 ```{r set wd}
-getwd()
-list.files()
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
 ```
+
 
 
 ## Load in packages 
@@ -83,14 +87,12 @@ R when you first installed it. The packages below allow you to do way more thing
 in R, and for coding to be much easier! These packages actually work in harmony 
 with one another, and are part of the "tidyverse".
 
+ --- Hannah: ggplot2 and dplyr are both a part of tidyverse so installing and loading tidyverse will install and load the others too. ---
+ 
 ```{r load packages}
+if(!require("tidyverse")) install.packages("tidyverse")
 library(tidyverse)
-library(dplyr)
-library(ggplot2)
 ```
-#Troubleshoot: If that didn't work, it might be because you don't already have 
-#these packages installed. To install them, copy this code: install.packages("tidyverse") 
-#above the line library(tidyverse), and see if that works. 
 
 
 ## Now we will load in the dataset for the physical fish data
