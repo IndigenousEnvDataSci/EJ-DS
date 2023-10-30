@@ -99,7 +99,7 @@ library(ggplot2)
 ```{r fish}
 fish <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
 ```
-
+#skip this part for now, this is all for if/when we change the .RData file into a csv!
 Let's break down the different parts of what just happened:
 1) We told R to read the data (a .csv file) using the command read.csv()
 2) Within the (""), we identify the data file from our working directory that we want to load into R
