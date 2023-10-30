@@ -109,12 +109,12 @@ Let's break down the different parts of what just happened:
 4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 
 ## Viewing the data
-```{View data pt. 1}
+```{r view data pt. 1}
 View(fish) 
 ```
 
 ## Different way to view the data
-``` {View data pt. 2}
+``` {r view data pt. 2}
 head(fish) #just shows the column names and the first few rows of the data
 ```
 
