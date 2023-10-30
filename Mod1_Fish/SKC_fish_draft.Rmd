@@ -67,8 +67,16 @@ Once we do that, we can then explore...
 
 **QUESTION: do we want students to jump in using tidyverse right away?
 
-## First, we check and set our working directory(is this something we want students
-to do?)
+## Clearing Environment
+
+The first thing we do anytime we start working in R is cleaning our environment. Your environment is where R stores all of the objects it is working with since the last time you cleared your environment. We clear the environment each time we open R so that there isn't anything still open from the list time you were using R that will mess up what we are trying to do this session. You can clear your environment with the following code or by clicking the broom icon that can normally be found on the top right section of RStudio. 
+
+```{r}
+rm(list = ls())
+```
+
+
+## Setting the Working Directory
 
 In the following code we will tell the computer where we want it to look for 
   files on our computer. This is called a working directory. We will discuss this
