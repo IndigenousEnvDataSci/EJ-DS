@@ -98,7 +98,7 @@ library(ggplot2)
 ```{r fish}
 fish <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
 ```
-
+#skip this part for now, this is all for if/when we change the .RData file into a csv!
 Let's break down the different parts of what just happened:
 1) We told R to read the data (a .csv file) using the command read.csv()
 2) Within the (""), we identify the data file from our working directory that we want to load into R
@@ -107,13 +107,17 @@ Let's break down the different parts of what just happened:
 3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
 4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 
+```{r fish RData}
+fish <- fish_1998
+```
+
 ## Viewing the data
-```{View data pt. 1}
+```{r view data pt. 1}
 View(fish) 
 ```
 
 ## Different way to view the data
-``` {View data pt. 2}
+``` {r view data pt. 2}
 head(fish) #just shows the column names and the first few rows of the data
 ```
 
@@ -122,8 +126,12 @@ What data do we have? What sort of questions can we ask with this data?
 ## Exploring the dimensions of the data
 
 ```{r explore data dimensions}
-dim(data) #shows the dimensions of the dataset, which will be important later on
+dim(fish) #shows the dimensions of the dataset, which will be important later on
 ```
+#What do these dimensions mean? 
+
+#How would you describe our dataset and its structure?
+
 
 
 # PART 2: Running some basic statistics! 
@@ -141,7 +149,7 @@ these questions.
 different sites? 
 
 ```{r mean amount of mercury}
-mean(fish$mercury_1998)
+mean(fish$mercury)
 #you can see that $ is how you tell R what variable/column you want to work with
 ```
 
@@ -149,10 +157,10 @@ mean(fish$mercury_1998)
 ## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
-median(fish$mercury_1998)
+median(fish$mercury)
 ```
 
-#How would we interpret these median and mean values? Should the Kavi community be concerned?
+#How would we interpret these median and mean values? Should the K'avi community be concerned?
 
 
 
@@ -162,7 +170,13 @@ median(fish$mercury_1998)
 
 
 ```
- 
+
+#How would we interpret these maximum and minimum values? Are they as important as the average?
+
+#There is a faster way to get all of these basic statistics at once:
+``` {r summary stats}
+summary(fish$mercury)
+```
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
