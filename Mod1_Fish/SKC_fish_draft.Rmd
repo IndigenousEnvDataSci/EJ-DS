@@ -108,6 +108,10 @@ Let's break down the different parts of what just happened:
 3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
 4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 
+```{r fish RData}
+fish <- fish_1998
+```
+
 ## Viewing the data
 ```{r view data pt. 1}
 View(fish) 
