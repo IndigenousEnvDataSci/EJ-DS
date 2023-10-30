@@ -106,7 +106,7 @@ library(tidyverse)
 ## Now we will load in the dataset for the physical fish data
 
 ```{r fish}
-fish <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
+#fish <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
 ```
 #skip this part for now, this is all for if/when we change the .RData file into a csv!
 Let's break down the different parts of what just happened:
@@ -118,15 +118,20 @@ Let's break down the different parts of what just happened:
 4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 
 ```{r fish RData}
+load("fish_1998.RData")
 fish <- fish_1998
 ```
 
 ## Viewing the data
+
+Now that we have brought the data into R we can look at the data with the following command. 
 ```{r view data pt. 1}
 View(fish) 
 ```
 
 ## Different way to view the data
+
+If we don't want to look at all of the data and instead just want to see what is going on in the first couple rows we can use the following code. 
 ``` {r view data pt. 2}
 head(fish) #just shows the column names and the first few rows of the data
 ```
@@ -138,9 +143,10 @@ What data do we have? What sort of questions can we ask with this data?
 ```{r explore data dimensions}
 dim(fish) #shows the dimensions of the dataset, which will be important later on
 ```
-#What do these dimensions mean? 
 
-#How would you describe our dataset and its structure?
+* What do these dimensions mean? 
+
+* How would you describe our dataset and its structure?
 
 
 
@@ -170,7 +176,7 @@ mean(fish$mercury)
 median(fish$mercury)
 ```
 
-#How would we interpret these median and mean values? Should the K'avi community be concerned?
+## How would we interpret these median and mean values? Should the K'avi community be concerned?
 
 
 
@@ -181,9 +187,9 @@ median(fish$mercury)
 
 ```
 
-#How would we interpret these maximum and minimum values? Are they as important as the average?
+## How would we interpret these maximum and minimum values? Are they as important as the average?
 
-#There is a faster way to get all of these basic statistics at once:
+## There is a faster way to get all of these basic statistics at once:
 ``` {r summary stats}
 summary(fish$mercury)
 ```
@@ -231,12 +237,14 @@ fish_1998 %>%
 
 --------------------------------------------------------------------------------
 
-#DAY 2: 
+# DAY 2: 
 
 We will now analyze data collected from the same monitoring sites in the K'avi 
 community from 25 years later (2023). In light of data collected in 1998, efforts were 
 made to clean up the heavy metals present in the water that were becoming concentrated
 in the local fish populations. 
+
+--- Hannah: Could we maybe change this to say something along the lines of: "In light of the data collected in 1998 and the presentations that the data scientists made to the community... I just feel like we should in some way emphazise the role of data science in this change ---
 
 Our goal today is to see whether the efforts made by tribal fishery managers were 
 effective in reducing the amount of mercury present in the fish. 
@@ -253,10 +261,13 @@ The easiest way to think of a directory is as a location on your computer where
 data and other files are located. Each of these directories can be accessed with 
 their own unique file path, which is basically a list of different locations on 
 your computer that becomes more specific as it continues! 
-```{r set wd}
-getwd()
-setwd()
-list.files()
+
+--- Hannah: Are we having both of these in the same document? If so then we do not need to set the working directory twice. If we are splitting them then I will change this to match the above ---
+
+```{r set wd2}
+# getwd()
+# setwd()
+# list.files()
 ```
 
 
@@ -265,7 +276,9 @@ list.files()
 We will be using the same packages as we used on Day 1. Remember to load packages, 
 we used the command library(), with the name of the package in the parentheses. 
 
-```{r load packages}
+--- Hannah: See comment aboev ---
+
+```{r load packages2}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
@@ -277,8 +290,10 @@ library(ggplot2)
 
 ## Now we will load in the dataset for the physical fish data
 
-```{r fish}
-fish <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
+```{r fish2}
+#fish <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
+load("fish_2023.RData")
+fish_2 <- fish_2023
 ```
 
 Let's break down the different parts of what just happened:
@@ -290,12 +305,12 @@ Let's break down the different parts of what just happened:
 4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 
 ## Viewing the data
-```{View data pt. 1}
+```{View data pt. 1 - take 2}
 View(fish_2) 
 ```
 
 ## Different way to view the data
-``` {View data pt. 2}
+``` {View data pt. 2 - take 2}
 head(fish_2) #just shows the column names and the first few rows of the data
 ```
 
@@ -303,7 +318,7 @@ What data do we have? What sort of questions can we ask with this data?
 
 ## Exploring the dimensions of the data
 
-```{r explore data dimensions}
+```{r explore data dimensions 2}
 dim(fish_2) #shows the dimensions of the dataset, which will be important later on
 ```
 
@@ -321,7 +336,7 @@ these questions.
 
 ## What is the mean amount of mercury found in fish across all sites in 2023? 
 
-```{r mean amount of mercury}
+```{r mean amount of mercury 2}
 mean(fish_2$mercury_2023)
 #you can see that $ is how you tell R what variable/column you want to work with
 ```
@@ -329,18 +344,18 @@ mean(fish_2$mercury_2023)
 
 ## What is the median amount of mercury found in fish in 2023?
 
-```{r median amount of mercury}
+```{r median amount of mercury 2}
 median(fish_2$mercury_2023)
 ```
 
-#How would we interpret these median and mean values? How do these values compare from 
+## How would we interpret these median and mean values? How do these values compare from 
 the values we generated last class using the "fish" data from 1998? 
 
 
 
 ## Now figure out what the maximum and minimum amount of mercury was found in fish
 in 2023:
-``` {r max and minimum amount of mercury}
+``` {r max and minimum amount of mercury 2}
 
 
 ```
@@ -355,7 +370,7 @@ data from the fish_2023 dataset, and compare our results to those we generated
 with the fish_1998 dataset. 
 
 ## Recall from last class the steps to make a plot with ggplot:
-```{r ggplot, Scatter Plot}
+```{r ggplot, Scatter Plot 2}
 
 #First we will tell ggplot which dataframe we are pulling from, in this case 
 #it would be fish_2023, so we would write the name of the dataframe, followed by
@@ -363,7 +378,7 @@ with the fish_1998 dataset.
 fish_2023 %>%
 #Next we will call "ggplot" followed by the "aes() argument. Which data would 
   #go on the x and y axis? 
-  ggplot(aes(x = , y = ) +
+  ggplot(aes(x = , y = )) +
 #Now it's time to specify which plot we want ggplot to make. A scatterplot
 #would be good to visualize our data, so we will call "geom_point()". In the 
 #parentheses, we can specify extra details about how we want the graph to appear.
@@ -378,6 +393,6 @@ geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
 ```
 
 
-##INTERPRETATION: Based on the distribution of data in our plot from the fish_2023
+## INTERPRETATION: Based on the distribution of data in our plot from the fish_2023
 dataset compared to how our plot looked with the fish_1998 dataset, were the clean-up
 efforts successful? If so, how can you tell? 
