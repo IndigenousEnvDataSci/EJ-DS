@@ -163,7 +163,8 @@ median(fish$mercury_1998)
 
 
 ```
- 
+
+#How would we interpret these maximum and minimum values? Are they as important as the average? 
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
