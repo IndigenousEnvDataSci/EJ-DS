@@ -123,7 +123,7 @@ What data do we have? What sort of questions can we ask with this data?
 ## Exploring the dimensions of the data
 
 ```{r explore data dimensions}
-dim(data) #shows the dimensions of the dataset, which will be important later on
+dim(fish) #shows the dimensions of the dataset, which will be important later on
 ```
 
 
