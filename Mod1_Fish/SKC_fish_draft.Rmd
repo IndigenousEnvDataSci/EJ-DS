@@ -198,42 +198,59 @@ summary(fish$mercury)
 fish belly fat against some variable of interest (fish length, boxplots for 
 fish age). 
 
+# First we want to visualize the distributions of the fish by length and 
+by the amount of mercury that they have. We can do this by creating graphs
+(which we'll talk about in a later module)
 
 ## Introducing ggplot and the syntax? Give a commented out example maybe for 
 Georgia to walk through (ggplot(data, aes(x,y) etc.)) ? 
 
-```{r ggplot, Scatter Plot}
+#Don't worry about the code below (unless you would like to explore it), just focus on the 
+graph that it creates and interpreting its results. 
 
-#Again, setting the data frame, this time we are creating a plot using the 
-#fish_1998 data
-# %>% is the way that we tell the computer what data we are drawing from
-fish_1998 %>%
+```{r ggplot, Ribbon Plot, length}
+# For this plot, we want to see the distributions of lengths across the fish and how many of them are above 50 cm. 
+ ggplot(fish_1998, aes(y=length, x= "fish"))+
+# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
+  geom_hline(yintercept = 50, color= "red")+
+  geom_jitter(width = 0.1)
+# the jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above 50 cm. To see the difference, try geom_point () and then geom_jitter ()!
+```
+What does this tell us about the lengths of the fish in the lake?
+
+
+```{r ggplot, Ribbon Plot, mercury}
+ ggplot (fish_1998, aes(x= 'fish', y= mercury))+
+  geom_jitter(width = 0.1)+
+  geom_hline(yintercept = 4, color= "red")
+
+```
+#What does this distribution tell us about the mercury levels in the fish?
+
+
+#Now that we have seen the distributions of the lengths of the fish and the mercury levels in the lake, we can look at the realtionship between them. Again, don't worry about the code below, just think about the information that we can take from it. 
+
+```{r ggplot, Scatter Plot}
 #ggplot is the function that we are using to create a plot. aes() is used to tell ggplot #what we want to see on each axis, in this case x= length and y= mercury.
-  ggplot(aes(x = length, y = mercury)) +
+  p1<- ggplot(fish_1998, aes(x = length, y = mercury)) +
 #Since ggplot is just a function to create plots, we need to further specify
 #what kind of plot it should create. We can do this by using the geom_point
 #function. Because we are making a scatter plot, we use the function geom_point().
 #We can also add a few more parameters to the graph, such as changing the color
 #of the points (color = 'blue), or the size of them (size [2]).
   geom_point(color = 'blue', size = 2) +
+  ggtitle('mercury levels in 1998') +
 #We can also add shapes to the plot. Here we added a dashed line to show where 
 #the EPA's guideline for unsafe levels of mercury in fish would fall. To create 
 #this we used the geom_hline function which simply creates a horizontal line at
 #a y-intercept that you set. We can also adjust the color and appearance of the 
 #line with linetype and color.
   geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
+p1
 ```
 
+#What does this tell us about the relationship between fish length and mercury levels? Are there certain lengths of fish that have a higher amount of mercury? 
 
-```{r}
-# For this plot, we want to see the distributions of lengths across the fish and how many #of them are above 60 cm. We'll start with a very similar order of steps as the scatterplot #we just made.
-fish_1998 %>%
-  ggplot(aes(y=length, x= "fish"))+
-# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This #allows us to look at the variation in lengths of fish independent of another variable.
-  geom_hline(yintercept = 50, color= "red")+
-  geom_jitter()
-# the jitter plot is a variation on the scatterplot, but it separates the data so that we #can distinguish how many points are above 60 cm. To see the difference, try geom_point () #and then geom_jitter ()!
-```
 
 --------------------------------------------------------------------------------
 
@@ -282,6 +299,7 @@ we used the command library(), with the name of the package in the parentheses.
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(patchwork)
 ```
 #Troubleshoot: If that didn't work, it might be because you don't already have 
 #these packages installed. To install them, copy this code: install.packages("tidyverse") 
@@ -371,27 +389,23 @@ with the fish_1998 dataset.
 
 ## Recall from last class the steps to make a plot with ggplot:
 ```{r ggplot, Scatter Plot 2}
-
-#First we will tell ggplot which dataframe we are pulling from, in this case 
-#it would be fish_2023, so we would write the name of the dataframe, followed by
-#%>%
-fish_2023 %>%
-#Next we will call "ggplot" followed by the "aes() argument. Which data would 
+#Call "ggplot" followed by the "aes() argument. Which data would 
   #go on the x and y axis? 
-  ggplot(aes(x = , y = )) +
+p2<- ggplot(fish_2023, aes(x = length, y = mercury)) +
 #Now it's time to specify which plot we want ggplot to make. A scatterplot
 #would be good to visualize our data, so we will call "geom_point()". In the 
 #parentheses, we can specify extra details about how we want the graph to appear.
 #Here, we will set the color to green, and the size of the points to 2. 
   geom_point(color = 'green', size = 2) +
+  ggtitle('mercury levels in 2023')+
 #To truly understand if efforts to clean up the waterways made a difference in 
 #mercury concentrations in the fish, we will again place a dashed line on the 
 #graph where the EPA deems the unsafe level of mercury in fish would be. We will
 #do this by calling geom_hline, then setting the y-intercept of where we want the
 #line to be placed, set the "linetype" and set the "color" of the line. 
 geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
+p1+p2
 ```
-
 
 ## INTERPRETATION: Based on the distribution of data in our plot from the fish_2023
 dataset compared to how our plot looked with the fish_1998 dataset, were the clean-up
