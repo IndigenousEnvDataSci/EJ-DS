@@ -17,7 +17,7 @@ the K’avi, and waste from this factory was dumped into the nearby waters.
 Tribal fishery managers are now concerned that members of the community 
 are being exposed to heavy metals through the fish that have been caught in these
 waters. As a result, they now want to start recording the concentrations of methyl
-mercury and selenium in the belly fat of fish across different sites in the area.
+mercury in the belly fat of fish in the area.
 Their hope is to gain insight as to if the symptoms their community 
 members are facing are connected to the fish being sourced from their waters. 
 
@@ -91,15 +91,14 @@ setwd(dirname(current_path))
 ## Load in packages 
 
 Think of packages as tools for you to use in R that aren't automatically part of
-R when you first installed it. The packages below allow you to do way more things
-in R, and for coding to be much easier! These packages actually work in harmony 
-with one another, and are part of the "tidyverse".
+R when you first installed it. The package below allows you to do way more things
+in R, and for coding to be much easier! 
 
  --- Hannah: ggplot2 and dplyr are both a part of tidyverse so installing and loading tidyverse will install and load the others too. ---
  
 ```{r load packages}
-if(!require("tidyverse")) install.packages("tidyverse")
-library(tidyverse)
+if(!require("tidyverse")) install.packages("tidyverse") #how you install a package (only need to do this once on your computer)
+library(tidyverse) #how to load in a package that has already been installed
 ```
 
 
@@ -135,34 +134,33 @@ If we don't want to look at all of the data and instead just want to see what is
 ``` {r view data pt. 2}
 head(fish) #just shows the column names and the first few rows of the data
 ```
+* Now that you have taken a look at it in R, what is data?
 
-What data do we have? What sort of questions can we ask with this data?
+* What data do we have? What sort of questions can the tribal fishery managers ask with this data?
 
 ## Exploring the dimensions of the data
 
+To answer these questions, it would be helpful to know how many fish we actually have data for!
+Fortunately, we can very quickly find that out with the following code.
 ```{r explore data dimensions}
 dim(fish) #shows the dimensions of the dataset, which will be important later on
 ```
 
-* What do these dimensions mean? 
-
-* How would you describe our dataset and its structure?
-
+* How many fish do we have data for?
 
 
 # PART 2: Running some basic statistics! 
 
 According to the EPA, the maximum safe level of mercury to be consumed is around
-0.1 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
-fish belly fat vary across different monitoring sites. They are 
-also interested in if the amount of mercury in fish is connected to fish size. 
+0.1 mg/kg/day. Tribal fishery managers are interested in whether the mercury levels in 
+local fish belly fat exceeds this threshold. They are also interested in if the 
+amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer 
 these questions. 
 
 
-## What is the mean amount of mercury found in fish across all sites? Across 
-different sites? 
+## What is the mean amount of mercury found in local fish? 
 
 ```{r mean amount of mercury}
 mean(fish$mercury)
