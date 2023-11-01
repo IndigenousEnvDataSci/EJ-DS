@@ -255,21 +255,26 @@ p1
 # DAY 2: 
 
 We will now analyze data collected from the same monitoring sites in the K'avi 
-community from 25 years later (2023). In light of data collected in 1998, efforts were 
-made to clean up the heavy metals present in the water that were becoming concentrated
-in the local fish populations. 
+community from 25 years later (2023). In light of data collected in 1998 and the
+presentations tribal fishery managers made to communicate their findings to the 
+community,efforts were made to clean up the heavy metals present in the water 
+that were becoming concentrated in the local fish populations. 
 
---- Hannah: Could we maybe change this to say something along the lines of: "In light of the data collected in 1998 and the presentations that the data scientists made to the community... I just feel like we should in some way emphazise the role of data science in this change ---
+--- Hannah: Could we maybe change this to say something along the lines of: "In light of the data collected in 1998 and the presentations that the data scientists made to the community... I just feel like we should in some way emphasize the role of data science in this change ---
+
+---Catherine: I agree! See changes made above!---
+
 
 Our goal today is to see whether the efforts made by tribal fishery managers were 
-effective in reducing the amount of mercury present in the fish. 
+effective in reducing the amount of mercury present in the fish. We will do this
+by comparing our findings from the 1998 dataset to our current findings in the 2023
+dataset. 
 
 # PART 1: Loading in and exploring the data
 
 Like we did on Day 1 of the fish module, we first need to load in our datasets!
 
-
-## First, we check and set our working directory. First we will use the getwd()
+Before we begin, we check and set our working directory. First we will use the getwd()
 command to figure out which working directory we are currently in. Then we will 
 use "setwd()" to change our working directory to the directory where our data lives.
 The easiest way to think of a directory is as a location on your computer where 
@@ -278,6 +283,10 @@ their own unique file path, which is basically a list of different locations on
 your computer that becomes more specific as it continues! 
 
 --- Hannah: Are we having both of these in the same document? If so then we do not need to set the working directory twice. If we are splitting them then I will change this to match the above ---
+
+---Catherine: That's a good point, and based on what we discussed last class I 
+think that both days' assignments will be in the same document so students can 
+generate both plots easily and place them side by side?---
 
 ```{r set wd2}
 # getwd()
@@ -291,17 +300,17 @@ your computer that becomes more specific as it continues!
 We will be using the same packages as we used on Day 1. Remember to load packages, 
 we used the command library(), with the name of the package in the parentheses. 
 
---- Hannah: See comment aboev ---
+--- Hannah: See comment above ---
 
 ```{r load packages2}
 library(tidyverse)
-library(dplyr)
-library(ggplot2)
+
+#We will need to use a new package today that we haven't installed before called 
+#patchwork.
+if(!require("patchwork")) install.packages("patchwork") 
 library(patchwork)
 ```
-#Troubleshoot: If that didn't work, it might be because you don't already have 
-#these packages installed. To install them, copy this code: install.packages("tidyverse") 
-#above the line library(tidyverse), and see if that works. 
+
 
 
 ## Now we will load in the dataset for the physical fish data
@@ -312,30 +321,29 @@ load("fish_2023.RData")
 fish_2 <- fish_2023
 ```
 
-Let's break down the different parts of what just happened:
-1) We told R to read the data (a .csv file) using the command read.csv()
-2) Within the (""), we identify the data file from our working directory that we want to load into R
-3) header = TRUE just tells R that the first row of data is the column names. The alternative is header = FALSE
-4) sep is short for the word "separate", and it tells R that each column in the csv is separated by a comma ','
-3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
-4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 
-## Viewing the data
+## Now that we have loaded our data, we can begin to explore it to see what it 
+contains. 
+
 ```{View data pt. 1 - take 2}
 View(fish_2) 
 ```
 
-## Different way to view the data
+## Recall from last class that there is another way to view only a small part 
+of our dataframe, using the arugement "head()". 
+
+*What would go in the parentheses of head() in order to get the output you want?
 ``` {View data pt. 2 - take 2}
-head(fish_2) #just shows the column names and the first few rows of the data
+head() #Fill in the parentheses 
 ```
 
-What data do we have? What sort of questions can we ask with this data?
+*What are the variables that this data set contains?
 
-## Exploring the dimensions of the data
+## It can also be helpful to explore the dimensions (size) of our dataset, so 
+we know how big our sample size is. To do this, we will use the function "dim()".
 
 ```{r explore data dimensions 2}
-dim(fish_2) #shows the dimensions of the dataset, which will be important later on
+dim() #Fill in the parentheses with the name of the dataframe
 ```
 
 
@@ -350,11 +358,18 @@ Below, we will analyze data points from the "fish_2" data set to try and answer
 these questions. 
 
 
-## What is the mean amount of mercury found in fish across all sites in 2023? 
+## What is the mean amount of mercury found in fish in 2023? 
 
 ```{r mean amount of mercury 2}
 mean(fish_2$mercury_2023)
-#you can see that $ is how you tell R what variable/column you want to work with
+
+```
+
+## More practice with mean! How would you figure out what the mean length of fish
+sampled was in 2023? 
+
+```{r mean length of fish- student practice}
+
 ```
 
 
@@ -364,16 +379,24 @@ mean(fish_2$mercury_2023)
 median(fish_2$mercury_2023)
 ```
 
-## How would we interpret these median and mean values? How do these values compare from 
-the values we generated last class using the "fish" data from 1998? 
+## More practice with median! How would you figure out what the median length of fish
+##sampled was in 2023? 
+
+```{r median length of fish- student practice}
+
+```
+
+
+## How would we interpret these median and mean values of methyl mercury in fish?
+## How do these values compare to the values we drew from the 1998 dataset?
 
 
 
 ## Now figure out what the maximum and minimum amount of mercury was found in fish
-in 2023:
+##in 2023: your turn to fill in the parentheses!
 ``` {r max and minimum amount of mercury 2}
-
-
+max()
+min()
 ```
  
  
@@ -402,7 +425,14 @@ p2<- ggplot(fish_2023, aes(x = length, y = mercury)) +
 #do this by calling geom_hline, then setting the y-intercept of where we want the
 #line to be placed, set the "linetype" and set the "color" of the line. 
 geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
-p1+p2
+```
+
+## Tribal fishery managers believe that the best way to see if efforts to clean 
+## the waterways were successful would be to put our plot from 1998 next to 
+## our plot from 2023.
+
+```{r putting plots side by side}
+p1 + p2 #plot from 1998 next to plot from 2023 
 ```
 
 ## INTERPRETATION: Based on the distribution of data in our plot from the fish_2023
