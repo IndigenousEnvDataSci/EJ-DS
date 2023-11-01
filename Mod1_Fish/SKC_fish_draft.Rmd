@@ -148,12 +148,16 @@ dim(fish) #shows the dimensions of the dataset, which will be important later on
 
 * How many fish do we have data for?
 
+## Recap
+You now know the basic ways to look at and understand your data in R, which will
+come in handy any time you use R in the future! We now know what sort of questions
+we can ask with this data, but how can we use R to answer those questions?
 
 # PART 2: Running some basic statistics! 
 
 According to the EPA, the maximum safe level of mercury to be consumed is around
 0.1 mg/kg/day. Tribal fishery managers are interested in whether the mercury levels in 
-local fish belly fat exceeds this threshold. They are also interested in if the 
+local fish belly fat exceeds this amount. They are also interested in if the 
 amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer 
