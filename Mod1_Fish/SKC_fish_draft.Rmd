@@ -177,7 +177,7 @@ What does the mean tell you? Why would this be useful for fishery managers?
 ## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
-median(fish$mercury)
+median(fish$mercury) #for students, can just be given median() and then they have to fill in fish$mercury
 ```
 What does the median tell you? How is it different from the mean? 
 
