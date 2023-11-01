@@ -170,15 +170,18 @@ these questions.
 mean(fish$mercury)
 #you can see that $ is how you tell R what variable/column you want to work with
 ```
+What does the mean tell you? Why would this be useful for fishery managers?
 
+--Evan: Not sure if I want them to interpret these values and also explain what mean, median etc. are, or if I should provide a brief explanation of what they each are?--
 
 ## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
 median(fish$mercury)
 ```
+What does the median tell you? How is it different from the mean? 
 
-## How would we interpret these median and mean values? Should the K'avi community be concerned?
+* How would we interpret these median and mean values? Should the K'avi community be concerned?
 
 
 
@@ -194,6 +197,7 @@ median(fish$mercury)
 ## There is a faster way to get all of these basic statistics at once:
 ``` {r summary stats}
 summary(fish$mercury)
+#1st Qu. and 3rd Qu. refer to the 1st and 3rd "Quartiles". Don't worry too much about quartiles right now, but if you're curious, they represent a quarter of the data. They basically tell you that 25% of the data is between that value, the Median, and either the Min. (1st Qu.) or Max. (3rd Qu.).
 ```
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
