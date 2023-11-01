@@ -148,12 +148,16 @@ dim(fish) #shows the dimensions of the dataset, which will be important later on
 
 * How many fish do we have data for?
 
+## Recap
+You now know the basic ways to look at and understand your data in R, which will
+come in handy any time you use R in the future! We now know what sort of questions
+we can ask with this data, but how can we use R to answer those questions?
 
 # PART 2: Running some basic statistics! 
 
 According to the EPA, the maximum safe level of mercury to be consumed is around
 0.1 mg/kg/day. Tribal fishery managers are interested in whether the mercury levels in 
-local fish belly fat exceeds this threshold. They are also interested in if the 
+local fish belly fat exceeds this amount. They are also interested in if the 
 amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer 
@@ -166,15 +170,18 @@ these questions.
 mean(fish$mercury)
 #you can see that $ is how you tell R what variable/column you want to work with
 ```
+What does the mean tell you? Why would this be useful for fishery managers?
 
+--Evan: Not sure if I want them to interpret these values and also explain what mean, median etc. are, or if I should provide a brief explanation of what they each are?--
 
 ## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
 median(fish$mercury)
 ```
+What does the median tell you? How is it different from the mean? 
 
-## How would we interpret these median and mean values? Should the K'avi community be concerned?
+* How would we interpret these median and mean values? Should the K'avi community be concerned?
 
 
 
@@ -185,12 +192,28 @@ median(fish$mercury)
 
 ```
 
-## How would we interpret these maximum and minimum values? Are they as important as the average?
+* How would we interpret these maximum and minimum values? Are they as important as the average?
 
 ## There is a faster way to get all of these basic statistics at once:
 ``` {r summary stats}
 summary(fish$mercury)
+#1st Qu. and 3rd Qu. refer to the 1st and 3rd "Quartiles". Don't worry too much about quartiles right now, but if you're curious, they represent a quarter of the data. They basically tell you that 25% of the data is between that value, the Median, and either the Min. (1st Qu.) or Max. (3rd Qu.).
 ```
+
+* Looking at all of these values, are there unsafe levels of mercury in local fish? 
+  If so, is it in most fish, or only some? 
+
+* Would you recommend cleaning up the river based on these values? 
+
+Cleaning up the waterway may take some time, is it possible for members of the 
+K'avi community to safely continue fishing these waters in the meantime? Are fish 
+of certain sizes more safe to eat than others?
+
+## Recap: How could we communicate these values? 
+You now know how to get basic statistics in R, and that has already given a lot 
+of helpful information for tribal fishery managers! However, summary stats can't 
+answer every question, and as a list of numbers they would be very difficult to 
+communicate to the K'avi community. It would be much more helpful to visualize the data!
 
 # PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
