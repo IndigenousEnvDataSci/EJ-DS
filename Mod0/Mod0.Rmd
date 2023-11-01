@@ -1,1 +1,52 @@
+---
+title: "Module_0_Beginning_with_R"
+author: "JMc"
+date: "2023-10-30"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+*NOTES TO JMc FOR THIS MODULE. ERASE LATER* 
+This is the "Hello World" Module, orienting students to the RStudio Environment.
+
+Stuff to include:
+- Orientation to R-Studio windows/tabs
+
+-- Chunk1: There are 4 windows and various tabs.
+
+--- (1) The upper left window (where you are reading this) is called the "source editor." It's where you write instructions (when there's white background) and where you write code that you want to run in R (when there's grey background). 
+
+---- If the background in this window is white (like here), then R doesn't try to run any of the text as code. It's like writing in Word. This is a place for writing introductions to ideas or explanations of code (like this text).
+
+---- If the background is grey, that's called a code chunk. Inside 
+
+
+- Knitting
+Click the **"Knit"** button on the menu bar (it has an icon with a ball of blue yarn).
+After a few seconds, this will make a nicely formatted file presenting the contents of this document.
+
+- Libraries (reconcile this with Module 1 content)
+- [RMarkdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+*^ERASE ABOVE^*
+
+
+
+```{r pressure}
+pressure
+```
+
+```{r What is pressure?}
+?pressure
+```
+
+## Including Plots
+You can also embed plots, for example:
+
+```{r pressure plot, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
