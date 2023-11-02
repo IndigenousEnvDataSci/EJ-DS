@@ -172,7 +172,6 @@ mean(fish$mercury)
 ```
 What does the mean tell you? Why would this be useful for fishery managers?
 
---Evan: Not sure if I want them to interpret these values and also explain what mean, median etc. are, or if I should provide a brief explanation of what they each are?--
 
 ## What is the median amount of mercury found in fish?
 
@@ -197,17 +196,12 @@ What does the median tell you? How is it different from the mean?
 ## There is a faster way to get all of these basic statistics at once:
 ``` {r summary stats}
 summary(fish$mercury)
-#1st Qu. and 3rd Qu. refer to the 1st and 3rd "Quartiles". Don't worry too much about quartiles right now, but if you're curious, they represent a quarter of the data. They basically tell you that 25% of the data is between that value, the Median, and either the Min. (1st Qu.) or Max. (3rd Qu.).
+#1st Qu. and 3rd Qu. refer to the 1st and 3rd "Quartiles", which represent a quarter of the data. They basically tell you that 25% of the data is between that value, the Median, and either the Min. (1st Qu.) or Max. (3rd Qu.).
 ```
 
 * Looking at all of these values, are there unsafe levels of mercury in local fish? 
   If so, is it in most fish, or only some? 
 
-* Would you recommend cleaning up the river based on these values? 
-
-Cleaning up the waterway may take some time, is it possible for members of the 
-K'avi community to safely continue fishing these waters in the meantime? Are fish 
-of certain sizes more safe to eat than others?
 
 ## Recap: How could we communicate these values? 
 You now know how to get basic statistics in R, and that has already given a lot 
@@ -271,7 +265,18 @@ geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
 theme_minimal()
 ```
 
-#You have now seen what the mercury disriubtion of the fish in the lake looks like and connected it to the summary statistics that were calculated above. But, this graph doesn't tell us anything about how mercury levels and the length of the fish in the lake are related. If the K'avi community decide to continue fishing from this lake, it would be useful for them to know what size of fish may have a potentially harmful amount of mercury in it. 
+#You have now seen what the mercury distribution in local fish looks like and connected it to the summary statistics that were calculated above!
+
+* From looking at this graph, are there unsafe levels of mercury in local fish? 
+  If so, is it in most fish, or only some? Did this graph tell you anything different than the summary       statistics, or did it just tell you the same information in a different way?
+
+* Would you recommend cleaning up the river based on these values? 
+
+Cleaning up the waterway may take some time, is it possible for members of the 
+K'avi community to safely continue fishing these waters in the meantime? Are fish 
+of certain sizes more safe to eat than others? If the K'avi community decide to 
+continue fishing from this lake, it would be useful for them to know what size of 
+fish may have a potentially harmful amount of mercury in it.
 
 #Again, don't worry about the code below, just think about the information that we can take from it. 
 ```{r ggplot, Scatter Plot}
