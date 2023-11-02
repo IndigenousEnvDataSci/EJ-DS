@@ -310,10 +310,6 @@ presentations tribal fishery managers made to communicate their findings to the
 community,efforts were made to clean up the heavy metals present in the water 
 that were becoming concentrated in the local fish populations. 
 
---- Hannah: Could we maybe change this to say something along the lines of: "In light of the data collected in 1998 and the presentations that the data scientists made to the community... I just feel like we should in some way emphasize the role of data science in this change ---
-
----Catherine: I agree! See changes made above!---
-
 
 Our goal today is to see whether the efforts made by tribal fishery managers were 
 effective in reducing the amount of mercury present in the fish. We will do this
@@ -322,7 +318,8 @@ dataset.
 
 # PART 1: Loading in and exploring the data
 
-Like we did on Day 1 of the fish module, we first need to load in our datasets!
+Like we did on Day 1 of the fish module, we first need to load in our datasets 
+before we can explore them!
 
 Before we begin, we check and set our working directory. First we will use the getwd()
 command to figure out which working directory we are currently in. Then we will 
@@ -368,7 +365,7 @@ library(patchwork)
 ```{r fish2}
 #fish <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
 load("fish_2023.RData")
-fish_2 <- fish_2023
+fish_2023 <- fish_2023
 ```
 
 
@@ -376,13 +373,14 @@ fish_2 <- fish_2023
 contains. 
 
 ```{r View data pt. 1 - take 2}
-View(fish_2) 
+View(fish_2023) 
 ```
 
 ## Recall from last class that there is another way to view only a small part 
-of our dataframe, using the arugement "head()". 
+of our data frame, using the argument "head()". 
 
 *What would go in the parentheses of head() in order to get the output you want?
+
 ``` {r View data pt. 2 - take 2}
 head() #Fill in the parentheses 
 ```
@@ -392,9 +390,17 @@ head() #Fill in the parentheses
 ## It can also be helpful to explore the dimensions (size) of our dataset, so 
 we know how big our sample size is. To do this, we will use the function "dim()".
 
+*What would go in the parenthese of dim() in order to get the output you want? 
+
 ```{r explore data dimensions 2}
 dim() #Fill in the parentheses with the name of the dataframe
 ```
+
+##Recap: 
+
+Now that we have successfully loaded in our data and explored its basic 
+properties, we can now start to explore our data more deeply to understand how 
+mercury levels in fish belly fat have changed from 1998 to 2023. 
 
 
 # PART 2: Running some basic statistics! 
@@ -402,57 +408,154 @@ dim() #Fill in the parentheses with the name of the dataframe
 According to the EPA, the maximum safe level of mercury to be consumed is around
 0.1 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
 fish belly fat have changed since 1998 to 2023, now that the rivers have been 
-cleaned
+cleaned. 
 
 Below, we will analyze data points from the "fish_2" data set to try and answer 
-these questions. 
+these questions. We will start to do this by running some basic summary statistics 
+on the fish_2 dataset. 
 
 
-## What is the mean amount of mercury found in fish in 2023? 
+## What is the mean amount of mercury found in fish in 2023? Recall from last class 
+that to find mean we use the command: mean(data_name$column_name). 
 
 ```{r mean amount of mercury 2}
-mean(fish_2$mercury_2023)
-
-```
-
-## More practice with mean! How would you figure out what the mean length of fish
-sampled was in 2023? 
-
-```{r mean length of fish- student practice}
+mean(fish_2023$mercury_2023)
 
 ```
 
 
-## What is the median amount of mercury found in fish in 2023?
+## What is the median amount of mercury found in fish in 2023? Recall from last class 
+that to find median we use the command: median(data_name$column_name). 
+
+*What would you fill in after the $ in the parentheses to get the output you want
+(remember, we want to find the median amount of mercury in the fish).
 
 ```{r median amount of mercury 2}
-median(fish_2$mercury_2023)
+median(fish_2023$)
 ```
 
-## More practice with median! How would you figure out what the median length of fish
-##sampled was in 2023? 
-
-```{r median length of fish- student practice}
-
-```
-
-
-## How would we interpret these median and mean values of methyl mercury in fish?
-## How do these values compare to the values we drew from the 1998 dataset?
-
+*How do the mean and median values of mercury compare to the EPA's standard? 
 
 
 ## Now figure out what the maximum and minimum amount of mercury was found in fish
-##in 2023: your turn to fill in the parentheses!
+##in 2023. 
 ``` {r max and minimum amount of mercury 2}
-max()
-min()
+
 ```
  
- 
-# PART 3: In order to best visualize how mercury levels in fish have been affected
-by the waterway clean up, tribal fishery managers believe that making a graph 
-will be the most effective. 
+## Recap: How could we communicate these values? 
+By running these summary statistics, we can see that mercury levels in fish caught 
+in 2023 are lower than they were in fish that were caught in 1998, which is 
+good news! However, tribal fishery managers think that in order to truly understand
+how mercury levels in fish have changed since 1998, it would be best to visualize
+these data points in graphs! 
+
+
+# PART 3: Making graphs to better understand how mercury levels in fish have changed
+since 1998 to 2023. 
+
+
+# Like we did with the fish data from 1998, we want to visualize the distributions 
+# of the fish by the amount of mercury that they have. We will make the same graphs
+# as we did with the fish data from 1998 with the fish data from 2023. 
+
+# For this plot, we want to see how many fish are above the EPA's recommended 
+levels for mercury consumption. 
+
+##Below is code to make the plot! Don't worry about the code starting with "#",
+this contains details on how to make the plot. 
+
+```{r ggplot, Ribbon Plot, mercury - fish_2023}
+#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot what we want to see on each axis, in this case x= 'fish' and y= mercury. x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
+ggplot (fish_2023, aes(x= 'fish', y= mercury))+
+#Recall that we need to tell ggplot what kind of plot we want to make! We want to make a scatterplot, but 
+#we want a little more space between our points than a normal scatterplot, so we will call for "geom_jitter()".
+#Width helps us set up how far apart we want the point to be. 
+  geom_jitter(width = 0.1)+
+#To aid in our understanding of where fish with dangerous amounts of mercury fall, 
+#we will add a horizontal line on our plot signifying this "unsafe" level. To do 
+#this we will use the command geom_hline(). 
+  geom_hline(yintercept = 4, color= "red")+
+#This allows us to relabel the x-axis
+  xlab("fish")+
+#This allows us to relabel the y-axis
+  ylab("mercury (mu/g)")+
+#This allows us to title the graph
+  ggtitle("2023 Mercury Distribution")+
+#This adjusts the non-data components of the plot, so the titles, labels, background, and legends among other aspects. 
+  theme_minimal()
+
+```
+#What does this distribution tell us about the mercury levels in the fish in 2023? 
+
+#Look the min, max, median, and mean values that were calculated above. 
+#Where would these values fall on this graph? Are the mean and median values 
+#above or below the level suggested by the EPA?
+
+#We will now make the same plot again, but layer another type of plot (a boxplot)
+#on top of it. The boxplot will help us see where our summary statistics values
+(mean, minimum, and maximum) directly fall on our data. 
+```{r, Ribbon and Box Plot}
+#Recall that to make a plot, we first must run the line of code for ggplot(data, aes(x = variable, y = variable)).
+ggplot (data = fish_2023, aes(x= 'fish', y= mercury))+
+#We specify that we want to create a ribbon/jitter plot and adjust its width
+geom_jitter(width = 0.1)+
+#We also want to overlay a boxplot on the jitter plot. We can adjust its color and 
+#its transparency so that we can see our individual data points at the same time. 
+geom_boxplot(alpha = 0.4, color="dodgerblue2")+
+#Again, we add a line to represent the EPA's recommended safe mercury ingestion level
+geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
+#Label the x-axis
+  xlab("fish")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("2023 Mercury Distribution + Box Plot")+
+#Adjust the theme of the graph
+theme_minimal()
+```
+
+#You have now seen what the mercury disriubtion of the fish in the lake looks like 
+and connected it to the summary statistics that were calculated above. But, this 
+graph doesn't tell us anything about how mercury levels and the length of the fish 
+in the lake are related. We know what the data in 2023 look like, but we still haven't
+compared it to the data from 1998 in a graph to see if the
+lake clean up was actually successful. 
+
+#Tribal fishery managers think that we should plot the data from fish_1998, and plot the 
+#data from fish_2023, and put these plots side by side to compare them. These next steps will 
+#accomplish that! 
+
+#Again, don't worry about the code below, just think about the information that we can take from it. 
+#The code below will download our fish_1998 data, and make the same plot as we did last class. 
+```{r load fish_1998, ggplot, Scatter Plot}
+load("fish_1998.RData")
+fish <- fish_1998
+
+
+#We will call ggplot, tell it the data we want to use, and assign different variables 
+#to the x and y axis. 
+  p1<- ggplot(fish_1998, aes(x = length, y = mercury)) +
+#We then need to tell ggplot what kind of graph we are making, so we add geom_point for a scatterplot. 
+#We will set the color to blue and the size of the point to 2. 
+  geom_point(color = 'blue', size = 2) +
+#Label the x-axis
+  xlab("length (cm)")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("Mercury (ug/g) vs. Length (cm) (1998)")+
+#We add a dotted line to represent the EPA's recommended mercury level and then adjusted the color and type of line
+  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+#Adjusted the theme of the graph
+  theme_minimal()
+#Because we assigned the graph a label, we have to call that label. This label 
+#makes our plot an object. Objects in R are things like plots that are given a 
+#short, specific name that are easy to call for in our code when we want to do 
+#things with it (like view it, or put 2 graphs next to one another). 
+p1
+```
+
 
 We'll practice using ggplot again to visualize fish 
 data from the fish_2023 dataset, and compare our results to those we generated 
@@ -468,13 +571,22 @@ p2<- ggplot(fish_2023, aes(x = length, y = mercury)) +
 #parentheses, we can specify extra details about how we want the graph to appear.
 #Here, we will set the color to green, and the size of the points to 2. 
   geom_point(color = 'green', size = 2) +
-  ggtitle('mercury levels in 2023')+
+  #Label the x-axis
+  xlab("length (cm)")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+  ggtitle("Mercury (ug/g) vs. Length (cm) (2023)")+
 #To truly understand if efforts to clean up the waterways made a difference in 
 #mercury concentrations in the fish, we will again place a dashed line on the 
 #graph where the EPA deems the unsafe level of mercury in fish would be. We will
 #do this by calling geom_hline, then setting the y-intercept of where we want the
 #line to be placed, set the "linetype" and set the "color" of the line. 
-geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
+geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+#We will use our same theme
+  theme_minimal()
+
+#To see our plot, we need to call it's object name, which is p2!
+p2
 ```
 
 ## Tribal fishery managers believe that the best way to see if efforts to clean 
@@ -485,6 +597,17 @@ geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
 p1 + p2 #plot from 1998 next to plot from 2023 
 ```
 
-## INTERPRETATION: Based on the distribution of data in our plot from the fish_2023
+
+*What is the safest large size fish to eat based on the 2023 dataset? How does this compare
+to the safest large size fish that could be eaten based on the 1998 dataset? 
+
+*Based on the distribution of data in our plot from the fish_2023
 dataset compared to how our plot looked with the fish_1998 dataset, were the clean-up
 efforts successful? If so, how can you tell? 
+
+
+
+
+
+
+
