@@ -219,8 +219,7 @@ communicate to the K'avi community. It would be much more helpful to visualize t
 fish belly fat against some variable of interest (fish length, boxplots for 
 fish age). 
 
-# First we want to visualize the distributions of the fish by length and 
-by the amount of mercury that they have. We can do this by creating graphs
+# First we want to visualize the distributions of the fish by the amount of mercury that they have. We can do this by creating graphs!
 (which we'll talk about in a later module)
 
 ## Introducing ggplot and the syntax? Give a commented out example maybe for 
@@ -229,48 +228,71 @@ Georgia to walk through (ggplot(data, aes(x,y) etc.)) ?
 #Don't worry about the code below (unless you would like to explore it), just focus on the 
 graph that it creates and interpreting its results. 
 
-```{r ggplot, Ribbon Plot, length}
-# For this plot, we want to see the distributions of lengths across the fish and how many of them are above 50 cm. 
- ggplot(fish_1998, aes(y=length, x= "fish"))+
-# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
-  geom_hline(yintercept = 50, color= "red")+
-  geom_jitter(width = 0.1)
-# the jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above 50 cm. To see the difference, try geom_point () and then geom_jitter ()!
-```
-What does this tell us about the lengths of the fish in the lake?
-
-
 ```{r ggplot, Ribbon Plot, mercury}
- ggplot (fish_1998, aes(x= 'fish', y= mercury))+
+#For this plot, we want to see the distributions of mercury in the fish and how many of them are above the EPA's recommended levels
+#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot what we want to see on each axis, in this case x= 'fish' and y= mercury. x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
+ggplot (fish_1998, aes(x= 'fish', y= mercury))+
+#Since ggplot is just a function to create plots, we need to further specify what kind of plot it should create. We can do this by using the geom_jitter function, which will create the Ribbon plot seen below. We can also add a few more parameters to the graph, such as changing the width of the points (width = 0.1).
+#The jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above the unsafe mercury level. To see the difference, try geom_point () and then geom_jitter ()!
   geom_jitter(width = 0.1)+
-  geom_hline(yintercept = 4, color= "red")
+#We can also add shapes to the plot. Here we added a line to show where  the EPA's guideline for unsafe levels of mercury in fish would fall. To create  this we used the geom_hline function which simply creates a horizontal line at a y-intercept that you set. We can also adjust the color and appearance of the line with color = 'red'.  
+  geom_hline(yintercept = 4, color= "red")+
+#This allows us to relabel the x-axis
+  xlab("fish")+
+#This allows us to relabel the y-axis
+  ylab("mercury (mu/g)")+
+#This allows us to title the graph
+  ggtitle("1998 Mercury Distribution")+
+#This adjusts the non-data components of the plot, so the titles, labels, background, and legends among other aspects. 
+  theme_minimal()
 
 ```
-#What does this distribution tell us about the mercury levels in the fish?
+#What does this distribution tell us about the mercury levels in the fish? 
 
+#Look the min, max, median, and mean values that were calculated above. Where would these values fall on this graph? Are the mean and median values above or below the level suggested by the EPA?
 
-#Now that we have seen the distributions of the lengths of the fish and the mercury levels in the lake, we can look at the realtionship between them. Again, don't worry about the code below, just think about the information that we can take from it. 
+#Again, don't worry about the code that makes this graph, just focus on the results.
+```{r, Ribbon and Box Plot}
+#Again we call ggplot to create a graph, tell it what data we want to use (fish_1998), x="fish" indicates that the x axis doesn't have a variable and is titled fish, and set mercury on the y-axis.
+ggplot (fish_1998, aes(x= 'fish', y= mercury))+
+#We specify that we want to create a ribbon/jitter plot and adjust its width
+geom_jitter(width = 0.1)+
+#We also want to overlay a boxplot on the jitter plot. We can adjust its color and its opacity with alpha so that we still see the jitter plot beneath it.
+geom_boxplot(alpha = 0.4, color="dodgerblue2")+
+#Again, we add a line to represent the EPA's recommended safe mercury ingestion level
+geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
+#Label the x-axis
+  xlab("fish")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("1998 Mercury Distribution + Box Plot")+
+#Adjust the theme of the graph
+theme_minimal()
+```
 
+#You have now seen what the mercury disriubtion of the fish in the lake looks like and connected it to the summary statistics that were calculated above. But, this graph doesn't tell us anything about how mercury levels and the length of the fish in the lake are related. If the K'avi community decide to continue fishing from this lake, it would be useful for them to know what size of fish may have a potentially harmful amount of mercury in it. 
+
+#Again, don't worry about the code below, just think about the information that we can take from it. 
 ```{r ggplot, Scatter Plot}
-#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot #what we want to see on each axis, in this case x= length and y= mercury.
+#We call ggplot to create a graph, tell it what data we are using, and set length at the x-axis and mercury as the y-axis. We assign the graph a label/value so that we can easily access it later in the module.
   p1<- ggplot(fish_1998, aes(x = length, y = mercury)) +
-#Since ggplot is just a function to create plots, we need to further specify
-#what kind of plot it should create. We can do this by using the geom_point
-#function. Because we are making a scatter plot, we use the function geom_point().
-#We can also add a few more parameters to the graph, such as changing the color
-#of the points (color = 'blue), or the size of them (size [2]).
+#We then need to tell ggplot what kind of graph we are making, so we add geom_point for a scatterplot. We adjust the color of the points and their size
   geom_point(color = 'blue', size = 2) +
-  ggtitle('mercury levels in 1998') +
-#We can also add shapes to the plot. Here we added a dashed line to show where 
-#the EPA's guideline for unsafe levels of mercury in fish would fall. To create 
-#this we used the geom_hline function which simply creates a horizontal line at
-#a y-intercept that you set. We can also adjust the color and appearance of the 
-#line with linetype and color.
-  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
+#Label the x-axis
+  xlab("length (cm)")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("Mercury (ug/g) vs. Length (cm) (1998)")+
+#We add a dotted line to represent the EPA's recommended mercury level and then adjusted the color and type of line
+  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+#Adjusted the theme of the graph
+  theme_minimal()
+#Because we assigned the graph a label, we have to call that label
 p1
 ```
-
-#What does this tell us about the relationship between fish length and mercury levels? Are there certain lengths of fish that have a higher amount of mercury? 
+#What does this tell us about the relationship between fish length and mercury levels? Are there certain lengths of fish that have a higher amount of mercury? How risky is it to eat a fish from this lake?
 
 
 --------------------------------------------------------------------------------
@@ -348,7 +370,7 @@ fish_2 <- fish_2023
 ## Now that we have loaded our data, we can begin to explore it to see what it 
 contains. 
 
-```{View data pt. 1 - take 2}
+```{r View data pt. 1 - take 2}
 View(fish_2) 
 ```
 
@@ -356,7 +378,7 @@ View(fish_2)
 of our dataframe, using the arugement "head()". 
 
 *What would go in the parentheses of head() in order to get the output you want?
-``` {View data pt. 2 - take 2}
+``` {r View data pt. 2 - take 2}
 head() #Fill in the parentheses 
 ```
 
