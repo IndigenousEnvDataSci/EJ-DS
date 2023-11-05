@@ -4,7 +4,7 @@ output: html_document
 date: "2023-10-24"
 ---
 
-##DRAFT: Background of the vignette for fish
+# DRAFT: Background of the vignette for fish
 
 Members of the K’avi have fished the waters on their land for many years
 to provide food for their community. To manage these waters, K'avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community. 
@@ -17,7 +17,7 @@ the K’avi, and waste from this factory was dumped into the nearby waters.
 Tribal fishery managers are now concerned that members of the community 
 are being exposed to heavy metals through the fish that have been caught in these
 waters. As a result, they now want to start recording the concentrations of methyl
-mercury and selenium in the belly fat of fish across different sites in the area.
+mercury in the belly fat of fish in the area.
 Their hope is to gain insight as to if the symptoms their community 
 members are facing are connected to the fish being sourced from their waters. 
 
@@ -34,7 +34,7 @@ In this module, there are three main goals:
 to communicate the fishery managers' findings to their community. 
 
 --------------------------------------------------------------------------------
-#WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
+# WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
 
 1. Students become more comfortable opening R and loading in data from an 
 external data file. 
@@ -58,135 +58,587 @@ how do we present data in a way that can help us understand the problem at hand?
 along different sites, and showing it next to a graph of mercury found in people
 across different sites)
 
-
+(Gabi) I used ** for the Instructors Version notes I did
 --------------------------------------------------------------------------------
-##PART 1: Loading in and exploring the data
+# PART 1: Loading in and exploring the data
 
 Before we begin to analyze the data, we first need to upload our raw data into R. 
 Once we do that, we can then explore...
 
 **QUESTION: do we want students to jump in using tidyverse right away?
 
-##First, we check and set our working directory(is this something we want students
-to do?)
+## Clearing Environment
 
+The first thing we do anytime we start working in R is cleaning our environment. Your environment is where R stores all of the objects it is working with since the last time you cleared your environment. We clear the environment each time we open R so that there isn't anything still open from the list time you were using R that will mess up what we are trying to do this session. You can clear your environment with the following code or by clicking the broom icon that can normally be found on the top right section of RStudio. 
+
+```{r}
+rm(list = ls())
+```
+
+
+## Setting the Working Directory
+
+In the following code we will tell the computer where we want it to look for 
+  files on our computer. This is called a working directory. We will discuss this
+  more in depth later. --- Hannah: or will we? Did we do this in module 0? ---
 ```{r set wd}
-getwd()
-list.files()
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
 ```
 
 
-##Load in packages 
 
+## Load in packages 
+
+Think of packages as tools for you to use in R that aren't automatically part of
+R when you first installed it. The package below allows you to do way more things
+in R, and for coding to be much easier! 
+
+ --- Hannah: ggplot2 and dplyr are both a part of tidyverse so installing and loading tidyverse will install and load the others too. ---
+ 
 ```{r load packages}
-
-library(tidyverse)
-library(dplyr)
-library(ggplot2)
+if(!require("tidyverse")) install.packages("tidyverse") #how you install a package (only need to do this once on your computer)
+library(tidyverse) #how to load in a package that has already been installed
 ```
 
 
-
-##Now we will load in the dataset for the physical fish data
+## Now we will load in the dataset for the physical fish data
 
 ```{r fish}
-fish <- read.csv(.....)
+#fish <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
+```
+#skip this part for now, this is all for if/when we change the .RData file into a csv!
+Let's break down the different parts of what just happened:
+1) We told R to read the data (a .csv file) using the command read.csv()
+2) Within the (""), we identify the data file from our working directory that we want to load into R
+3) header = TRUE just tells R that the first row of data is the column names. The alternative is header = FALSE
+4) sep is short for the word "separate", and it tells R that each column in the csv is separated by a comma ','
+3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
+4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
+
+```{r fish RData}
+load("fish_1998.RData")
+fish <- fish_1998
 ```
 
+## Viewing the data
 
-
-##Exploring the structure data (again in dplyr/tidyverse or Base?). Look at the 
-different columns, what they contain etc. 
-
-```{r explore data structure}
-
+Now that we have brought the data into R we can look at the data with the following command. 
+```{r view data pt. 1}
+View(fish) 
 ```
 
+## Different way to view the data
 
+If we don't want to look at all of the data and instead just want to see what is going on in the first couple rows we can use the following code. 
+``` {r view data pt. 2}
+head(fish) #just shows the column names and the first few rows of the data
+```
+* Now that you have taken a look at it in R, what is data?
 
-##Explore data types (we will have at least numeric and character data)
+** Data are measures of a specific variable, data are values that describe, in this case, mercury and length
+** Asked to start the conversation about what can be considered data
 
-```{r explore data types}
+* What data do we have? What sort of questions can the tribal fishery managers ask with this data?
 
+** We have length in cm and mercury in (whatever metric we decide to use for it)
+** Asked to prompt questions we will eventually code in the stats sections (mean, median, the relationship between length and mercury)-- important to start seeing what data they have and what they think they want to do with it!
+
+## Exploring the dimensions of the data
+
+To answer these questions, it would be helpful to know how many fish we actually have data for!
+Fortunately, we can very quickly find that out with the following code.
+```{r explore data dimensions}
+dim(fish) #shows the dimensions of the dataset, which will be important later on
 ```
 
+* How many fish do we have data for?
 
---------------------------------------------------------------------------------
-##PART 2: Pulling (subsetting) variables/columns of interest and running summary
-stats on them that can inform us of the situation at hand. 
+** Asked to prompt the huge amount of data we have available to encourage the use of coding because it is easier/faster than having to deal with this amount of data by hand
+** Also important to note the breadth of the data-- are there too few points? how many points makes an accurate representation of the study subject? does one variable have more points than another? is there data missing? (in this case, no, so I'm not sure if that's something we expected to cover here)
 
+## Recap
+You now know the basic ways to look at and understand your data in R, which will
+come in handy any time you use R in the future! We now know what sort of questions
+we can ask with this data, but how can we use R to answer those questions?
 
-#Draft lead in text: According to the EPA, the maximum safe level of mercury to 
-be consumed is around 0.1 mg/kg/day. Tribal fishery managers are interested in how
-mercury levels in fish belly fat vary across different monitoring sites. They are 
-also interested in if the amount of mercury in fish is connected to fish 
-size. 
+# PART 2: Running some basic statistics! 
+
+According to the EPA, the maximum safe level of mercury to be consumed is around
+0.1 mg/kg/day. Tribal fishery managers are interested in whether the mercury levels in 
+local fish belly fat exceeds this amount. They are also interested in if the 
+amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer 
 these questions. 
 
 
-##What is the mean amount of mercury found in fish across all sites? Across 
-different sites? 
+## What is the mean amount of mercury found in local fish? 
 
 ```{r mean amount of mercury}
-
+mean(fish$mercury)
+#you can see that $ is how you tell R what variable/column you want to work with
 ```
+What does the mean tell you? Why would this be useful for fishery managers?
+
+** It tells you the average amount of mercury in the fish--above the EPA reg means that over half the fish have unsafe levels, below the EPA reg means under half the fish have unsafe levels
+** Asked to get students thinking about what an average can tell us and maybe even what it can't tell us. Important as a singular statistic, but not really useful on its own.
 
 
-##What is the median amount of mercury found in fish across all sites? Across 
-different sites? 
+## What is the median amount of mercury found in fish?
 
 ```{r median amount of mercury}
+median(fish$mercury) #for students, can just be given median() and then they have to fill in fish$mercury
+```
+What does the median tell you? How is it different from the mean?
+
+** The median is the middle point in the data. Its gives an idea of what the central value is, which is different than the average which is a sum of all the values divided by the number of points. The median cannot be skewed by outliers which can make it a valuable representation of the middle of the data set.
+** Asked to get students to think about what the limits of certain statistics might be and how they can work better in relationship (Mean can be skewed by exceptionally high or low numbers, but the median is based on one point. Together they give a more accurate representation of the data)
+
+* How would we interpret these median and mean values? Should the K'avi community be concerned?
+
+** Asked to get students thinking about practical applications. If these stats show certain levels, could be a point of concern. What can they do to get a fuller picture of what's going on in these fish?
+
+
+
+## Now figure out what the maximum and minimum amount of mercury was found in fish:
+
+``` {r max and minimum amount of mercury}
+
 
 ```
 
+* How would we interpret these maximum and minimum values? Are they as important as the average?
 
-##More to be added! But may be better to work on it as a whole group (vignette
-and code). 
+** Max is way above safe levels, minimum is fine to eat. These stats are useful, but not an accurate representation of the whole dataset which is less useful for management decisions.
+** Asked to get students thinking about what other values they can find for data and what they can tell you about the data set. Max and min can be very useful in certain scenarios, but for our fish problem they are not the best representation of the data.
 
 
---------------------------------------------------------------------------------
-##PART 3: Working with ggplot to generate a graph of mercury concentrations in 
+## There is a faster way to get all of these basic statistics at once:
+``` {r summary stats}
+summary(fish$mercury)
+#1st Qu. and 3rd Qu. refer to the 1st and 3rd "Quartiles", which represent a quarter of the data. They basically tell you that 25% of the data is between that value, the Median, and either the Min. (1st Qu.) or Max. (3rd Qu.).
+```
+
+* Looking at all of these values, are there unsafe levels of mercury in local fish? 
+  If so, is it in most fish, or only some? 
+  
+** Presenting the students with a summary of everything they've done previously. Calls students to synthesize what they've discussed previously and explain why they can make their conclusion.
+
+
+## Recap: How could we communicate these values? 
+You now know how to get basic statistics in R, and that has already given a lot 
+of helpful information for tribal fishery managers! However, summary stats can't 
+answer every question, and as a list of numbers they would be very difficult to 
+communicate to the K'avi community. It would be much more helpful to visualize the data!
+
+# PART 3: Working with ggplot to generate a graph of mercury concentrations in 
 fish belly fat against some variable of interest (fish length, boxplots for 
 fish age). 
 
+# First we want to visualize the distributions of the fish by the amount of mercury that they have. We can do this by creating graphs!
+(which we'll talk about in a later module)
 
-#Introducing ggplot and the syntax? Give a commented out example maybe for 
+## Introducing ggplot and the syntax? Give a commented out example maybe for 
 Georgia to walk through (ggplot(data, aes(x,y) etc.)) ? 
 
+#Don't worry about the code below (unless you would like to explore it), just focus on the 
+graph that it creates and interpreting its results. 
+
+```{r ggplot, Ribbon Plot, mercury}
+#For this plot, we want to see the distributions of mercury in the fish and how many of them are above the EPA's recommended levels
+#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot what we want to see on each axis, in this case x= 'fish' and y= mercury. x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
+ggplot (fish_1998, aes(x= 'fish', y= mercury))+
+#Since ggplot is just a function to create plots, we need to further specify what kind of plot it should create. We can do this by using the geom_jitter function, which will create the Ribbon plot seen below. We can also add a few more parameters to the graph, such as changing the width of the points (width = 0.1).
+#The jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above the unsafe mercury level. To see the difference, try geom_point () and then geom_jitter ()!
+  geom_jitter(width = 0.1)+
+#We can also add shapes to the plot. Here we added a line to show where  the EPA's guideline for unsafe levels of mercury in fish would fall. To create  this we used the geom_hline function which simply creates a horizontal line at a y-intercept that you set. We can also adjust the color and appearance of the line with color = 'red'.  
+  geom_hline(yintercept = 4, color= "red")+
+#This allows us to relabel the x-axis
+  xlab("fish")+
+#This allows us to relabel the y-axis
+  ylab("mercury (mu/g)")+
+#This allows us to title the graph
+  ggtitle("1998 Mercury Distribution")+
+#This adjusts the non-data components of the plot, so the titles, labels, background, and legends among other aspects. 
+  theme_minimal()
+
+```
+#What does this distribution tell us about the mercury levels in the fish?
+
+** Tells you how many fish are above the EPA regulated amount of safe mercury
+** Introduces students to seeing a graphical representation of the data and reading it.
+
+#Look the min, max, median, and mean values that were calculated above. Where would these values fall on this graph? Are the mean and median values above or below the level suggested by the EPA?
+
+** Connects the previous statistics calculated to this visual representation.
+** Emphasizes the importance of knowing the summary stats and being able to see how they relate to the data set visually
+
+#Again, don't worry about the code that makes this graph, just focus on the results.
+```{r, Ribbon and Box Plot}
+#Again we call ggplot to create a graph, tell it what data we want to use (fish_1998), x="fish" indicates that the x axis doesn't have a variable and is titled fish, and set mercury on the y-axis.
+ggplot (fish_1998, aes(x= 'fish', y= mercury))+
+#We specify that we want to create a ribbon/jitter plot and adjust its width
+geom_jitter(width = 0.1)+
+#We also want to overlay a boxplot on the jitter plot. We can adjust its color and its opacity with alpha so that we still see the jitter plot beneath it.
+geom_boxplot(alpha = 0.4, color="dodgerblue2")+
+#Again, we add a line to represent the EPA's recommended safe mercury ingestion level
+geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
+#Label the x-axis
+  xlab("fish")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("1998 Mercury Distribution + Box Plot")+
+#Adjust the theme of the graph
+theme_minimal()
+```
+
+#You have now seen what the mercury distribution in local fish looks like and connected it to the summary statistics that were calculated above!
+
+* From looking at this graph, are there unsafe levels of mercury in local fish? 
+  If so, is it in most fish, or only some? Did this graph tell you anything different than the summary statistics, or did it just tell you the same information in a different way?
+
+* Would you recommend cleaning up the river based on these values? 
+
+** Hopefully, they say yes to segue into the next section!
+
+Cleaning up the waterway may take some time, is it possible for members of the 
+K'avi community to safely continue fishing these waters in the meantime? Are fish 
+of certain sizes more safe to eat than others? If the K'avi community decide to 
+continue fishing from this lake, it would be useful for them to know what size of 
+fish may have a potentially harmful amount of mercury in it.
+
+#Again, don't worry about the code below, just think about the information that we can take from it. 
 ```{r ggplot, Scatter Plot}
-
-#Again, setting the data frame, this time we are creating a plot using the 
-#fish_1998 data
-# %>% is the way that we tell the computer what data we are drawing from
-fish_1998 %>%
-#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot #what we want to see on each axis, in this case x= length and y= mercury.
-  ggplot(aes(x = length, y = mercury)) +
-#Since ggplot is just a function to create plots, we need to further specify
-#what kind of plot it should create. We can do this by using the geom_point
-#function. Because we are making a scatter plot, we use the function geom_point().
-#We can also add a few more parameters to the graph, such as changing the color
-#of the points (color = 'blue), or the size of them (size [2]).
+#We call ggplot to create a graph, tell it what data we are using, and set length at the x-axis and mercury as the y-axis. We assign the graph a label/value so that we can easily access it later in the module.
+  p1<- ggplot(fish_1998, aes(x = length, y = mercury)) +
+#We then need to tell ggplot what kind of graph we are making, so we add geom_point for a scatterplot. We adjust the color of the points and their size
   geom_point(color = 'blue', size = 2) +
-#We can also add shapes to the plot. Here we added a dashed line to show where 
-#the EPA's guideline for unsafe levels of mercury in fish would fall. To create 
-#this we used the geom_hline function which simply creates a horizontal line at
-#a y-intercept that you set. We can also adjust the color and appearance of the 
-#line with linetype and color.
-  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')
+#Label the x-axis
+  xlab("length (cm)")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("Mercury (ug/g) vs. Length (cm) (1998)")+
+#We add a dotted line to represent the EPA's recommended mercury level and then adjusted the color and type of line
+  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+#Adjusted the theme of the graph
+  theme_minimal()
+#Because we assigned the graph a label, we have to call that label
+p1
+```
+#What does this tell us about the relationship between fish length and mercury levels? Are there certain lengths of fish that have a higher amount of mercury? How risky is it to eat a fish from this lake?
+
+** Prompts students to read the graph and start thinking about the larger implications of the data. Asked to promote critical thinking and connect to the broader picture of the use of data in fisheries management.
+
+
+--------------------------------------------------------------------------------
+
+# DAY 2: 
+
+We will now analyze data collected from the same monitoring sites in the K'avi 
+community from 25 years later (2023). In light of data collected in 1998 and the
+presentations tribal fishery managers made to communicate their findings to the 
+community,efforts were made to clean up the heavy metals present in the water 
+that were becoming concentrated in the local fish populations. 
+
+
+Our goal today is to see whether the efforts made by tribal fishery managers were 
+effective in reducing the amount of mercury present in the fish. We will do this
+by comparing our findings from the 1998 dataset to our current findings in the 2023
+dataset. 
+
+# PART 1: Loading in and exploring the data
+
+Like we did on Day 1 of the fish module, we first need to load in our datasets 
+before we can explore them!
+
+Before we begin, we check and set our working directory. First we will use the getwd()
+command to figure out which working directory we are currently in. Then we will 
+use "setwd()" to change our working directory to the directory where our data lives.
+The easiest way to think of a directory is as a location on your computer where 
+data and other files are located. Each of these directories can be accessed with 
+their own unique file path, which is basically a list of different locations on 
+your computer that becomes more specific as it continues! 
+
+--- Hannah: Are we having both of these in the same document? If so then we do not need to set the working directory twice. If we are splitting them then I will change this to match the above ---
+
+---Catherine: That's a good point, and based on what we discussed last class I 
+think that both days' assignments will be in the same document so students can 
+generate both plots easily and place them side by side?---
+
+```{r set wd2}
+# getwd()
+# setwd()
+# list.files()
 ```
 
 
-```{r}
-# For this plot, we want to see the distributions of lengths across the fish and how many #of them are above 60 cm. We'll start with a very similar order of steps as the scatterplot #we just made.
-fish_1998 %>%
-  ggplot(aes(y=length, x= "fish"))+
-# x="fish" indicates that the x axis doesn't have a variable and is titled fish. This #allows us to look at the variation in lengths of fish independent of another variable.
-  geom_hline(yintercept = 50, color= "red")+
-  geom_jitter()
-# the jitter plot is a variation on the scatterplot, but it separates the data so that we #can distinguish how many points are above 60 cm. To see the difference, try geom_point () #and then geom_jitter ()!
+## Load in packages 
+
+We will be using the same packages as we used on Day 1. Remember to load packages, 
+we used the command library(), with the name of the package in the parentheses. 
+
+--- Hannah: See comment above ---
+
+```{r load packages2}
+library(tidyverse)
+
+#We will need to use a new package today that we haven't installed before called 
+#patchwork.
+if(!require("patchwork")) install.packages("patchwork") 
+library(patchwork)
 ```
+
+
+
+## Now we will load in the dataset for the physical fish data from 2023
+
+```{r fish2}
+#fish <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
+load("fish_2023.RData")
+fish_2023 <- fish_2023
+```
+
+
+## Now that we have loaded our data, we can begin to explore it to see what it 
+contains. 
+
+```{r View data pt. 1 - take 2}
+View(fish_2023) 
+```
+
+## Recall from last class that there is another way to view only a small part 
+of our data frame, using the argument "head()". 
+
+*What would go in the parentheses of head() in order to get the output you want?
+
+``` {r View data pt. 2 - take 2}
+head() #Fill in the parentheses 
+```
+
+*What are the variables that this data set contains?
+
+## It can also be helpful to explore the dimensions (size) of our dataset, so 
+we know how big our sample size is. To do this, we will use the function "dim()".
+
+*What would go in the parentheses of dim() in order to get the output you want? 
+
+```{r explore data dimensions 2}
+dim() #Fill in the parentheses with the name of the dataframe
+```
+
+##Recap: 
+
+Now that we have successfully loaded in our data and explored its basic 
+properties, we can now start to explore our data more deeply to understand how 
+mercury levels in fish belly fat have changed from 1998 to 2023. 
+
+
+# PART 2: Running some basic statistics! 
+
+According to the EPA, the maximum safe level of mercury to be consumed is around
+0.1 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
+fish belly fat have changed since 1998 to 2023, now that the rivers have been 
+cleaned. 
+
+Below, we will analyze data points from the "fish_2" data set to try and answer 
+these questions. We will start to do this by running some basic summary statistics 
+on the fish_2 dataset. 
+
+
+## What is the mean amount of mercury found in fish in 2023? Recall from last class 
+that to find mean we use the command: mean(data_name$column_name). 
+
+```{r mean amount of mercury 2}
+mean(fish_2023$mercury_2023)
+
+```
+
+
+## What is the median amount of mercury found in fish in 2023? Recall from last class 
+that to find median we use the command: median(data_name$column_name). 
+
+*What would you fill in after the $ in the parentheses to get the output you want
+(remember, we want to find the median amount of mercury in the fish).
+
+```{r median amount of mercury 2}
+median(fish_2023$)
+```
+
+*How do the mean and median values of mercury compare to the EPA's standard? 
+
+
+## Now figure out what the maximum and minimum amount of mercury was found in fish
+##in 2023. 
+``` {r max and minimum amount of mercury 2}
+
+```
+ 
+## Recap: How could we communicate these values? 
+By running these summary statistics, we can see that mercury levels in fish caught 
+in 2023 are lower than they were in fish that were caught in 1998, which is 
+good news! However, tribal fishery managers think that in order to truly understand
+how mercury levels in fish have changed since 1998, it would be best to visualize
+these data points in graphs! 
+
+
+# PART 3: Making graphs to better understand how mercury levels in fish have changed
+since 1998 to 2023. 
+
+
+# Like we did with the fish data from 1998, we want to visualize the distributions 
+# of the fish by the amount of mercury that they have. We will make the same graphs
+# as we did with the fish data from 1998 with the fish data from 2023. 
+
+# For this plot, we want to see how many fish are above the EPA's recommended 
+levels for mercury consumption. 
+
+##Below is code to make the plot! Don't worry about the code starting with "#",
+this contains details on how to make the plot. 
+
+```{r ggplot, Ribbon Plot, mercury - fish_2023}
+#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot what we want to see on each axis, in this case x= 'fish' and y= mercury. x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
+ggplot (fish_2023, aes(x= 'fish', y= mercury))+
+#Recall that we need to tell ggplot what kind of plot we want to make! We want to make a scatterplot, but 
+#we want a little more space between our points than a normal scatterplot, so we will call for "geom_jitter()".
+#Width helps us set up how far apart we want the point to be. 
+  geom_jitter(width = 0.1)+
+#To aid in our understanding of where fish with dangerous amounts of mercury fall, 
+#we will add a horizontal line on our plot signifying this "unsafe" level. To do 
+#this we will use the command geom_hline(). 
+  geom_hline(yintercept = 4, color= "red")+
+#This allows us to relabel the x-axis
+  xlab("fish")+
+#This allows us to relabel the y-axis
+  ylab("mercury (mu/g)")+
+#This allows us to title the graph
+  ggtitle("2023 Mercury Distribution")+
+#This adjusts the non-data components of the plot, so the titles, labels, background, and legends among other aspects. 
+  theme_minimal()
+
+```
+#What does this distribution tell us about the mercury levels in the fish in 2023? 
+
+#Look the min, max, median, and mean values that were calculated above. 
+#Where would these values fall on this graph? Are the mean and median values 
+#above or below the level suggested by the EPA?
+
+#We will now make the same plot again, but layer another type of plot (a boxplot)
+#on top of it. The boxplot will help us see where our summary statistics values
+(mean, minimum, and maximum) directly fall on our data. 
+```{r, Ribbon and Box Plot}
+#Recall that to make a plot, we first must run the line of code for ggplot(data, aes(x = variable, y = variable)).
+ggplot (data = fish_2023, aes(x= 'fish', y= mercury))+
+#We specify that we want to create a ribbon/jitter plot and adjust its width
+geom_jitter(width = 0.1)+
+#We also want to overlay a boxplot on the jitter plot. We can adjust its color and 
+#its transparency so that we can see our individual data points at the same time. 
+geom_boxplot(alpha = 0.4, color="dodgerblue2")+
+#Again, we add a line to represent the EPA's recommended safe mercury ingestion level
+geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
+#Label the x-axis
+  xlab("fish")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("2023 Mercury Distribution + Box Plot")+
+#Adjust the theme of the graph
+theme_minimal()
+```
+
+#You have now seen what the mercury disriubtion of the fish in the lake looks like 
+and connected it to the summary statistics that were calculated above. But, this 
+graph doesn't tell us anything about how mercury levels and the length of the fish 
+in the lake are related. We know what the data in 2023 look like, but we still haven't
+compared it to the data from 1998 in a graph to see if the
+lake clean up was actually successful. 
+
+#Tribal fishery managers think that we should plot the data from fish_1998, and plot the 
+#data from fish_2023, and put these plots side by side to compare them. These next steps will 
+#accomplish that! 
+
+#Again, don't worry about the code below, just think about the information that we can take from it. 
+#The code below will download our fish_1998 data, and make the same plot as we did last class. 
+```{r load fish_1998, ggplot, Scatter Plot}
+load("fish_1998.RData")
+fish <- fish_1998
+
+
+#We will call ggplot, tell it the data we want to use, and assign different variables 
+#to the x and y axis. 
+  p1<- ggplot(fish_1998, aes(x = length, y = mercury)) +
+#We then need to tell ggplot what kind of graph we are making, so we add geom_point for a scatterplot. 
+#We will set the color to blue and the size of the point to 2. 
+  geom_point(color = 'blue', size = 2) +
+#Label the x-axis
+  xlab("length (cm)")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+#Title the graph
+  ggtitle("Mercury (ug/g) vs. Length (cm) (1998)")+
+#We add a dotted line to represent the EPA's recommended mercury level and then adjusted the color and type of line
+  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+#Adjusted the theme of the graph
+  theme_minimal()
+#Because we assigned the graph a label, we have to call that label. This label 
+#makes our plot an object. Objects in R are things like plots that are given a 
+#short, specific name that are easy to call for in our code when we want to do 
+#things with it (like view it, or put 2 graphs next to one another). 
+p1
+```
+
+
+We'll practice using ggplot again to visualize fish 
+data from the fish_2023 dataset, and compare our results to those we generated 
+with the fish_1998 dataset. 
+
+## Recall from last class the steps to make a plot with ggplot:
+```{r ggplot, Scatter Plot 2}
+#Call "ggplot" followed by the "aes() argument. Which data would 
+  #go on the x and y axis? 
+p2<- ggplot(fish_2023, aes(x = length, y = mercury)) +
+#Now it's time to specify which plot we want ggplot to make. A scatterplot
+#would be good to visualize our data, so we will call "geom_point()". In the 
+#parentheses, we can specify extra details about how we want the graph to appear.
+#Here, we will set the color to green, and the size of the points to 2. 
+  geom_point(color = 'green', size = 2) +
+  #Label the x-axis
+  xlab("length (cm)")+
+#Label the y-axis
+  ylab("mercury (ug/g)")+
+  ggtitle("Mercury (ug/g) vs. Length (cm) (2023)")+
+#To truly understand if efforts to clean up the waterways made a difference in 
+#mercury concentrations in the fish, we will again place a dashed line on the 
+#graph where the EPA deems the unsafe level of mercury in fish would be. We will
+#do this by calling geom_hline, then setting the y-intercept of where we want the
+#line to be placed, set the "linetype" and set the "color" of the line. 
+geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+#We will use our same theme
+  theme_minimal()
+
+#To see our plot, we need to call it's object name, which is p2!
+p2
+```
+
+## Tribal fishery managers believe that the best way to see if efforts to clean 
+## the waterways were successful would be to put our plot from 1998 next to 
+## our plot from 2023.
+
+```{r putting plots side by side}
+p1 + p2 #plot from 1998 next to plot from 2023 
+```
+
+
+*What is the safest large size fish to eat based on the 2023 dataset? How does this compare
+to the safest large size fish that could be eaten based on the 1998 dataset? 
+
+*Based on the distribution of data in our plot from the fish_2023
+dataset compared to how our plot looked with the fish_1998 dataset, were the clean-up
+efforts successful? If so, how can you tell? 
+
+
 
 
 
