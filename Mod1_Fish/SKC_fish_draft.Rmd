@@ -373,312 +373,216 @@ LengthMercury1998
 
 --------------------------------------------------------------------------------
 
-# DAY 2: 
+# DAY 2: Did efforts to clean heavy metals improve the healthiness of fish?
 
-We will now analyze data collected from the same monitoring sites in the K'avi 
-community from 25 years later (2023). In light of data collected in 1998 and the
-presentations tribal fishery managers made to communicate their findings to the 
-community,efforts were made to clean up the heavy metals present in the water 
-that were becoming concentrated in the local fish populations. 
+The 1998 results showed health hazards from fish with high methylmercury motivated the tribe to undertake a project to remove contaminated sediments. In 2023, fifty years after the initial measurements, K'avi fisheries managers conducted another survey of mercury levels in fish. They carefully collected data from the same sites they surveyed in 1998.
 
+We will now download and analyze data collected from this second survey (fish_2023.csv).
 
-Our goal today is to see whether the efforts made by tribal fishery managers were 
-effective in reducing the amount of mercury present in the fish. We will do this
-by comparing our findings from the 1998 dataset to our current findings in the 2023
-dataset. 
+Our goal is to see how successful the sediment removal efforts by the tribe were in reducing the amount of mercury present in the fish. We will do this
+by comparing our findings from the 1998 dataset to our current findings in the 2023 dataset. 
 
-# PART 1: Loading in and exploring the data
+Today's exercise allows you to apply rhe lessons you learned about coding in R from Day 1 to a new dataset. 
+
+**PART 1: Loading in and exploring the data**
 
 Like we did on Day 1 of the fish module, we first need to load in our datasets 
 before we can explore them!
 
-Before we begin, we check and set our working directory. First we will use the getwd()
-command to figure out which working directory we are currently in. Then we will 
-use "setwd()" to change our working directory to the directory where our data lives.
-The easiest way to think of a directory is as a location on your computer where 
-data and other files are located. Each of these directories can be accessed with 
-their own unique file path, which is basically a list of different locations on 
-your computer that becomes more specific as it continues! 
+**NOTE TO SKC/ND DEVELOPERS:**
+When Day 2 starts, the class might need to take some preliminary steps before they get coding. We should consider:
 
---- Hannah: Are we having both of these in the same document? If so then we do not need to set the working directory twice. If we are splitting them then I will change this to match the above ---
+* Setting the working directory (If we keep the data files in the same directory as this .Rmd file, they can skip this step.)
+* Clearing the working directory
+* These steps are described in the "Module 0" code.
 
----Catherine: That's a good point, and based on what we discussed last class I 
-think that both days' assignments will be in the same document so students can 
-generate both plots easily and place them side by side?---
-
+Here is a commented out code chunk, to remind us to address this later...
 ```{r set wd2}
 # getwd()
 # setwd()
 # list.files()
 ```
+**END NOTE TO SKC/ND DEVELOPERS**
 
+**Load in packages** 
 
-## Load in packages 
+We will be using the 'tiyverse' packages as we used on Day 1. Since we've already installed this package, you just need to activate it for today using the library() command (see below)
 
-We will be using the same packages as we used on Day 1. Remember to load packages, 
-we used the command library(), with the name of the package in the parentheses. 
+Today, we're also using a new package called "patchwork" This package allows you to plot graphs side-by-side. This will be useful later today, because we want to compare the mercury levels from 1998 side-by-side with those from 2023. 
 
---- Hannah: See comment above ---
+If you want to learn more about "patchwork" click this link: (https://patchwork.data-imaginist.com/)
+
+Since we haven't installed "patchwork" yet, the code below installs it, then loads the library.
 
 ```{r load packages2}
+# This loads the "tidyverse" package that you've already installed.
 library(tidyverse)
 
-#We will need to use a new package today that we haven't installed before called 
-#patchwork.
+# This installs "patchwork" 
 if(!require("patchwork")) install.packages("patchwork") 
+
+# This loads patchwork into the library, so you can use it in this program.
 library(patchwork)
 ```
 
+**Load the 2023 fish dataset**
 
+The dataset "fish_2023.csv" should be in the same working directory (folder) on your computer as this .Rmd file.
 
-## Now we will load in the dataset for the physical fish data
+If that's true, you can import these data into R using the same command that you used to load the 1998 data.
 
 ```{r fish2}
-#fish <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
-load("fish_2023.RData")
-fish_2023 <- fish_2023
+# This code brings the 2023 dataset into RStudio as a dataframe. 
+fish_2023 <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
+
+## Note to SKC/ND developers: Probably delete the lines below #JMc
+# load("fish_2023.RData") The alternate version if no .csv
+# fish_2023 <- fish_2023
 ```
+**Investigate the 2023 fish data** 
 
+We will repeat several of the steps we took to investigate the 1998 data with the new 2023, fish data. These steps are important because they allow you to check to see if the data loaded properly; to check to see if they make sense; and to start thinking about their implications for our scientific question, "Did the sediment cleanup efforts help the health of the fish and the community?"
 
-## Now that we have loaded our data, we can begin to explore it to see what it 
-contains. 
-
+We'll start by viewing the data:
 ```{r View data pt. 1 - take 2}
 View(fish_2023) 
 ```
+**Write your own code to view the top few lines of the data**
 
-## Recall from last class that there is another way to view only a small part 
-of our data frame, using the argument "head()". 
+**Class Question:**
 
-*What would go in the parentheses of head() in order to get the output you want?
-
+* What would go in the parentheses of head() in order to get the output you want?
 ``` {r View data pt. 2 - take 2}
-head() #Fill in the parentheses 
+#Fill in the parentheses:
+head()  
 ```
 
-*What are the variables that this data set contains?
+**Class Questions**
 
-## It can also be helpful to explore the dimensions (size) of our dataset, so 
-we know how big our sample size is. To do this, we will use the function "dim()".
+* What are the variables that this data set contains?
 
-*What would go in the parenthese of dim() in order to get the output you want? 
+* In the code below, what would go in the parentheses of dim() in order to learn how many rows and columns the 2023 dataset has? 
 
 ```{r explore data dimensions 2}
-dim() #Fill in the parentheses with the name of the dataframe
+#Fill in the parentheses with the name of the dataframe for the 2023 fish data
+dim() 
 ```
 
-##Recap: 
+**Recap**
 
 Now that we have successfully loaded in our data and explored its basic 
-properties, we can now start to explore our data more deeply to understand how 
+properties, we can now start to explore our data to learn how 
 mercury levels in fish belly fat have changed from 1998 to 2023. 
 
-
-# PART 2: Running some basic statistics! 
+# PART 2: Learning the basic statistics of the 2023 dataset. 
 
 According to the EPA, the maximum safe level of mercury to be consumed is around
-0.1 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
+0.4 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
 fish belly fat have changed since 1998 to 2023, now that the rivers have been 
 cleaned. 
 
-Below, we will analyze data points from the "fish_2" data set to try and answer 
+Below, we will analyze data points from the "fish_2023" dataframe to  answer 
 these questions. We will start to do this by running some basic summary statistics 
-on the fish_2 dataset. 
+on the mercury data from 2023. 
 
 
-## What is the mean amount of mercury found in fish in 2023? Recall from last class 
-that to find mean we use the command: mean(data_name$column_name). 
+**Class Question:**
+
+* Work together to write code that tells you the descriptive statistics (median, mean, minimum, meximum, etc) for the mercury in the fish collected in 2023.
 
 ```{r mean amount of mercury 2}
-mean(fish_2023$mercury_2023)
+## NOTE TO SKC/ND DEVELOPERS:
+# Remove the next line, as an exercise for the class #JMc
 
+# summary(fish_2023$mercury)
 ```
+**Question for class:**
 
-
-## What is the median amount of mercury found in fish in 2023? Recall from last class 
-that to find median we use the command: median(data_name$column_name). 
-
-*What would you fill in after the $ in the parentheses to get the output you want
-(remember, we want to find the median amount of mercury in the fish).
-
-```{r median amount of mercury 2}
-median(fish_2023$)
-```
-
-*How do the mean and median values of mercury compare to the EPA's standard? 
-
-
-## Now figure out what the maximum and minimum amount of mercury was found in fish
-##in 2023. 
-``` {r max and minimum amount of mercury 2}
-
-```
+* How do the mean and median values of mercury in 2023 compare to the EPA's standard? 
+* Do the descriptive statistics suggest that the mercury levels in fish have improved since 1998? 
  
-## Recap: How could we communicate these values? 
+**Recap: How could we communicate these values?** 
 By running these summary statistics, we can see that mercury levels in fish caught 
 in 2023 are lower than they were in fish that were caught in 1998, which is 
-good news! However, tribal fishery managers think that in order to truly understand
-how mercury levels in fish have changed since 1998, it would be best to visualize
-these data points in graphs! 
+good news! 
+
+However, some fish in 2023 still have unsafe levels of methylmercury. Tribal fisheries managers know that people who catch these fish can't measure the mercury content, but they can measure the length of the fish they catch. 
+
+In the next section, we will make graphs that will show us if the length of fish that are safe to eat has changed since 1998. There are three goals for making these graphs:
+
+(1) You will learn a little more about making graphs using R.
+(2) Making these graphs will help us learn whether the sediment cleanup resulted in safer fish in 2023. The graphs let us look at *all* the data (not just the descriptive statistics).
+(3) You can use the graphs to decide what length of fish is safe for the community to eat. Then you can think about how to convey this information to the community.
+
+# PART 3: Making graphs to learn if the size of safe fish has changed 
 
 
-# PART 3: Making graphs to better understand how mercury levels in fish have changed
-since 1998 to 2023. 
+**NOTE TO SKC/ND DEVELOPERS: I REMOVED THE RIBBON PLOT FOR TIME. WE COULD ADD IT BACK, IF THAT SEEMS USEFUL.**
 
+Our goal is to show two plots next to each other. First we'll make the plot of the relationship between mercury and fish length in 1998 again. Then we'll make a very similar plot for the fish from 2023. Then we'll plot them side-by-side, which will let us answer the questions we have about how the healthiness of fish has changed over the 25 years since 1998. 
 
-# Like we did with the fish data from 1998, we want to visualize the distributions 
-# of the fish by the amount of mercury that they have. We will make the same graphs
-# as we did with the fish data from 1998 with the fish data from 2023. 
+**Our first step** is to make a scatter plot of mercury and fish length from 1998. We're going to use the same code that we used before with one small change: We will set the range of the y-axis (the vertical axis), so that it will be the same as the y-axis of the 2023 data. That will help us compare the two graphs later. 
 
-# For this plot, we want to see how many fish are above the EPA's recommended 
-levels for mercury consumption. 
+Look more carefully at the code this time. You will see things that look similar to the code you've run before. This is a good starting point for learning to make graphs in R. To test yourself, see if you can describe what each line of code does. What makes sense? What seems confusing? 
 
-##Below is code to make the plot! Don't worry about the code starting with "#",
-this contains details on how to make the plot. 
-
-```{r ggplot, Ribbon Plot, mercury - fish_2023}
-#ggplot is the function that we are using to create a plot. aes() is used to tell ggplot what we want to see on each axis, in this case x= 'fish' and y= mercury. x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
-ggplot (fish_2023, aes(x= 'fish', y= mercury))+
-#Recall that we need to tell ggplot what kind of plot we want to make! We want to make a scatterplot, but 
-#we want a little more space between our points than a normal scatterplot, so we will call for "geom_jitter()".
-#Width helps us set up how far apart we want the point to be. 
-  geom_jitter(width = 0.1)+
-#To aid in our understanding of where fish with dangerous amounts of mercury fall, 
-#we will add a horizontal line on our plot signifying this "unsafe" level. To do 
-#this we will use the command geom_hline(). 
-  geom_hline(yintercept = 4, color= "red")+
-#This allows us to relabel the x-axis
-  xlab("fish")+
-#This allows us to relabel the y-axis
-  ylab("mercury (mu/g)")+
-#This allows us to title the graph
-  ggtitle("2023 Mercury Distribution")+
-#This adjusts the non-data components of the plot, so the titles, labels, background, and legends among other aspects. 
-  theme_minimal()
-
-```
-#What does this distribution tell us about the mercury levels in the fish in 2023? 
-
-#Look the min, max, median, and mean values that were calculated above. 
-#Where would these values fall on this graph? Are the mean and median values 
-#above or below the level suggested by the EPA?
-
-#We will now make the same plot again, but layer another type of plot (a boxplot)
-#on top of it. The boxplot will help us see where our summary statistics values
-(mean, minimum, and maximum) directly fall on our data. 
-```{r, Ribbon and Box Plot}
-#Recall that to make a plot, we first must run the line of code for ggplot(data, aes(x = variable, y = variable)).
-ggplot (data = fish_2023, aes(x= 'fish', y= mercury))+
-#We specify that we want to create a ribbon/jitter plot and adjust its width
-geom_jitter(width = 0.1)+
-#We also want to overlay a boxplot on the jitter plot. We can adjust its color and 
-#its transparency so that we can see our individual data points at the same time. 
-geom_boxplot(alpha = 0.4, color="dodgerblue2")+
-#Again, we add a line to represent the EPA's recommended safe mercury ingestion level
-geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
-#Label the x-axis
-  xlab("fish")+
-#Label the y-axis
-  ylab("mercury (ug/g)")+
-#Title the graph
-  ggtitle("2023 Mercury Distribution + Box Plot")+
-#Adjust the theme of the graph
-theme_minimal()
-```
-
-#You have now seen what the mercury disriubtion of the fish in the lake looks like 
-and connected it to the summary statistics that were calculated above. But, this 
-graph doesn't tell us anything about how mercury levels and the length of the fish 
-in the lake are related. We know what the data in 2023 look like, but we still haven't
-compared it to the data from 1998 in a graph to see if the
-lake clean up was actually successful. 
-
-#Tribal fishery managers think that we should plot the data from fish_1998, and plot the 
-#data from fish_2023, and put these plots side by side to compare them. These next steps will 
-#accomplish that! 
-
-#Again, don't worry about the code below, just think about the information that we can take from it. 
-#The code below will download our fish_1998 data, and make the same plot as we did last class. 
-```{r load fish_1998, ggplot, Scatter Plot}
-load("fish_1998.RData")
-fish <- fish_1998
-
-
-#We will call ggplot, tell it the data we want to use, and assign different variables 
-#to the x and y axis. 
-  p1<- ggplot(fish_1998, aes(x = length, y = mercury)) +
-#We then need to tell ggplot what kind of graph we are making, so we add geom_point for a scatterplot. 
-#We will set the color to blue and the size of the point to 2. 
+```{r ggplot, Day2 Scatter Plot 1998 Fish}
+# This code is the same code we used before.
+# If you look at each line, what makes sense? What is confusing?
+  plot1998<- ggplot(fish_1998, aes(x = length, y = mercury)) +
   geom_point(color = 'blue', size = 2) +
-#Label the x-axis
   xlab("length (cm)")+
-#Label the y-axis
-  ylab("mercury (ug/g)")+
-#Title the graph
-  ggtitle("Mercury (ug/g) vs. Length (cm) (1998)")+
-#We add a dotted line to represent the EPA's recommended mercury level and then adjusted the color and type of line
+  ylab("mercury (mg/kg)")+
+  ggtitle("Mercury (mg/kg) vs. Length (cm) (1998)")+
   geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
-#Adjusted the theme of the graph
+# This is the only NEW line of code.
+# We use the command ylim() to set the range of the y-axis
+# The y-axis in this plot will start at 2 mg/kg mercury and end at 6 mg/kg
+# We'll use the same range for the scatter plot of the 2023 data.
+# That will make it easier to compare the fish across the two years.
+  ylim(2,6) +
+# We will specify the same "minimal" theme we used before.
   theme_minimal()
-#Because we assigned the graph a label, we have to call that label. This label 
-#makes our plot an object. Objects in R are things like plots that are given a 
-#short, specific name that are easy to call for in our code when we want to do 
-#things with it (like view it, or put 2 graphs next to one another). 
-p1
+
+# Now let's plot the data from 1998
+plot1998
 ```
 
+Next, we'll make the same graph for the 2023 data. The code below is almost the same as the code you just saw. The only difference is that we make plot2023 using the 2023 fish data (in the last code chunk, we made plot1998 using the 1998 fish data). 
 
-We'll practice using ggplot again to visualize fish 
-data from the fish_2023 dataset, and compare our results to those we generated 
-with the fish_1998 dataset. 
+This is a good opportunity to point out some **tips that will make you a better data scientist**:
 
-## Recall from last class the steps to make a plot with ggplot:
-```{r ggplot, Scatter Plot 2}
-#Call "ggplot" followed by the "aes() argument. Which data would 
-  #go on the x and y axis? 
-p2<- ggplot(fish_2023, aes(x = length, y = mercury)) +
-#Now it's time to specify which plot we want ggplot to make. A scatterplot
-#would be good to visualize our data, so we will call "geom_point()". In the 
-#parentheses, we can specify extra details about how we want the graph to appear.
-#Here, we will set the color to green, and the size of the points to 2. 
+* Feel free to use code that worked before. A nice thing about coding is that if you've done something once, you then have the code written down for future use.
+* *However,* you have to be careful that you modify the code for the new situation. In this case, we have to change all the references to 1998 so that they refer to the 2023 data. We should also rename all the objects we make (like the graph that is called plot2023), so that we don't accidentally replace the old objects with the same name. 
+* It's really useful to look through the code line-by-line, so that you can catch all these little mistakes. You can even have a friend look at your code to see if it makes sense to someone else.
+* If you follow this advice, things that seem difficult now become easier soon!
+
+Here, we'll make our scatter plot  for the 2023 fish length and mercury data:
+```{r ggplot, Scatter Plot 2023 fish}
+# See if you can understand the code below. What changes have been made?
+plot2023 <- ggplot(fish_2023, aes(x = length, y = mercury)) +
   geom_point(color = 'green', size = 2) +
-  #Label the x-axis
-  xlab("length (cm)")+
-#Label the y-axis
-  ylab("mercury (ug/g)")+
-  ggtitle("Mercury (ug/g) vs. Length (cm) (2023)")+
-#To truly understand if efforts to clean up the waterways made a difference in 
-#mercury concentrations in the fish, we will again place a dashed line on the 
-#graph where the EPA deems the unsafe level of mercury in fish would be. We will
-#do this by calling geom_hline, then setting the y-intercept of where we want the
-#line to be placed, set the "linetype" and set the "color" of the line. 
-geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
-#We will use our same theme
+  xlab("length (cm)") +
+  ylab("mercury (mg/kg)") +
+  ggtitle("Mercury (mg/kg) vs. Length (cm) (2023)") +
+geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red') +
+# We use ylim() to match the y-axis here to that of plot1998
+  ylim(2,6) +
   theme_minimal()
 
-#To see our plot, we need to call it's object name, which is p2!
-p2
+plot2023
 ```
 
-## Tribal fishery managers believe that the best way to see if efforts to clean 
-## the waterways were successful would be to put our plot from 1998 next to 
-## our plot from 2023.
+The plot for the 2023 data looks pretty good. A side-by-side comparison with the 1998 data would help us see how much the healthiness of the fish has improved over the intervening 25 years.
+
+Since we defined the two graphs as objects in R (plot1998 and plot 2023), and since we've loaded the package "patchwork" we can use the simple line of code below to plot the data from the two years side-by-side.
 
 ```{r putting plots side by side}
-p1 + p2 #plot from 1998 next to plot from 2023 
+#plot from 1998 next to plot from 2023
+plot1998 + plot2023  
 ```
+**Class Questions:**
 
-
-*What is the safest large size fish to eat based on the 2023 dataset? How does this compare
-to the safest large size fish that could be eaten based on the 1998 dataset? 
-
-*Based on the distribution of data in our plot from the fish_2023
-dataset compared to how our plot looked with the fish_1998 dataset, were the clean-up
-efforts successful? If so, how can you tell? 
-
-
-
-
-
-
-
+* What is the safest large size fish to eat based on the 2023 dataset? How does this compare
+to the safest largest size fish that could be eaten based on the 1998 dataset? 
+* Based on these plots, do you think the efforts since 1998 to clean mercury from the sediments were successful? 
+* Work with a group to describe the evidence from these graphs for the success of the clean-up effort in a way that would be useful for the K'avi community. 
