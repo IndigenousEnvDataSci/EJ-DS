@@ -1,0 +1,30 @@
+# Vignette
+
+Tribal forestry managers want to evaluate forestry data to determine growth rates of trees for a harvest. 
+
+*We should flesh this out a little more.*
+
+--------------------------------------------------------------------------------
+# WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
+
+The goal of the first day of the this forestry module is to have the students replicate what they did in the first 3 modules all at once and to do so more independently than previously. 
+
+Things this module should include are: 
+
+1. Min, max, median, mean review.  
+
+2. Maximum sustained yield. 
+
+3. More time-series exploration
+
+4. More complex data vizualization. 
+
+--------------------------------------------------------------------------------
+
+# Data - 
+
+```{r}
+library(tidyverse)
+trees <- Loblolly
+```
+
