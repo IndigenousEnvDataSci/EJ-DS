@@ -24,27 +24,29 @@ Things this module should include are:
 
 --------------------------------------------------------------------------------
 #PART 1-
-
+**For the student version we will clear these segments so they have to come up with the code themselves but I have included the code for the instructor version. **
 ##Clearing the environment
 ```{r}
-
+rm(list = ls())
 ```
 
 
 ##Setting the Working Directory
 ```{r}
-
+# This isn't particularly necessary here because we aren't technically loading in external data but still nice to have.
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
 ```
 
 ##Load in Packages, what packages will you need to analyze and/or visualize 
 this data?
 ```{r}
-
+library(tidyverse)
 ```
 
 # Data - 
 ```{r}
-library(tidyverse)
+# This might require more explanation because I think this is the first time they're adding data from a package. 
 trees <- Loblolly
 ```
 
@@ -54,18 +56,25 @@ Are there any aspects of the data that we need to clean up? Remove NAs?
 Take a look at the data collected by the K'avi tribe, and don't forget to assign
 the data to a variable to make it easier to work with.
 ```{r}
-
+# This lets you see the beginning of the table
+head(trees)
+# This shows that there are no nas in the dataset. Do we want to add some? I am not sure this code has been presented yet. 
+sum(is.na(trees))
 ```
 What are the dimensions of the data? What kind of information does it provide us?
 
 In the last module (Bison), we talked about creating a tibble (or R's version
 of a table). Create a tibble for the statistics that you just calculated above.
 ```{r, tibble}
-
+# Finding the dimensions
+dim(trees)
+# Making a tibble
+tibble(dim(trees))
 ```
 
 
 ##Maximum Sustained Yield
+**We're gonna need to do more research on this one. **
 ```{r}
 
 ```
