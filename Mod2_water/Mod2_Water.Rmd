@@ -16,6 +16,21 @@ this is why they're concerned
   - DO levels being low could be an important factor, and raising temperatures
   causes less oxygen to be dissolved in water. 
 
+[JMc comments 11/15, below]
+Set up: 
+- Bull trout culturally important and threatened species.
+- Thresholds of D.O. and high T for bull trout (from lit)
+- Goal: Picking between 2 streams for trout introduction.
+Data: 
+- Stream A is fed by a nearby groundwater spring. 
+[Data qualities: D.O. is on the low side (regularly entering into the danger zone), but Temp is OK. No trend in either (because the spring keeps T stable)]
+- Stream B is outflow from a mountain lake. 
+[Data qualities: On average, D.O. and Temp are better than Stream A, but the trend is towards higher T and lower D.O. (because climate change is warming the lake water and D.O. declines as T increases)]
+Steps:
+1. Import data & removing NAs, Calculate summary stats for both sites. Q: Which site looks better? A: Site B, because it has higher D.O. and lower T.
+2. Make a scatter plot of Temp & D.O. from both sites. Plot sites with different colors. Add lines (or overlay a box) identifying the T and D.O. thresholds. Q: Which site looks better? A: Site B, again, because more points are outside of the "danger zone."
+3. Now let's make a new kind of graph: time series of changing T and D.O. from each site. Place double y-axis graphs side-by-side. Q: Which site looks better now? A: Maybe Site A, because even though it has more days when the water quality dips into the danger zone, it's not getting worse. Site B is better for now, but climate change seems to be moving it into  more unhealthy conditions.
+
 
 
 In this module, there are three main coding goals: 
@@ -74,6 +89,11 @@ rm(list = ls())
 
 We will now set our working directory. As you may remember, setting our working 
 directory tells R where to find the files we want to work with on our computer. 
+
+[JMc comment: We should decide as a class whether we want to set working directories this way, or just put the data files in the same directory as this .Rmd file. When you knit an R Markdown it looks for the data in that directory.
+See this link, too: https://github.com/yihui/knitr/issues/277#issuecomment-6528846
+]
+
 
 ```{r}
 current_path = rstudioapi::getActiveDocumentContext()$path
@@ -165,6 +185,9 @@ data set by telling R to ignore the NAs.
 
 ```{r}
 #to do this we can use na.omit 
+#JMc Q: Should we use dplyr, instead? https://dplyr.tidyverse.org/
+#JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
+#JMc A: Maybe, if later modules will use dplyr functions
 na.omit(water)
 ```
 
