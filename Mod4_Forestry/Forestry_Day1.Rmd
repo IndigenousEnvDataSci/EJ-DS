@@ -1,6 +1,9 @@
 # Vignette
 
-Tribal forestry managers want to evaluate forestry data to determine growth rates of trees for a harvest. 
+Members of the K'avi tribe have managed a forest on their lands for decades.
+Recently, tribal forestry managers have started collecting data. They want to
+analyze it to determine the growth rates and other statistics of the trees in the
+forest for a harvest. 
 
 *We should flesh this out a little more.*
 
@@ -20,11 +23,73 @@ Things this module should include are:
 4. More complex data vizualization. 
 
 --------------------------------------------------------------------------------
+#PART 1-
+
+##Clearing the environment
+```{r}
+
+```
+
+
+##Setting the Working Directory
+```{r}
+
+```
+
+##Load in Packages, what packages will you need to analyze and/or visualize 
+this data?
+```{r}
+
+```
 
 # Data - 
-
 ```{r}
 library(tidyverse)
 trees <- Loblolly
 ```
+
+Are there any aspects of the data that we need to clean up? Remove NAs?
+
+
+Take a look at the data collected by the K'avi tribe, and don't forget to assign
+the data to a variable to make it easier to work with.
+```{r}
+
+```
+What are the dimensions of the data? What kind of information does it provide us?
+
+In the last module (Bison), we talked about creating a tibble (or R's version
+of a table). Create a tibble for the statistics that you just calculated above.
+```{r, tibble}
+
+```
+
+
+##Maximum Sustained Yield
+```{r}
+
+```
+
+Adding a new column to the data
+
+##Graph
+```{r, histogram}
+
+```
+
+#Adding the MSY to the graph
+```{r}
+
+```
+
+
+What are the limitations of the MSY? What other questions could we answer with 
+this data? 
+
+##Maps?
+```{r}
+
+```
+
+
 
