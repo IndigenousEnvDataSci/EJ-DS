@@ -1,0 +1,230 @@
+---
+title: "Mod2_water"
+output: html_document
+date: "2023-11-14"
+---
+
+VIGNETTE:
+**Some questions/thoughts:
+- I know in class we discussed the angle for the vignette is that tribal land 
+managers are interested in how water quality is changing due to climate change.
+This is also relevant based on Georgia's EJDS 2023 example 
+- Is there a way to frame this that would make it more relevant to students? 
+- Maybe introduce a reason - tribal communities use the water in X way (fishing etc.), 
+this is why they're concerned
+  - Could lead into why temperature and DO are important (fish kills?)
+  - DO levels being low could be an important factor, and raising temperatures
+  causes less oxygen to be dissolved in water. 
+
+
+
+In this module, there are three main coding goals: 
+1. We will explore data related to water quality on tribal lands 
+2. We will learn how to "debug" code, in other words, we'll learn how to fix 
+common problems that we see when using real world data that can sometimes make 
+coding tricky if not fixed. 
+3. We will learn how to separate data into meaningful categories in R based on 
+similarities. This is known as subsetting. 
+
+
+--------------------------------------------------------------------------------
+#INSTRUCTOR'S VERSION: Learning goals 
+
+1. Students will review the steps to set a working directory and load in data from 
+an extrenal data file. 
+
+2. Students will review basic commands in R to explore their data before they 
+begin to analyze it. 
+
+3. Students will review how to load in packages. 
+
+4. Students will review basic summary statistic commands in R to pull the mean, 
+median, max, and min values for different variables in the dataset. 
+
+5. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
+
+6. NEW SKILL: students will learn how to subset data in R based on scientifically 
+relevant groups. 
+
+7. NEW SKILL/review: Students will review how to make a graph using ggplot. 
+Students will learn how to make a new kind of plot in ggplot (line graph),
+in addition to the scatterplot and ribbon plot they learned about in Module 1 fish.
+This will be framed in understanding how we should present data in a meaningufl 
+way to any community, 
+
+--------------------------------------------------------------------------------
+#PART 1: Loading in and exploring the data 
+
+Like we did in Module 1, before we being to analyze our data, we need to do a few
+steps first.
+
+#Clearing Environment 
+
+Before we start to do anything in R, we should clear our environment. As a reminder,
+your environment is where R stores all the objects and data you were working with
+since the last time you worked in R. See the code chunk below on how to clear 
+your environment. 
+
+```{r}
+rm(list = ls())
+```
+
+
+#Setting the Working Directory 
+
+We will now set our working directory. As you may remember, setting our working 
+directory tells R where to find the files we want to work with on our computer. 
+
+```{r}
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
+```
+
+
+#Load in packages 
+
+Next, we will load in packages, to get the extra tools we need for this module 
+loaded in R! We will load in the tidyverse package. 
+
+```{r}
+library(tidyverse)
+```
+
+
+#Load in our data! 
+
+Now it's time to load in our data! (NOTE: this may change if data is not in a 
+csv file)
+
+```{r}
+water <- read.csv("water_quality.csv", header = TRUE, sep =",")
+```
+
+#Viewing the data 
+
+Now that our data is loaded into R, we can explore the data using the view and 
+head command. 
+
+```{r}
+View(water)
+```
+
+```{r}
+head(water)
+```
+
+*What kind of variables are in our dataset for water quality on the K'avi lands? 
+
+*Are there some variables in particular that you think would be important for 
+tribal land managers to focus on to understand how climate change is affecting 
+water quality on their lands? 
+
+It may also be helpful for us to understand how big our dataset is. We can 
+get this number by using the command "dim".
+
+```{r}
+dim(water)
+```
+
+*How many data entries are in this dataset? 
+
+
+## Recap 
+You now reviewed ways to set up your R environment, read in data, and explore 
+your data! These steps are all important for when we analyze our data later in 
+this module. 
+
+
+--------------------------------------------------------------------------------
+#PART 2: Debugging data, and running some basic summary statistics
+
+Tribal land managers are interested in how the temperature and dissolved 
+oxygen of the water on their lands have changed over the last several years. 
+They are also interested in learning about the mean, median, minimum, and maximum
+values of temperature and dissolved oxygen in water they have in their data. 
+These values will help them understand how current values compare to the rest of
+the values in their data. 
+
+#
+
+```{r}
+mean(water$temperature)
+```
+
+Ah! Our code didn't work. R gave us an error message that says: "". This means 
+we have some missing chunks of data in our dataset that R doesn't know how to 
+work with. 
+
+Sometimes when collecting data, it's possible that we don't have all complete 
+data sequences for all samples in our data set. While this is very normal, as we can
+see, it can make running commands in R a little bit tricky.
+
+These missing data are entered as NA (not availabe) in R automatically.
+In this section, we'll go over some easy ways to fix this problem in our "water"
+data set by telling R to ignore the NAs. 
+
+```{r}
+#to do this we can use na.omit 
+na.omit(water)
+```
+
+Great! Now let's try to run our command to get the mean for temperature again. 
+
+
+```{r}
+mean(water$temperature)
+```
+
+Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
+carry on with our summary statistics.
+
+*Your turn! How would you figure out what the mean amount of dissolved oxygen 
+is in the water across all samples? 
+
+```{r}
+#Write your code here!
+
+```
+
+
+#What is the median amount of temperature across all samples? 
+
+```{r}
+median(water$temperature)
+```
+
+
+#What is the median amount of dissolved oxygen across all samples? 
+
+```{r}
+#Write your code here! 
+
+```
+
+#What is the maximum and minimum temperature in our data?
+
+```{r}
+max(water$temperature)
+min(water$temperature)
+```
+
+#Your turn: figure out the minimum and maximum amount of dissolved oxygen recorded
+in our dataset? 
+
+```{r}
+
+```
+
+
+**QUESTION: Do we want to introduce subsetting in the summary statistics section?
+Or do we just want to keep it in the visualizations portion? If so, I would 
+have some ideas on how to restructure the rest of this section. 
+
+
+
+
+
+--------------------------------------------------------------------------------
+#PART 3: Visualizing our data! 
+
+
