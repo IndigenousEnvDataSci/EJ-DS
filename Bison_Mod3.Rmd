@@ -1,30 +1,38 @@
 ---
 title: "Bison"
-author: "Evan Foster"
 date: "2023-11-15"
 output: html_document
 ---
+### Figuring out a general workflow for this module
+1) setwd, all of the same beginning stuff as usual. Don't even put the space for that, they should know to do that by now, but can maybe leave a small reminder.
+2) Looking at all of the data: Biomass data and then maybe also a data frame that just has the size information of the different sites (in acres)
+3) group in dplyr "group_by" so that they can get data for each site
+4) Ask them to find the average biomass at each site (how to get summary statistics of groups)
+5) Convert biomass units to match with acre units: Using mutate to make a new column that is a math function of existing column
+6) Ask them to calculate the average biomass/acre at each site
+7) Ask them to calculate the estimated total biomass at each site (avg biomass/acre * total acres)
+8) Ask them to figure out if/which sites can support a viable Bison population (which will be described)
+9) Ask them to figure out how many Bison each site can support in total
+10) Ask them to think about, discuss, and explain the action that they would recommend to the K'avi community takes for Bison reintroduction: should entire bison population go to just one site, split amongst multiple sites, no sites at all? 
+11) Ask them to make plots that can effectively communicate their decision.
 
+Other considerations for this module, particularly in regards to a second day for this module: 
+
+  Potentially having them do this within the context of open-range Bison, where there are not any fences and they are only dealing with a single site. That could be what they do for the first day, and then do the work with three sites on the second day?
+  
+  Could also add the dimension of biomass varying seasonally, or year to year, or under threats like climate change. Can these sites support a Bison herd during the winter, when biomass is lower and nutrients are less available?
+          For this, could have a second "winter" dataset, and maybe ask them to merge the two datasets, but also make a new column with the variable "summer" or "winter" that corresponds to the season the data was collected. 
+          
+  Could ~maybe~ bring in demography of bison and having them build population dynamics model of the bison to further see what the viable population is, how maximum bison from biomass may actually be different from their actual carrying capacity, etc. This would really only be for the students more proficient in R that are looking for an extra challenge, but could be useful more generally if the students are wondering about some of these topics as they pursue their own research questions for this module. Would require a lot of additional work though, which may not be feasible given the amount of remaining time in the semester.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r cars}
-summary(cars)
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
