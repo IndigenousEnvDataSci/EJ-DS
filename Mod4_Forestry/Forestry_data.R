@@ -41,8 +41,8 @@ set.seed(1)
   site_4$board_feet[site_4$board_feet < 0] <- 0
   
 # Saving the data
-  write.csv(site_1, "Mod4_Forestry/site_1.csv")
-  write.csv(site_2, "Mod4_Forestry/site_2.csv")
-  write.csv(site_3, "Mod4_Forestry/site_3.csv")
-  write.csv(site_4, "Mod4_Forestry/site_4.csv")
+  write.csv(site_1, "Mod4_Forestry/site_1.csv", row.names = F)
+  write.csv(site_2, "Mod4_Forestry/site_2.csv", row.names = F)
+  write.csv(site_3, "Mod4_Forestry/site_3.csv", row.names = F)
+  write.csv(site_4, "Mod4_Forestry/site_4.csv", row.names = F)
   

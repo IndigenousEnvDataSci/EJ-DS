@@ -1,9 +1,9 @@
 # Vignette
 
-Members of the K'avi tribe have managed a forest on their lands for decades.
-Recently, tribal forestry managers have started collecting data. They want to
-analyze it to determine the growth rates and other statistics of the trees in the
-forest for a harvest. 
+Members of the K'avi tribe have managed a forest on their lands for decades. Recently, tribal forestry managers have started collecting data. They want to analyze it to determine the growth rates and other statistics of the trees in the forest for a harvest. 
+
+*Alternate vignette based on discussions in class*
+The K'avi tribe would like to set up a location for managing and harvesting Douglas firs for lumber. A couple of different sites have been proposed for this new forestry plot and it is your job to determine which of the proposed sites would be best for douglas fir harvest. 
 
 *We should flesh this out a little more.*
 
@@ -30,27 +30,29 @@ Things this module should include are:
 rm(list = ls())
 ```
 
-
 ##Setting the Working Directory
 ```{r}
-# This isn't particularly necessary here because we aren't technically loading in external data but still nice to have.
+# This isn't particularly necessary here because we aren't technically loading in external data but still probaly best practice.
 current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
 
-##Load in Packages, what packages will you need to analyze and/or visualize 
-this data?
+##Load in Packages, what packages will you need to analyze and/or visualize this data?
 ```{r}
 library(tidyverse)
 ```
 
 # Data - 
+The first thing we need to do is load in this 
+
+*Based on the questions we are asking it may make more sense to make our own dataset.*
 ```{r}
 # This might require more explanation because I think this is the first time they're adding data from a package. 
 trees <- Loblolly
 ```
 
 Are there any aspects of the data that we need to clean up? Remove NAs?
+*I am not sure NAs would really make sense in the context of the dataset but it might be cool to include some nonsense data and have the students clean it up.*
 
 
 Take a look at the data collected by the K'avi tribe, and don't forget to assign
@@ -101,4 +103,33 @@ this data?
 ```
 
 
+# Alternate lesson
 
+## read in data
+
+*Add in descriptions of the data in the context of the problem*
+```{r}
+site_1 <- read.csv("site_1.csv")
+site_2 <- read.csv("site_2.csv")
+site_3 <- read.csv("site_3.csv")
+site_4 <- read.csv("site_4.csv")
+```
+
+
+## Exploring the data
+
+What variables does the data you just loaded in contain? What do these variables mean in the context of forestry management? How could this data be used to determine which site is the best choice for forestry? 
+Feel free to insert a code chunk below here to explore what the variables are in the data. 
+*Have they had to insert a code chunk before? This seems like an important skill*
+
+Now lets start to explore the differences between the sites with summary statistics. What statistics would help you explore the difference in productivity between the different sites? 
+
+```{r}
+# Use this chunk to do any summary statistics you feel would be helpful. 
+```
+
+Based on these summary statistics, which site seems like the best site so far? What other factors would you like to consider about each of these different sites that was not provided in this dataset? 
+
+## Combining the data
+
+## Graphing the data
