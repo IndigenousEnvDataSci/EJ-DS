@@ -1,0 +1,12 @@
+# Vignette
+
+Now that you have explored this forestry data set it is time to present what you have learned to the broader community. You will create and present suggestions on the management of these forests to community leaders, using the data science tools you have developed throughout the semester. 
+
+*We should flesh this out a little more.*
+
+--------------------------------------------------------------------------------
+# WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
+
+The goal of the first day of the this forestry module is to have the students full explore what creating and presenting recommendations for management based on data science means with a strong emphasis on how to best make and present graphs that are accessible and helpful for the general public. 
+
+--------------------------------------------------------------------------------

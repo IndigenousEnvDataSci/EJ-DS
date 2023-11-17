@@ -20,7 +20,7 @@ Things this module should include are:
 
 3. More time-series exploration
 
-4. More complex data vizualization. 
+4. More complex data visualization. 
 
 --------------------------------------------------------------------------------
 #PART 1-
