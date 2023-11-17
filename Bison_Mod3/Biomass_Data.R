@@ -43,3 +43,4 @@ site_acreage <- data.frame(
   Acres = c(100, 80, 60)
 )
 View(site_acreage)
+write.csv(sites, "bison_sites.csv", row.names = FALSE)
