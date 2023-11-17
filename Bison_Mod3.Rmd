@@ -17,7 +17,7 @@ output: html_document
 11) Ask them to make plots that can effectively communicate their decision.
 
 Other considerations for this module, particularly in regards to a second day for this module: 
-
+Include tibbles in here somewhere? Need to look more into tibbles and how they can be useful in this context!
   Potentially having them do this within the context of open-range Bison, where there are not any fences and they are only dealing with a single site. That could be what they do for the first day, and then do the work with three sites on the second day?
   
   Could also add the dimension of biomass varying seasonally, or year to year, or under threats like climate change. Can these sites support a Bison herd during the winter, when biomass is lower and nutrients are less available?
@@ -28,11 +28,21 @@ Other considerations for this module, particularly in regards to a second day fo
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#Set your working directory and load in tidyverse
 ## R Markdown
 
 
-```{r cars}
+##Load in Biomass Data
+```{r}
+#biomass <- read.csv("biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
+#site descriptions <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
+```
 
+#Look at all of the data
+
+#Group_by in dplyr
+```{r}
+dplyr::group_by(biomass, Site)
 ```
 
 
