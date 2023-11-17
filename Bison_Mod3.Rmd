@@ -80,3 +80,8 @@ For this, would probably be best to do the mutate, but in the bison_sites datase
 mutate(Bison_Sites, Total_Biomass=Acres *)
 ```
 
+#Dividing that by the amount needed per bison to get total number of bison (TBD)
+```{r}
+mutate(Bison_Sites, Max_Bison = Total_Biomass / ___)
+```
+
