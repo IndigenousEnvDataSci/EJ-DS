@@ -35,3 +35,11 @@ sites <- data.frame(
 )
 View(sites)
 write.csv(sites, "biomass.csv", row.names = FALSE)
+
+
+#Making a dataset that just has the acreage of each site
+site_acreage <- data.frame(
+  Site = c(1, 2, 3),
+  Acres = c(100, 80, 60)
+)
+View(site_acreage)
