@@ -42,69 +42,6 @@ setwd(dirname(current_path))
 library(tidyverse)
 ```
 
-# Data - 
-The first thing we need to do is load in this 
-
-*Based on the questions we are asking it may make more sense to make our own dataset.*
-```{r}
-# This might require more explanation because I think this is the first time they're adding data from a package. 
-trees <- Loblolly
-```
-
-Are there any aspects of the data that we need to clean up? Remove NAs?
-*I am not sure NAs would really make sense in the context of the dataset but it might be cool to include some nonsense data and have the students clean it up.*
-
-
-Take a look at the data collected by the K'avi tribe, and don't forget to assign
-the data to a variable to make it easier to work with.
-```{r}
-# This lets you see the beginning of the table
-head(trees)
-# This shows that there are no nas in the dataset. Do we want to add some? I am not sure this code has been presented yet. 
-sum(is.na(trees))
-```
-What are the dimensions of the data? What kind of information does it provide us?
-
-Find the mean, median, maximum, and minimum of the height of the trees. 
-Hint: If you're having trouble, look back at past modules.
-```{r, statistics}
-mean(trees$height)
-median(trees$height)
-max(trees$height)
-min(trees$height)
-```
-In the last module (Bison), we talked about creating a tibble (or R's version
-of a table). Create a tibble for the statistics that you just calculated above.
-```{r, tibble}
-# Finding the dimensions
-dim(trees)
-# Making a tibble
-summarize(trees, mean = mean(trees$height), median= median(trees$height), maximum = max(trees$height),minimum = min(trees$height))
-```
-
-
-Adding a new column to the data, maybe we give them height and girth, and they
-have to calculate the volume and create a new column/modify the data using mutate?
-
-
-##Graph
-```{r, histogram}
-ggplot(trees, aes(x=height, y= age))+
-  geom_point()+
-  ggtitle("Age vs Height")+
-  xlab("Height (m)")+
-  ylab("Age (years)")+
-  theme_minimal()
-```
-
-##Maps?
-```{r}
-
-```
-
-
-# Alternate lesson ---- day 2?
-
 ## read in data
 
 *Add in descriptions of the data in the context of the problem*
