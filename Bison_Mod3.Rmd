@@ -50,8 +50,8 @@ site. The data available will help determine which sites are viable for bison re
 
 ##Load in Biomass Data and Site Datasets
 ```{r}
-#biomass <- read.csv("biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
-#site descriptions <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
+biomass <- read.csv("biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
+site descriptions <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
 ```
 
 #Look at all of the data
@@ -84,13 +84,22 @@ Since we've found the average biomass at each site, it might be useful to includ
 
 #Converting the units#
 All of the unit conversions that need to happen: 
-  currently in g/0.25 m2 and want to get to kg/acre (not tied to these specific units)
+  currently in g/0.25 m2 and want to get to kg/??hectare?? (not tied to these specific units)
   Conversion of g/0.25 m2 to kg/acre is * 16.1874257 
 Need to make a new column with the converted units
 ```{r}
-  mutate(biomass, kg/acre = Biomass * 16.1874257) #check that this works
+  biomass2<-mutate(biomass, kg_acre = Biomass * 16.1874257) #check that this works
+#show the tibble still
 ```
 ** is this where we're asking them how many bison can we introduce or is this still biomass?
+
+**Take average again from new column**
+```{r}
+biomass2 %>%
+  group_by(Site) %>% 
+  summarise(avg=mean(kg_acre))
+```
+
 Need to check if this also does that equation for the summary statistics rows or not. If not, they will have to take the summary stats of each site again. 
 
 This would be where I give them the example for the mutate function, but then have them do it on their own to relate it to Bison, and to get the total biomass at each site. The code written below is for our purposes, which they will have to make on their own most likely:
