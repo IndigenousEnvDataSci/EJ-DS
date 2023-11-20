@@ -149,7 +149,7 @@ dim(water)
 *How many data entries are in this dataset? 
 
 
-## Recap 
+RECAP:
 You now reviewed ways to set up your R environment, read in data, and explore 
 your data! These steps are all important for when we analyze our data later in 
 this module. 
@@ -184,11 +184,13 @@ In this section, we'll go over some easy ways to fix this problem in our "water"
 data set by telling R to ignore the NAs. 
 
 ```{r}
-#to do this we can use na.omit 
 #JMc Q: Should we use dplyr, instead? https://dplyr.tidyverse.org/
 #JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
 #JMc A: Maybe, if later modules will use dplyr functions
-na.omit(water)
+water %<% na.omit()
+#OR
+water %>%                                         
+  filter(complete.cases(.))
 ```
 
 Great! Now let's try to run our command to get the mean for temperature again. 
@@ -201,12 +203,29 @@ mean(water$temperature)
 Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
 carry on with our summary statistics.
 
-*Your turn! How would you figure out what the mean amount of dissolved oxygen 
-is in the water across all samples? 
+*While it's helpful to see the mean values for the entire dataset, it would be 
+more informative if we could see the mean values for water temperature and dissolved
+oxygen for each site. 
+
+To do this, we will use some different commands in R that help us apply commands
+based on groups of data (in our case, sampling site).
 
 ```{r}
-#Write your code here!
+#This code chunk will give us an output that tells us the mean water temperature
+#in celsius for Stream A and Stream B. 
+water %>%
+  group_by(site) %>%
+  summarise_at(vars(mean_tempC), list(name = mean))
+```
 
+
+```{r}
+#CRA: Does this look good? If so, can annotate more 
+#This code chunk will give us an output that tells us the mean dissolved oxygen
+#in celsius for Stream A and Stream B. 
+water %>%
+  group_by(site) %>%
+  summarise_at(vars(mean_DO), list(name = mean))
 ```
 
 
@@ -216,13 +235,31 @@ is in the water across all samples?
 median(water$temperature)
 ```
 
+*While it's helpful to see the median values for the entire dataset, it would be 
+more informative if we could see the median values for water temperature and dissolved
+oxygen for each site. 
 
-#What is the median amount of dissolved oxygen across all samples? 
+We will use the same commands above to group means by sampling site for the median 
+values of water temperature and dissolved oxygen. 
 
 ```{r}
-#Write your code here! 
-
+#This code chunk will give us an output that tells us the median water temperature
+#in celsius for Stream A and Stream B. 
+water %>%
+  group_by(site) %>%
+  summarise_at(vars(mean_tempC), list(name = median))
 ```
+
+
+```{r}
+#CRA: Does this look good? If so, can annotate more 
+#This code chunk will give us an output that tells us the median dissolved oxygen
+#in celsius for Stream A and Stream B. 
+water %>%
+  group_by(site) %>%
+  summarise_at(vars(mean_DO), list(name = mean))
+```
+
 
 #What is the maximum and minimum temperature in our data?
 
@@ -239,15 +276,25 @@ in our dataset?
 ```
 
 
-**QUESTION: Do we want to introduce subsetting in the summary statistics section?
-Or do we just want to keep it in the visualizations portion? If so, I would 
-have some ideas on how to restructure the rest of this section. 
-
-
-
 
 
 --------------------------------------------------------------------------------
 #PART 3: Visualizing our data! 
 
+*CRA: here start to explain why it's important to look at data by site, and 
+explain why it's important to look at trends, and not just summary statistics. 
+
+```{r}
+#CRA: adding code chunks, will develop vignette later 
+#Code to understand the relationship between temperature and DO for both sites
+ggplot(streams, aes(x=mean_tempC, y=mean_DO, color = site))+
+  geom_point()+
+  geom_hline(yintercept = 6, color = "red")
+
+```
+
+
+```{r}
+
+```
 
