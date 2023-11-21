@@ -70,11 +70,14 @@ sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
 #Look at all of the data
 
 *Evan: Maybe ask them to get the average biomass / quadrat at each site? Depending on what they learn in Module 2, they should already know generally how to get stats for multiple sites, so they may not need to have group_by explained to them. Consult with Mod2*
-
+Prompt that explains how in this module, they will be treating multiple sites differently from how they did in Module 2, and not creating a separate column for each of them.
+Introducing the code group_by, so that they can group by the site without having to make separate columns for each site. 
 #Group_by in dplyr
 ```{r group by}
 dplyr::group_by(biomass, Site)
 ```
+They will need to do this again after they convert the units, but this first time is the "we do" portion. 
+
 
 The quadrats are basically samples of the plant biomass, which can roughly tell us the amount of nutrients and calories available for bison and other herbivores, at each site. It is not feasible to collect this data for the entire site, so we have to take samples that can give us a general idea of the biomass of the entire site.
 
