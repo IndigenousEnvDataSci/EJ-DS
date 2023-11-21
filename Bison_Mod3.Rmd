@@ -105,23 +105,27 @@ All of the unit conversions that need to happen:
   Conversion of g/0.25 m2 to kg/acre is * 16.1874257 
 Need to make a new column with the converted units
 ```{r}
-  mutate(biomass, kg_acre = Biomass * 16.1874257) #check that this works, need to also update this conversion to kg_hectare or kg_km2
+  biomass2<- mutate(biomass, kg_acre = Biomass * 16.1874257) #check that this works, need to also update this conversion to kg_hectare or kg_km2
 ```
 ** is this where we're asking them how many bison can we introduce or is this still biomass?
 They will need to run the summary stats, grouped by each site, but with the new biomass column with converted units!
+
 ```{r average biomass with updated units}
-biomass %>%
+biomass_avg <-biomass2 %>%
   group_by(Site) %>% 
   summarise(avg=mean(kg_acre))
 ```
 
-
 This would be where I give them the example for the mutate function, but then have them do it on their own to relate it to Bison, and to get the total biomass at each site. The code written below is for our purposes, which they will have to make on their own most likely:
+#Merging this tibble with the sites dataset, with the common column "Site". Using the code left_join, along with explanation of what it is! Might even just ask them to figure out how to do this using the dplyr cheatsheet. 
 
-#Taking the average biomass/plot at the kg/acre units, and multiplying that by the size of each site
-For this, would probably be best to do the mutate, but in the bison_sites dataset, not the biomass dataset, because of how it is structured. Would probably be much easier! 
+```{r join}
+Site_biomass <- left_join(sites, biomass_avg, by = "Site")
+```
+
+
 ```{r total biomass at each site}
-mutate(Bison_Sites, Total_Biomass=Acres *)
+bison_sites <- mutate(Site_biomass, Total_Biomass = Acres * avg)
 ```
 
 #Dividing that by the amount needed per bison to get total number of bison (TBD)
