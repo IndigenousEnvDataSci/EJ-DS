@@ -78,6 +78,7 @@ dplyr::group_by(biomass, Site)
 ```
 They will need to do this again after they convert the units, but this first time is the "we do" portion. 
 
+****Maybe also explain what a "tibble" is!****** (Do you think you would be able to do this, Gabi?)
 
 The quadrats are basically samples of the plant biomass, which can roughly tell us the amount of nutrients and calories available for bison and other herbivores, at each site. It is not feasible to collect this data for the entire site, so we have to take samples that can give us a general idea of the biomass of the entire site.
 
@@ -104,10 +105,16 @@ All of the unit conversions that need to happen:
   Conversion of g/0.25 m2 to kg/acre is * 16.1874257 
 Need to make a new column with the converted units
 ```{r}
-  mutate(biomass, kg/acre = Biomass * 16.1874257) #check that this works
+  mutate(biomass, kg_acre = Biomass * 16.1874257) #check that this works, need to also update this conversion to kg_hectare or kg_km2
 ```
 ** is this where we're asking them how many bison can we introduce or is this still biomass?
-Need to check if this also does that equation for the summary statistics rows or not. If not, they will have to take the summary stats of each site again. 
+They will need to run the summary stats, grouped by each site, but with the new biomass column with converted units!
+```{r average biomass with updated units}
+biomass %>%
+  group_by(Site) %>% 
+  summarise(avg=mean(kg_acre))
+```
+
 
 This would be where I give them the example for the mutate function, but then have them do it on their own to relate it to Bison, and to get the total biomass at each site. The code written below is for our purposes, which they will have to make on their own most likely:
 
