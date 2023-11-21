@@ -29,6 +29,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #Set your working directory and load in tidyverse
+```{r set wd}
+current_path = rstudioapi::getActiveDocumentContext()$path #For editing purposes! Students would have to do this step on their own
+setwd(dirname(current_path))
+```
 ## R Markdown
 
 For many years, the K'Avi tribe has had cattle grazing pastures throughout their land.
@@ -48,10 +52,19 @@ and maintain a healthy lifestyle. The tribal agriculture managers are considerin
 several sites for reintroduction and have received a dataset with plant biomass data at each
 site. The data available will help determine which sites are viable for bison reintroduction!
 
+```{r set wd}
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
+```
+#Load in tidyverse
+```{r tidy}
+library(tidyverse)
+```
+
 ##Load in Biomass Data and Site Datasets
 ```{r}
-#biomass <- read.csv("biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
-#site descriptions <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
+biomass <- read.csv("Bison_Mod3/biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
+sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
 ```
 
 #Look at all of the data
