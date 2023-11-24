@@ -4,43 +4,47 @@ output: html_document
 date: "2023-11-14"
 ---
 
-VIGNETTE:
-**Some questions/thoughts:
-- I know in class we discussed the angle for the vignette is that tribal land 
-managers are interested in how water quality is changing due to climate change.
-This is also relevant based on Georgia's EJDS 2023 example 
-- Is there a way to frame this that would make it more relevant to students? 
-- Maybe introduce a reason - tribal communities use the water in X way (fishing etc.), 
-this is why they're concerned
-  - Could lead into why temperature and DO are important (fish kills?)
-  - DO levels being low could be an important factor, and raising temperatures
-  causes less oxygen to be dissolved in water. 
-
-[JMc comments 11/15, below]
+VIGNETTE OUTLINE:
 Set up: 
-- Bull trout culturally important and threatened species.
-- Thresholds of D.O. and high T for bull trout (from lit)
+- Bull trout: culturally important and threatened species.
+- Thresholds of low D.O. and high T that are dangerous for bull trout (from lit)
 - Goal: Picking between 2 streams for trout introduction.
-Data: 
-- Stream A is fed by a nearby groundwater spring. 
-[Data qualities: D.O. is on the low side (regularly entering into the danger zone), but Temp is OK. No trend in either (because the spring keeps T stable)]
-- Stream B is outflow from a mountain lake. 
-[Data qualities: On average, D.O. and Temp are better than Stream A, but the trend is towards higher T and lower D.O. (because climate change is warming the lake water and D.O. declines as T increases)]
-Steps:
-1. Import data & removing NAs, Calculate summary stats for both sites. Q: Which site looks better? A: Site B, because it has higher D.O. and lower T.
+-- Stream A is fed by a nearby groundwater spring.
+-- Stream B is outflow from a mountain lake. 
+
+
+-------
+Notes from JMc to Catherine about data:  
+Overall Data qualities: 
+(1) We should have average *annual* T and DO data (because Temp and DO will cycle seasonally, which will both make these data harder to simulate and also be more difficult to visualize trends over time)
+(2) Stream A should have a shorter observational length (like 2012 - 2022), than Stream B (say 2007 - 2022). This is because we want some NA values that we will learn to delete later.]
+(3) The data should be in wide form (described in summary below), which will allow us to "tidy" the data by pivoting to long form data.
+
+Stream A Data qualities: 
+D.O. is on the low side (occasionally sneaking into the danger zone), but Temp is OK. No trend in either, because the groundwater spring keeps Temp stable, and DO is a function of Temp.
+
+Stream B Data qualities: 
+On average, D.O. and Temp are better than Stream A, but the trend is towards higher T and lower D.O. (because climate change is warming the lake water and D.O. declines as T increases)
+
+Summary of fake data set:
+- 5 Columns: headings are "Year", "StreamA_Temperature". "StreamA_DO", "StreamB_Temperature". "StreamB_DO"
+- 15 Rows: 2007 to 2022
+- Values are as described above, with NA for Stream A from 2007 to 2011
+-------
+
+Overview of upcoming steps:
+1. Import data, pivot to tidier long format & removing NAs, Calculate summary stats for both sites. Q: Which site looks better? A: Site B, because it has higher D.O. and lower T.
 2. Make a scatter plot of Temp & D.O. from both sites. Plot sites with different colors. Add lines (or overlay a box) identifying the T and D.O. thresholds. Q: Which site looks better? A: Site B, again, because more points are outside of the "danger zone."
-3. Now let's make a new kind of graph: time series of changing T and D.O. from each site. Place double y-axis graphs side-by-side. Q: Which site looks better now? A: Maybe Site A, because even though it has more days when the water quality dips into the danger zone, it's not getting worse. Site B is better for now, but climate change seems to be moving it into  more unhealthy conditions.
+3. Now let's make a new kind of graph: time series of changing T and D.O. from the two sites. First graph is Temperature from both sites. Second graph is DO from both sites (use the same colors for each site as in step 2). NOTE: THIS IS REVISED FROM 11/20: AVOID THE DOUBLE AXIS COMPLICATIONS AND EASIER TO COMPARE TRENDS ACROSS SITES.
+Place graphs side-by-side. Q: Which site looks better now? A: Maybe Site A, because even though it has more days when the water quality dips into the danger zone, it's not getting worse. Site B is better for now, but climate change seems to be moving it into  more unhealthy conditions.
 
 
-
-In this module, there are three main coding goals: 
-1. We will explore data related to water quality on tribal lands 
-2. We will learn how to "debug" code, in other words, we'll learn how to fix 
-common problems that we see when using real world data that can sometimes make 
-coding tricky if not fixed. 
+In this module, there are four main coding goals: 
+1. We will explore how water quality data can help communities make decisions to protect culturally important species.
+2. We will learn how to rearrange data into a "tidy" format that makes graphing easier and we will learn how to "debug" code, in other words, we'll learn how to fix common problems that we see when using real world data. 
 3. We will learn how to separate data into meaningful categories in R based on 
 similarities. This is known as subsetting. 
-
+4. We will learn how to make graphs of data over time. These are called "time series" graphs.
 
 --------------------------------------------------------------------------------
 #INSTRUCTOR'S VERSION: Learning goals 
@@ -53,19 +57,19 @@ begin to analyze it.
 
 3. Students will review how to load in packages. 
 
-4. Students will review basic summary statistic commands in R to pull the mean, 
-median, max, and min values for different variables in the dataset. 
+4. NEW SKILL: Students will learn how to reformat data (in this case from "wide form" data to "long form" data). This is an example of data wrangling, an important step in data science.
 
-5. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
+5. Students will review basic summary statistic commands in R to pull the mean, 
+median, max, and min values for different variables in the data set. 
 
-6. NEW SKILL: students will learn how to subset data in R based on scientifically 
+6. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
+
+7. NEW SKILL: students will learn how to subset data in R based on scientifically 
 relevant groups. 
 
-7. NEW SKILL/review: Students will review how to make a graph using ggplot. 
-Students will learn how to make a new kind of plot in ggplot (line graph),
-in addition to the scatterplot and ribbon plot they learned about in Module 1 fish.
-This will be framed in understanding how we should present data in a meaningufl 
-way to any community, 
+7. Students will review how to make a scatter plot graph using ggplot. 
+
+8. NEW SKILL: Students will learn how to make a new kind of plot in ggplot (a time-series line graph), This will be framed to show how data presentation can help communities make decisions about trends over time.
 
 --------------------------------------------------------------------------------
 #PART 1: Loading in and exploring the data 
@@ -184,10 +188,10 @@ In this section, we'll go over some easy ways to fix this problem in our "water"
 data set by telling R to ignore the NAs. 
 
 ```{r}
-#to do this we can use na.omit 
-#JMc Q: Should we use dplyr, instead? https://dplyr.tidyverse.org/
-#JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
-#JMc A: Maybe, if later modules will use dplyr functions
+#JMc We're going to change this to dplyr 
+# This will help 
+# https://dplyr.tidyverse.org/
+# JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
 na.omit(water)
 ```
 
