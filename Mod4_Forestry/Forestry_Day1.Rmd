@@ -1,11 +1,7 @@
+Module 4: Forestry Management
+
 # Vignette
-
-Members of the K'avi tribe have managed a forest on their lands for decades. Recently, tribal forestry managers have started collecting data. They want to analyze it to determine the growth rates and other statistics of the trees in the forest for a harvest. 
-
-*Alternate vignette based on discussions in class*
-The K'avi tribe would like to set up a location for managing and harvesting Douglas firs for lumber. A couple of different sites have been proposed for this new forestry plot and it is your job to determine which of the proposed sites would be best for douglas fir harvest. 
-
-*We should flesh this out a little more.*
+Members of the K'avi tribe have managed a forest on their lands for decades. Recently, tribal forestry managers have started collecting data from a few different sites in the forest. They would like to set up a location for managing and harvesting Douglas firs for lumber. It is your job to analyze the data and determine which of the proposed sites would be the best for a harvest. They would also like for you to present your analysis and the reasons for your choice to tribal elders.
 
 --------------------------------------------------------------------------------
 # WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
@@ -38,48 +34,93 @@ setwd(dirname(current_path))
 ```
 
 ##Load in Packages, what packages will you need to analyze and/or visualize this data?
-```{r}
+
+```{r, load in the packages}
 library(tidyverse)
 ```
 
-## read in data
+## Read in data
 
-*Add in descriptions of the data in the context of the problem*
-```{r}
+Below is the data that the forestry managers have been collecting from the different site
+*Add a description of each site? Ex: site 1 is near a river...*
+```{r, load in the data}
 site_1 <- read.csv("site_1.csv")
 site_2 <- read.csv("site_2.csv")
 site_3 <- read.csv("site_3.csv")
 site_4 <- read.csv("site_4.csv")
 ```
 
-
 ## Exploring the data
 
-What variables does the data you just loaded in contain? What do these variables 
-mean in the context of forestry management? How could this data be used to 
-determine which site is the best choice for forestry? 
-Feel free to insert a code chunk below here to explore what the variables 
-are in the data. 
-*Have they had to insert a code chunk before? This seems like an important skill*
 
-Now lets start to explore the differences between the sites with summary 
-statistics. What statistics would help you explore the difference in 
-productivity between the different sites? 
+Now that you've loaded in the data from the different sites, feel free to insert a code chunk below to explore what the variables are in the data:
+
+```{r, look at the data}
+#Use this chunk to look at the data above
+
+head(site_1)
+head(site_2)
+head(site_3)
+head(site_4)
+
+#Could also use dim, glimpse, view....
+```
+
+What are the dimensions of the data from each site? What variables does the data you just loaded in contain? 
+
+
+What do these variables?mean in the context of forestry management? How could this data be used to determine which site is the best choice for forestry? 
+
+*I know there's probably an eaasier way to do this*
+```{r}
+site_1_new <- add_column(site_1, site_ID = 1)
+site_2_new <- add_column(site_2, site_ID = 2)
+site_3_new <- add_column(site_3, site_ID = 3)
+site_4_new <- add_column(site_4, site_ID = 4)
+```
+
+#Summary statistics
+Now lets start to explore the differences between the sites with summary statistics. What statistics would help you explore the difference in productivity between the different sites? 
 
 ```{r}
 # Use this chunk to do any summary statistics you feel would be helpful. 
+mean(site_1_new$board_feet)
+mean(site_2_new$board_feet)
+mean(site_3_new$board_feet)
+mean(site_4_new$board_feet)
+
 ```
 
-Based on these summary statistics, which site seems like the best site so far? 
-What other factors would you like to consider about each of these different 
-sites that was not provided in this dataset? 
+Based on these summary statistics, which site seems like the best site so far? What other factors would you like to consider about each of these different sites that was not provided in this dataset?
+
+#Combining the data
+Now that you've loaded in and explored that data from each of the sites, it will be useful to combine it in one large data set.
+
+```{r, combining the data}
+#Use this chunk to combine all the data from each site
+forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
+```
+ 
+#Now calculate the mean board_feet at each site from the new combined data 
+```{r}
+group_by(forest, site_ID)
+summarize(forest, mean_age = mean(forest$board_feet))
+
+```
+ 
+*Have they had to insert a code chunk before? This seems like an important skill*
 
 Create a tabble/tibble with the median age of the trees at each site
 ```{r}
-summarize(site_1, site_1_median = median(site_1$age), site_2_median = median(site_2$age), site_3_median = median(site_3$age), site_4_median = median(site_4$age) )
+  group_by(forest, site_ID)
+   summarize(forest$age, median_age = median(age))
+  
 ```
 
-
-## Combining the data
-
 ## Graphing the data
+Create a scatterplot of the average board_feet from each site
+```{r}
+#Use this chunk to create the graph
+ggplot(aes())
+```
+
