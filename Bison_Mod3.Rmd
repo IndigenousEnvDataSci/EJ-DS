@@ -78,6 +78,9 @@ dplyr::group_by(biomass, Site)
 ```
 They will need to do this again after they convert the units, but this first time is the "we do" portion. 
 
+**so these are tibbles, but we're not using them like a tibble, which would be like a dataframe but we can rename the columns? so i'm not sure how useful explaining a tibble is here unless we're explicitly telling them how to convert the data into a tibble format we can manipulate? since we're in tidyverse, it basically automatically becomes a tibble instead of a dataframe**
+These tables we produce are called "tibbles" in tidyverse. They are another, simpler way to view the data. In the top left corner of each tibble, the dimensions are given to you. We can make any dataset into a tibble by using as_tibble. When you make a dataset into a tibble, you can name the columns with non-standard names (they don't have to have underscores connecting words) which makes a for a cleaner presentation.
+
 ****Maybe also explain what a "tibble" is!****** (Do you think you would be able to do this, Gabi?)
 
 The quadrats are basically samples of the plant biomass, which can roughly tell us the amount of nutrients and calories available for bison and other herbivores, at each site. It is not feasible to collect this data for the entire site, so we have to take samples that can give us a general idea of the biomass of the entire site.
@@ -88,7 +91,16 @@ for. Since there are multiple quadrants of data at each site, those are many sma
 ####The big question####
 What we have right now is the biomass in fifty 0.25 square meter quadrats at each site. How can we turn these fifty values into an estimate of the total biomass at each site?
 
+**would this not be totaling the quadrats per site?**
+```{r}
+biomass %>%
+  group_by(Site) %>%
+  summarise(total_biomass=sum(Biomass))
+#since we already used dplyr, we can use the group_by function to total the biomass at each site. We renamed the column to total_biomass and then took the sum of the biomass columnn per site
+```
+Now we have the total biomass at each site in g/m^2! Unfortunately
 
+**i dont know if we need this bit**
 Using group_by and summary to get the average biomass/quadrat at each site
 ```{r group and summary}
 biomass %>%
@@ -97,7 +109,6 @@ biomass %>%
 ```
 Since we've found the average biomass at each site, it might be useful to include those in the data set to give a more clear idea of how much biomass is available at each site.
 #Need to make a new column where those average values can go, right? Check on this
-
 
 #Converting the units#
 All of the unit conversions that need to happen: 
