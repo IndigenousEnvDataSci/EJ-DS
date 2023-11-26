@@ -49,7 +49,7 @@ native grasslands.
 
 To reintroduce bison, the land must have enough available sustenance for the bison to graze
 and maintain a healthy lifestyle. The tribal agriculture managers are considering
-several sites for reintroduction and have received a dataset with plant biomass data at each
+several sites for reintroduction and have received a dataset with the annual plant biomass at each
 site. The data available will help determine which sites are viable for bison reintroduction!
 
 ```{r set wd}
@@ -66,6 +66,7 @@ library(tidyverse)
 biomass <- read.csv("Bison_Mod3/biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
 sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
 ```
+**Maybe also load in the size of each site dataset in here too, just so they already have it**
 
 #Look at all of the data
 
@@ -89,7 +90,7 @@ This dataset doesn't quite give the information the tribal agriculture managers 
 for. Since there are multiple quadrants of data at each site, those are many small data points that can't tell the overall available biomass at each site.
 
 ####The big question####
-What we have right now is the biomass in fifty 0.25 square meter quadrats at each site. How can we turn these fifty values into an estimate of the total biomass at each site?
+What we have right now is the annual biomass in fifty 0.25 square meter quadrats at each site. How can we turn these fifty values into an estimate of the total biomass at each site?
 
 **would this not be totaling the quadrats per site?**
 ```{r}
@@ -109,7 +110,9 @@ biomass %>%
 ```
 Since we've found the average biomass at each site, it might be useful to include those in the data set to give a more clear idea of how much biomass is available at each site.
 #Need to make a new column where those average values can go, right? Check on this
+**I am not sure if we need this?**
 
+<<<<<<< Updated upstream
 #Converting the units#
 All of the unit conversions that need to happen: 
   currently in g/0.25 m2 and want to get to kg/acre (not tied to these specific units)
@@ -120,11 +123,35 @@ Need to make a new column with the converted units
 ```
 ** is this where we're asking them how many bison can we introduce or is this still biomass?
 They will need to run the summary stats, grouped by each site, but with the new biomass column with converted units!
+=======
+Bison eat a lot of plants! One bison needs about 21,900 kg of biomass a year to live a healthy life. The size of the sites have also been given in hectares (ha). The dataset we have has biomass in g/m^2, which can easily be converted to match the units of kg per ha. It is important to convert units so that they are all standard across the dataset.
+
+#Converting the units#
+All of the unit conversions that need to happen: 
+  currently in g/0.25 m2 and want to get to kg/ha (not tied to these specific units)
+  Conversion of g/0.25 m2 to kg/ha is * 40
+Need to make a new column with the converted units
+```{r}
+  biomass2<-mutate(biomass, annual_kg_ha = Biomass * 40)
+print (biomass2)#check that this works
+#show the tibble still
+```
+Now we've converted our biomass column into a new column called annual kg/ha, so that will be the new column we call on when looking at the biomass of the sites. We should take the average biomass again, but this time with the right units!
+
+>>>>>>> Stashed changes
 
 ```{r average biomass with updated units}
 biomass_avg <-biomass2 %>%
   group_by(Site) %>% 
-  summarise(avg=mean(kg_acre))
+  summarise(avg=mean(annual_kg_ha))
+```
+
+Now that we have the average annual biomass in kg/ha, this doesn't tell us exactly what we need to know about the biomass per site. It might be beneficial to total the biomass at each site. 
+```{r}
+biomass2 %>%
+ aggregate(biomass2$annual_kg_ha, by=list(category= biomass2$Site), FUN=sum)
+
+aggregate(annual_kg_ha ~ Site, biomass2, sum)
 ```
 
 This would be where I give them the example for the mutate function, but then have them do it on their own to relate it to Bison, and to get the total biomass at each site. The code written below is for our purposes, which they will have to make on their own most likely:
