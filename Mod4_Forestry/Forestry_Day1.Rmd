@@ -105,8 +105,10 @@ Now that you've loaded in and explored that data from each of the sites, it will
 forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
 ```
  
-#Now calculate the mean board_feet at each site from the new combined data 
+#Now calculate the mean board_feet at each site from the new combined data.
 ```{r}
+#Use think chunk to calculate the mean board_feet from the combined data, it 
+#could be useful to use group_by
 forest %>% 
   group_by(site_ID) %>% 
   summarize(mean_age = mean(board_feet))
@@ -117,6 +119,7 @@ forest %>%
 
 Create a table/tibble with the median age of the trees at each site
 ```{r}
+#Use this chunk to create the table
 as_tibble(forest) %>% 
   group_by(site_ID) %>% 
   summarize(median_age = median(age))
