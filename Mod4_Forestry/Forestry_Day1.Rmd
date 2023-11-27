@@ -28,7 +28,6 @@ rm(list = ls())
 
 ##Setting the Working Directory
 ```{r}
-# This isn't particularly necessary here because we aren't technically loading in external data but still probaly best practice.
 current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
@@ -71,12 +70,17 @@ What are the dimensions of the data from each site? What variables does the data
 
 What do these variables?mean in the context of forestry management? How could this data be used to determine which site is the best choice for forestry? 
 
-*I know there's probably an eaasier way to do this*
+*I know there's probably an easier way to do this*
+*I edited this to use dplyr syntax which I am hoping was covered in the previous lesson*
 ```{r}
-site_1_new <- add_column(site_1, site_ID = 1)
-site_2_new <- add_column(site_2, site_ID = 2)
-site_3_new <- add_column(site_3, site_ID = 3)
-site_4_new <- add_column(site_4, site_ID = 4)
+site_1_new <- site_1 %>%
+  mutate(site_ID = 1)
+site_2_new <- site_2 %>%
+  mutate(site_ID = 2)
+site_3_new <- site_3 %>%
+  mutate(site_ID = 3)
+site_4_new <- site_4 %>%
+  mutate(site_ID = 4)
 ```
 
 #Summary statistics
@@ -103,17 +107,19 @@ forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
  
 #Now calculate the mean board_feet at each site from the new combined data 
 ```{r}
-group_by(forest, site_ID)
-summarize(forest, mean_age = mean(forest$board_feet))
+forest %>% 
+  group_by(site_ID) %>% 
+  summarize(mean_age = mean(board_feet))
 
 ```
  
 *Have they had to insert a code chunk before? This seems like an important skill*
 
-Create a tabble/tibble with the median age of the trees at each site
+Create a table/tibble with the median age of the trees at each site
 ```{r}
-  group_by(forest, site_ID)
-   summarize(forest$age, median_age = median(age))
+as_tibble(forest) %>% 
+  group_by(site_ID) %>% 
+  summarize(median_age = median(age))
   
 ```
 
@@ -121,6 +127,7 @@ Create a tabble/tibble with the median age of the trees at each site
 Create a scatterplot of the average board_feet from each site
 ```{r}
 #Use this chunk to create the graph
-ggplot(aes())
+ggplot(forest, aes(x = age, y = board_feet))+
+  geom_point(aes(color = as.factor(site_ID)))
 ```
 
