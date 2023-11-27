@@ -11,6 +11,11 @@ The goal of the first day of the this forestry module is to have the students fu
 
 --------------------------------------------------------------------------------
 
+# New Data
+
+*MAybe add in some more variabels with the previous days data.*
+
+
 # Outlining your presentation
 
 ## Determining your audience
@@ -23,9 +28,22 @@ The goal of the first day of the this forestry module is to have the students fu
   
 ## Determining What Data to Focus on
 
+  Now that you have identified your audience it is time to loo back at your data analysis from part 1 of this module. What were your main findings from that analysis? How do those findings relate to selecting a site for a new forestry patch?  
+
 # Refining your graphs
 
-Different types of grpahs for different data. 
+  The type of graph that will best portray your data mainly depends on what kind of data you want to show. Are you interested in showing the changes in one variable or the relationship between two or more variables? Is your data numerical or groups? Is there a time series involved? 
+  
+  **Add resource here**
+  
+  **Add code for one or more types of graphs here**
+  
+  Now that you have identified the best type of graph for your data it is time to actually graph it. In the code chunk below, create a basic graph for your data which we will build on throughout the rest of the lesson. 
+  
+```{r}
+
+```
+
 
 ## Adding context
 
