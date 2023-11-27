@@ -1,5 +1,7 @@
 # Vignette
 
+*Recap day 1*
+
 Now that you have explored this forestry data set it is time to present what you have learned to the broader community. You will create and present suggestions on the management of these forests to community leaders, using the data science tools you have developed throughout the semester. 
 
 *We should flesh this out a little more.*
@@ -7,7 +9,7 @@ Now that you have explored this forestry data set it is time to present what you
 --------------------------------------------------------------------------------
 # WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
 
-The goal of the first day of the this forestry module is to have the students full explore what creating and presenting recommendations for management based on data science means with a strong emphasis on how to best make and present graphs that are accessible and helpful for the general public. 
+The goal of the second day of the forestry module is to have the students fully explore what creating and presenting recommendations for management based on data science means with a strong emphasis on how to best make and present graphs that are accessible and helpful for the general public. 
 
 --------------------------------------------------------------------------------
 
@@ -20,9 +22,9 @@ The goal of the first day of the this forestry module is to have the students fu
 
 ## Determining your audience
   
-  The first step to making an effective presentation is having a clear picture of what you are trying to present. This comes from having a clear overview of what the main outcomes of your data analysis are as well as what type of audience you are interested in presenting to and what type of information is most relevant to them.
+  The first step to making an effective presentation is having a clear picture of what you are trying to present. This comes from having a clear overview of the main outcomes of your data analysis. An important aspect of doing this successfully is what type of audience you are interested in presenting to and what type of information is most relevant to that audience.
   
-  First up lets work to identify the audience you are presenting to. Who would be involved in the process of deciding where to set up a new forestry area? Are there multiple groups that would be interested involved in this process or just one? Who is included in these decision making groups? If you have identified multiple groups that would be involved in this process, for the sake of this exercise select one group you would like to present to. 
+  First up lets work to identify the audience you are presenting to. Who would be involved in the process of deciding where to set up a new forestry area? Are there multiple groups that would be interested/involved in this process or just one? Who is included in these decision making groups? If you have identified multiple groups that would be involved in this process, for the sake of this exercise select one group you would like to present to. 
   
   Once you have identified who you will be giving your presentation to lets narrow down what kind of presentation they will be most interested in. What kind of background do they have in forestry? What kind of data do you think they would find most helpful in deciding where to set up this forest plot? 
   
@@ -32,6 +34,7 @@ The goal of the first day of the this forestry module is to have the students fu
 
 # Refining your graphs
 
+<<<<<<< HEAD
   The type of graph that will best portray your data mainly depends on what kind of data you want to show. Are you interested in showing the changes in one variable or the relationship between two or more variables? Is your data numerical or groups? Is there a time series involved? 
   
   **Add resource here**
@@ -44,8 +47,20 @@ The goal of the first day of the this forestry module is to have the students fu
 
 ```
 
+=======
+Different types of graphs for different data. 
 
-## Adding context
+Here is a link to a graphic that explains what kinds of graphs are most useful in depicting different types of data, depending on the amount and kinds of variables that make up that data. Take a look at the graphic, but keep in mind that there are many graphs that we will not be discussing.
+
+Here is a graph (from Day 1) that shows the board_feet vs age for each site of the K'avi forest.
+```{r}
+ggplot(forest, aes(x = age, y = board_feet))+
+  geom_point(aes(color = as.factor(site_ID)))
+```
+If you look at the forestry data in the global environment, you can see that both board_feet and age are both numeric variables.
+>>>>>>> ec09a764cf659ac8422bd2ea94ceaeb8da944835
+
+## Adding contextx
 
 This section should be about adding titles, axis labels, and captions with the goal of giving context to the plot that is most tailored to the audience of interest. 
 Should we also add legends in this area? 
