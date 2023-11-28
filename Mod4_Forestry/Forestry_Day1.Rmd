@@ -33,15 +33,26 @@ setwd(dirname(current_path))
 ```
 
 ##Load in Packages, what packages will you need to analyze and/or visualize this data?
-
 ```{r, load in the packages}
 library(tidyverse)
 ```
-
 ## Read in data
 
-Below is the data that the forestry managers have been collecting from the different site
-*Add a description of each site? Ex: site 1 is near a river...*
+Throughout the time that the tribal forestry managers have been caring for the forest, they found that there are many factors that affect the quality of a given site. Components such as altitude, aspect, soil, and rainfall, as well as the combination of these factors have an effect on the productivity of a site. 
+
+  *Altitude affects productivity by shortening the length of the growing season and lowering the mean temperature. At high altitude, growth begins late and stops early, therefore making them less productive. 
+  *Aspect also affects productivity, as sites that face north, northeast, and east are more fertile (likely due to the sun's rays having less of an effect on the soil's dampness). Aspects that faced south to west had variable affects. Also, sites with south, southwest, and south aspects were less productive.
+  *Soil must have the necessary substances to meet the conditions needed to grow. The most productive sites have deep, well-drained sandy loam soils, with the second-most being clay soils, and the least productive being gravel soils.
+  *Rainfall, especially when it is abundant, greatly increases the tree growth at a site. The most productive sites have an annual precipitation of over 60 inches with less productive sites having an annual precipitation of less than 30 inches. 
+
+Below are short descriptions of the sites the K'avi managers have been collecting data on:
+  
+  *Site 1: At an altitude of 2,000 feet, an aspect that faces south to west, and annual precipitation of less than 40 inches
+  *Site 2: Faces northeast, has well-drained, sandy loam soil and an altitude of 1,500 feet.
+  *Site 3: Rainfall of less than 20 inches annually, a southern aspect, and gravel soil
+  *Site 4: Sandy loam soil, an altitude of 1,600 feet and 65 inches of rainfall annually.
+
+Below is the data that the forestry managers have been collecting from the different site:
 ```{r, load in the data}
 site_1 <- read.csv("site_1.csv")
 site_2 <- read.csv("site_2.csv")
@@ -51,8 +62,7 @@ site_4 <- read.csv("site_4.csv")
 
 ## Exploring the data
 
-
-Now that you've loaded in the data from the different sites, feel free to insert a code chunk below to explore what the variables are in the data:
+Now that you've loaded in the data from the different sites,insert a code chunk below to explore what the variables are in the data:
 
 ```{r, look at the data}
 #Use this chunk to look at the data above
@@ -70,7 +80,6 @@ What are the dimensions of the data from each site? What variables does the data
 
 What do these variables?mean in the context of forestry management? How could this data be used to determine which site is the best choice for forestry? 
 
-*I know there's probably an easier way to do this*
 *I edited this to use dplyr syntax which I am hoping was covered in the previous lesson*
 ```{r}
 site_1_new <- site_1 %>%
@@ -86,7 +95,7 @@ site_4_new <- site_4 %>%
 #Summary statistics
 Now lets start to explore the differences between the sites with summary statistics. What statistics would help you explore the difference in productivity between the different sites? 
 
-```{r}
+```{r, summary statistics}
 # Use this chunk to do any summary statistics you feel would be helpful. 
 mean(site_1_new$board_feet)
 mean(site_2_new$board_feet)
@@ -106,7 +115,7 @@ forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
 ```
  
 #Now calculate the mean board_feet at each site from the new combined data.
-```{r}
+```{r, calculating board_feet}
 #Use think chunk to calculate the mean board_feet from the combined data, it 
 #could be useful to use group_by
 forest %>% 
@@ -118,7 +127,7 @@ forest %>%
 *Have they had to insert a code chunk before? This seems like an important skill*
 
 Create a table/tibble with the median age of the trees at each site
-```{r}
+```{r, table}
 #Use this chunk to create the table
 as_tibble(forest) %>% 
   group_by(site_ID) %>% 
@@ -128,7 +137,7 @@ as_tibble(forest) %>%
 
 ## Graphing the data
 Create a scatterplot of the average board_feet from each site
-```{r}
+```{r, graph}
 #Use this chunk to create the graph
 ggplot(forest, aes(x = age, y = board_feet))+
   geom_point(aes(color = as.factor(site_ID)))
