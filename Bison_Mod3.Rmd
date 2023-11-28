@@ -171,7 +171,7 @@ Is there another way to show which site might be best? (not sure if we plan on m
 
 From last class, we have multiple sites that have enough biomass to sustain a healthy bison population! This is great, but upon further investigation, tribal agriculture managers realize that while the physical amount of biomass might be enough, they didn't take into consideration the quality of the forage. Since bison are generalist foragers, they'll eat almost anything, but they need to make sure that they consume 73,000 g/m^2 of nitrogen a year. Luckily, the tribal agriculture managers have another dataset that has the nitrogen content per quadrat at each site. 
 
-1) import N dataset
+import N dataset
 ```{r import N dataset}
 
 ```
@@ -201,11 +201,33 @@ able to coexist with the reintroduced bison population. Elk require 2,158 kg/yea
 biomass and 13,140 g/m^2 a year of N to live a healthy lifestyle.
 
 1) import elk dataset
+```{r import elk data}
+
+```
+
 2) each site has x, y, z of elk
   - multiply number of elk by kg
+```{r kg biomass for elk}
+
+```
+
 3) subtract from total biomass of site
+```{r subtracts from total biomass}
+
+```
+
 4) graph biomass per site
+```{r bargraph of new available biomass}
+library(ggplot2)
+ggplot(new_total_biomass, mapping= aes(x=Site))+
+  geom_bar(fill=green)
+```
+
 5) divide new biomass by bison to get new population #
   - does this change the best site for reintroduction?
+```{r new bison #}
+mutate (new_total_biomass, new_max_bison=new_total_biomass/21900)
+```
+
 **do again with N?**
 
