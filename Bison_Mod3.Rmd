@@ -100,7 +100,7 @@ biomass %>%
 ```
 What site has the most biomass per quadrat? What might this tell us about the viability of these sites for bison reintroduction?
 
-We take the average biomass at each site because due to the large size of the sites, it would be impossible to get an actual total biomass of each site. This average gives us an idea of the average biomass in each of the 50 quadrants where data was taken. This data is currently in g/m^2, but the site area data has been given in different units--kilograms per hectare (kg/ha). 
+We take the average biomass at each site because due to the large size of the sites, it would be impossible to get an actual total biomass of each site. This average gives us an idea of the average biomass in each of the 50 quadrants where data was taken. This data is currently in g/m^2, but the site area data has been given in different units--kilograms per hectare (kg/ha). (**Hectare is landscape scale**)
 
 What's the problem with having data in two different units? What should we change the units to?
 
@@ -112,7 +112,7 @@ All of the unit conversions that need to happen:
 Need to make a new column with the converted units
 ```{r}
   biomass2<- mutate(biomass, kg_ha = Biomass * 40)
-print (biomass2)
+print(biomass2)
 #check that this works, need to also update this conversion to kg_hectare or kg_km2
 ```
 This new dataset--biomass2-- now has a new column that converts the biomass in g/m^2 into kg/ha. The column "kg_ha" will be the new column we will call when we are looking at the biomass data because its now in the correct units!
@@ -122,7 +122,7 @@ We should take the average biomass per quadrant again, but this time with the co
 biomass_avg<- biomass2 %>%
   group_by(Site) %>% 
   summarise(avg_biomass=mean(kg_ha))
-print (biomass_avg)
+print(biomass_avg)
 ```
 
 There is another dataset the tribal agriculture managers have with the sizes of each site in hectares. We are going to merge these two datasets into one.
@@ -144,9 +144,11 @@ To get a rough estimate of the total available biomass in each site we should mu
 total_available <- Site_biomass %>%
   group_by(Site) %>%
   summarise(total_biomass= Acres*avg_biomass)
-print(total_available)
+print (total_available)
 ```
 What can these totals tell us about each site? Which site do you think is best suited for bison reintroduction? Why?
+
+**ask them to visualize this**
 
 Bison eat a lot of plants! One bison needs about 21,900 kg of biomass a year to live a healthy life. Since we have the total kg of biomass for each site now, we have an idea of which site might be best to introduce the bison. Bison are social animals and live in herds. It is important to the tribal agriculture managers to ensure that they can sustain a full herd population which would be between X and X bison. How many bison can each of these sites maintain?
 
@@ -182,14 +184,43 @@ mutate(Bison_Sites, Max_Bison = Total_Biomass / ___)
 ```
 ***Day 2***
 
-From last class, we have multiple sites that have enough biomass to sustain a healthy bison population! This is great, but upon further investigation, tribal agriculture managers realize that while the physical amount of biomass might be enough, they didn't take into consideration the quality of the forage. Since bison are generalist foragers, they'll eat almost anything but they need to make sure that they consume 73,000 g/m^2 of nitrogen a year. Luckily, the tribal agriculture managers have another dataset that has the nitrogen content per quadrat at each site. 
+From last class, we have multiple sites that have enough biomass to sustain a healthy bison population! This is great, but upon further investigation, tribal agriculture managers realize that while the physical amount of biomass might be enough, they didn't take into consideration the quality of the forage. Since bison are generalist foragers, they'll eat almost anything, but they need to make sure that they consume 73,000 g/m^2 of nitrogen a year. Luckily, the tribal agriculture managers have another dataset that has the nitrogen content per quadrat at each site. 
 
 1) import N dataset
-2) unit conversion again (reiterate)
-3) find total N (reiterate)
-  - add in NAs to practice from Mod 2?
-4) how many bison can have quality forage?
+```{r import N dataset}
+
+```
+
+Since the data is given in quadrats again, how would we find the total amount of nitrogen available for the bison?
+```{r total N}
+avg_nitrogen <- nitrogen %>%
+  group_by (Site) %>%
+  summarise (n_avg=mean(nitrogen))
+
+avgN_per_site <- left_join(sites, avg_nitrogen, by "Site")
+
+total_N <- avgN_per_site %>%
+  group_by(Site)%>%
+  summarise(total_n_available= Acres* avg_nitrogen)
+
+mutate(total_N, new_max=total_n_available/73000)
+  #insert code to get to the total N when given (ha) already
+```
+Does this change your decision for which site would be best for reintroduction?
+
+Even though there might be several sites with enough biomass to support a large herd of
+bison, it is not plausible that the bison will eat 100% of the forage available. There are
+elk populations present in the prairies that must be accounted for to ensure that both
+groups have enough biomass to sustain their populations.The present elk population must be
+able to coexist with the reintroduced bison population. Elk require 2,158 kg/year of plant
+biomass and 13,140 g/m^2 a year of N to live a healthy lifestyle.
+
+1) import elk dataset
+2) each site has x, y, z of elk
+  - multiply number of elk by kg
+3) subtract from total biomass of site
+4) graph biomass per site
+5) divide new biomass by bison to get new population #
   - does this change the best site for reintroduction?
-5) graphing
-  - bar graph of N by site (reiteration if we make them do a bar graph by site for total biomass)
-  - scatterpot of N against biomass--bell curve where too much biomass and too little make the plants lower quality, so middle of bell curve is best amount of biomass to maximize nitrogen (idk if anyone is doing a bell curve yet so that might be a new thing?)
+**do again with N?**
+
