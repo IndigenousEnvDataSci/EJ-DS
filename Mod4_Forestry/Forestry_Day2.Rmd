@@ -1,8 +1,8 @@
 # Vignette
 
-*Recap day 1*
+In the first part of this module, you explored data collected by K'avi tribal forestry managers for different sites of a forest that they managed. Based on data analysis and other qualitative factors, you decided which site would be the best for a lumber harvest.
 
-Now that you have explored this forestry data set it is time to present what you have learned to the broader community. You will create and present suggestions on the management of these forests to community leaders, using the data science tools you have developed throughout the semester. 
+Now that you have explored this forestry data set, it is time to present what you have learned to the broader community. You will create and present suggestions on the management of these forests to community leaders, using the data science tools you have developed throughout the semester. These leaders would like for you to present your analysis and the reasons for your choice of site.
 
 *We should flesh this out a little more.*
 
@@ -15,7 +15,7 @@ The goal of the second day of the forestry module is to have the students fully 
 
 # New Data
 
-*MAybe add in some more variabels with the previous days data.*
+*Maybe add in some more variables with the previous days data.*
 
 
 # Outlining your presentation
@@ -60,13 +60,30 @@ ggplot(forest, aes(x = age, y = board_feet))+
 If you look at the forestry data in the global environment, you can see that both board_feet and age are both numeric variables.
 >>>>>>> ec09a764cf659ac8422bd2ea94ceaeb8da944835
 
-## Adding contextx
+## Adding context
 
-This section should be about adding titles, axis labels, and captions with the goal of giving context to the plot that is most tailored to the audience of interest. 
-Should we also add legends in this area? 
+Take a look at the graph below. What are the differences between it and the one above?
+```{r, adding labels}
+#Calls the function ggplot (we have seen this before), add which data frame
+#the graph is taking information from, and assign a variable to the x and y axes
+ggplot(forest, aes(x = age, y = board_feet))+
+#Tell ggplot what kind of graph to create (a scatter plot), in the aesthetics of
+#the graph tell it to differentiate each site by a different color
+  geom_point(aes(color = as.factor(site_ID)))+
+#The labs function allows you to adjust the labels of many different aspects of
+#the graph simultaneously. Caption allows you to add a caption to the graph, 
+#while x and y adjust the names of the axes respectively. Finally, title allows
+#you to rename the title of the graph and subtitle to add extra information.
+  labs(caption = "Board Feet vs. Age of Sites 1-4 of the K'avi Forest Data", x="Age (Years)", y="Board Feet", title="Board Feet vs. Age per Site", subtitle="Subtitle for this graph")+
+#This allows you to adjust finer details of the graph. For instance, you can 
+#adjust the size and color of the title and subtitle. 
+  theme(plot.title = element_text(size= "20", color="blue"), plot.subtitle = element_text(size = "10", color="purple"))
+```
+Think about the data that you are trying to convey to your chosen audience. How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
+
 
 ## Adding visual elements
-
+*I think legends would maybe work well in this section*
 This sections is about how graphs are a way to convey information visually and so the visual elements of the graph should fit in this goal. 
 Introducing themes as a way of giving more control over the visual elements of your graph. *This seems like a good place to reference some online resources*. 
 Mentioning that the visuals can be simple or complicated and that as you give more presentations you will figure out waht works for you and for the audience you are presenting to but here are the tools for when you do. 

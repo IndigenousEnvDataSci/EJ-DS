@@ -142,4 +142,4 @@ Create a scatterplot of the average board_feet from each site
 ggplot(forest, aes(x = age, y = board_feet))+
   geom_point(aes(color = as.factor(site_ID)))
 ```
-
+You have now explored the data in many different ways. Based on the information from the summary statistics, graph, and descriptions of the sites, which site would you recommend as the best for a lumber harvest and why?
