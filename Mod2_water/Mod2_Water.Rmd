@@ -3,8 +3,16 @@ title: "Mod2_water"
 output: html_document
 date: "2023-11-14"
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-[#JMc: A LITTLE CHANGE TO CHECK TO SEE IF I CAN PUSH & PULL]
+# DRAFT: Background for Module 2: Water Quality
+
+Water sustains life on our planet and water is sacred to Native Americans. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
+
+Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because they require water temperatures below XX degrees centigrade and 
+
 
 VIGNETTE OUTLINE:
 Set up: 
