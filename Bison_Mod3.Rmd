@@ -149,7 +149,7 @@ To get a rough estimate of the total available biomass in each site we should mu
 ```{r}
 total_available <- Site_biomass %>%
   group_by(Site) %>%
-  summarise(total_biomass= Acres*avg_biomass)
+  summarise(total_biomass= Hectares*avg_biomass)
 print (total_available)
 ```
 What can these totals tell us about each site? Which site do you think is best suited for bison reintroduction? Why?
@@ -190,16 +190,15 @@ print(avg_nitrogen)
 
 ```{r}
 avgN_per_site <- left_join(sites, avg_nitrogen, by = "Site")
-print(avg)
+print(avgN_per_site)
 ```
 
 
 ```{r}
-total_N <- avgN_per_site %>%
+total_N <-avgN_per_site %>%
   group_by(Site)%>%
-  summarise(total_n_available = Acres* avg_nitrogen) %>%
-  mutate(total_N, new_max=total_n_available/73000)
-print(total_N)
+  summarise(total_n_available = Hectares* n_avg)
+mutate(total_N, new_bison= total_n_available/73000)
 ```
 
 mutate(total_N, new_max=total_n_available/73000)
