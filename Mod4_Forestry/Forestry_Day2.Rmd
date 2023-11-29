@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Vignette
 
 In the first part of this module, you explored data collected by K'avi tribal forestry managers for different sites of a forest that they managed. Based on data analysis and other qualitative factors, you decided which site would be the best for a lumber harvest.
@@ -268,11 +273,53 @@ Note that the number of colors you give R must equal the number of categories yo
 
 It is also important to note here that displaying important information with different colors in your plot can make reading your plots hard for colorblind people. There are a couple of different ways to help with this including, picking a color palette that is colorblind friendly or using a couple of different methods to distinguish the different groups. 
 
-*Go over the viridis package*
+There is a package in R that specifically has color-blind friendly palettes that you can use in your graphs. It is called viridis and here are some examples of it.
 
-*Talk about changing the symbols for the points or the lien types for the lines.*
+```{r}
+# Uncomment this and run it to initially install the package
+#install.packages("viridis")
+
+# Loading the package into this session of R. 
+library(viridis)
+```
+Now lets try it on our graph
+
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site")+
+  scale_color_viridis(discrete = TRUE)
+```
+
+Try it out on your own graphs
+
+```{r}
+
+```
+
+Another options for making graphs more accessible for color-blind people is by using multiple kinds of visual cues to seperate different groups. This can look different for different kinds of plots so here are examples of what this would look like for scatterplots and line plots. 
 
 
+In scatterplots we can change the shapes of the points. 
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, shape = site_ID))+
+  geom_point(size = 4)+ # Points made larger so they're easier to see. 
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site", shape = "Site")+
+  scale_color_viridis(discrete = TRUE)
+
+```
+With line plots we can change the line types. 
+
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, linetype = site_ID))+
+  geom_point()+  
+  geom_line(size = 3)+ # lines made larger so they're easier to see.
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
+  scale_color_viridis(discrete = TRUE)
+```
+Which of these options do you think is best for your audience?
 
 *Talking about themes may be a stretch goal/not the most important part of this exercise. How do we feel about leaving this out?*
 * Basic themes
