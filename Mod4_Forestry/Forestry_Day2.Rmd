@@ -282,6 +282,7 @@ There is a package in R that specifically has color-blind friendly palettes that
 # Loading the package into this session of R. 
 library(viridis)
 ```
+
 Now lets try it on our graph
 
 ```{r}
@@ -289,6 +290,9 @@ ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site")+
+#Viridis automatically defaults to a continuous color scale, but since we have a 
+#discrete number of sites with a discrete number of colors, we have to add
+#discrete = TRUE
   scale_color_viridis(discrete = TRUE)
 ```
 
@@ -298,13 +302,15 @@ Try it out on your own graphs
 
 ```
 
-Another options for making graphs more accessible for color-blind people is by using multiple kinds of visual cues to seperate different groups. This can look different for different kinds of plots so here are examples of what this would look like for scatterplots and line plots. 
+Another options for making graphs more accessible for color-blind people is by using multiple kinds of visual cues to separate different groups. This can look different for different kinds of plots so here are examples of what this would look like for scatterplots and line plots. 
 
 
 In scatterplots we can change the shapes of the points. 
 ```{r}
 ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, shape = site_ID))+
-  geom_point(size = 4)+ # Points made larger so they're easier to see. 
+#We can use size to make the points larger and easier to see. Larger numbers make
+#the points larger on the graph 
+  geom_point(size = 4)+ 
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site", shape = "Site")+
   scale_color_viridis(discrete = TRUE)
@@ -313,9 +319,12 @@ ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, shape = sit
 With line plots we can change the line types. 
 
 ```{r}
+#Here we can make each site have a different color and a different type of line 
+#by assigning them by site_ID
 ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, linetype = site_ID))+
   geom_point()+  
-  geom_line(size = 3)+ # lines made larger so they're easier to see.
+#Again we can use the size command to increase the width of the lines
+  geom_line(size = 3)+ 
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
   scale_color_viridis(discrete = TRUE)
 ```
@@ -335,6 +344,6 @@ Which of these options do you think is best for your audience?
 
 Go back to the beginning of this document and look back at what you identified as the key takeaways from the data analysis. Take this as a chance to reflect on if your choice of graph is the best for summarizing this information
 
-Review how you identified your audience, do your choices of added graph elements benefit this audience? If you could improve the graph in some way, how would you? (even if you don't know how to code this yet)
+Review how you identified your audience. Do the added graph elements that you chose to add benefit this audience? If you could improve the graph in some way, how would you? (even if you don't know how to code this yet)
 
 # More Resources for Plotting in R
