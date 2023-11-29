@@ -209,6 +209,13 @@ ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site")
 ```
+Try adding all the sites onto your graph here:
+
+```{r}
+
+```
+
+
 Both of these methods, arranging multiple graphs and adding colors, will show information on how the sites differ but they each have different pros and cons. In the arranged plots, each individual plot is cleaner and simpler where as there is a lot going on in the combined plot. However, the combined plot lets you see the differences between sites more clearly and it takes up less space in a slide or a paper. 
 
 Which format do you think will best convey the information to your proposed audience? Why? 
@@ -217,6 +224,17 @@ While both options have merits, the combined plot with different colors lets us 
 
 ## Legends
 
+You may have noticed in the previous section that when you added color categories for different sites ggplot automatically created a legend on the right hand side of the plot to describe what each color means. However, like many things ggplot automatically generates, the legend is not particularly reader-friendly. 
+
+What would you like to change about your legend to tailor it to your specific audience? 
+
+Here are a couple of resources about how to change your legend in ggplot. They all cover similar things but you may prefer one over the others:
+
+* http://www.cookbook-r.com/Graphs/Legends_(ggplot2)/
+* https://www.datanovia.com/en/blog/ggplot-legend-title-position-and-labels/
+* http://www.sthda.com/english/wiki/ggplot2-legend-easy-steps-to-change-the-position-and-the-appearance-of-a-graph-legend-in-r-software 
+
+Using one of the resources provided above or another resource that you prefer, change one thing about your legend that you have identified to make it more accessible to your audience. 
 
 ## Adding visual elements
 *I think legends would maybe work well in this section*
@@ -224,11 +242,6 @@ This sections is about how graphs are a way to convey information visually and s
 Introducing themes as a way of giving more control over the visual elements of your graph. *This seems like a good place to reference some online resources*. 
 Mentioning that the visuals can be simple or complicated and that as you give more presentations you will figure out waht works for you and for the audience you are presenting to but here are the tools for when you do. 
 
-```{r}
-ggplot(data = forest, aes(x = age, y = tree_number, color = as.factor(site_ID)))+
-  geom_point()+
-  labs(x = "Site Age", y = "Number of Trees", color = "Site")
-```
 
 
 * Legends (if not above)
