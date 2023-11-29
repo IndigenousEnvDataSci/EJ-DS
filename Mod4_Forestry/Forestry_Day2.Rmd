@@ -237,22 +237,45 @@ Here are a couple of resources about how to change your legend in ggplot. They a
 Using one of the resources provided above or another resource that you prefer, change one thing about your legend that you have identified to make it more accessible to your audience. 
 
 ## Adding visual elements
-*I think legends would maybe work well in this section*
-This sections is about how graphs are a way to convey information visually and so the visual elements of the graph should fit in this goal. 
-Introducing themes as a way of giving more control over the visual elements of your graph. *This seems like a good place to reference some online resources*. 
-Mentioning that the visuals can be simple or complicated and that as you give more presentations you will figure out waht works for you and for the audience you are presenting to but here are the tools for when you do. 
+
+Now that you have a plot with multiple site, different colors, and a legend it's time to give you more control over what those colors are and other ways to show groupings. 
+
+To manually set what colors your plot you can use the layer scale_color_manual() which will let you individually choose each color in your plot (example below). The resources below will provide you with a list of all the colors that R automatically knows the names of. YOou can also use the function colors() to get a list of all 657 colors that R knows the name of but that does not actually show the color along with the name. 
+
+Colors:
+* https://www.datanovia.com/en/blog/awesome-list-of-657-r-color-names/
+* http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+* https://r-graph-gallery.com/42-colors-names.html
+
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site")+
+  scale_color_manual(values = c("dodgerblue4", "skyblue3", "steelblue1", "navyblue"))
+```
+Note that the number of colors you give R must equal the number of categories you have. CHange the color in your plot here:
+
+```{r}
+
+```
+
+It is also important to note here that displaying important information with different colors in your plot can make reading your plots hard for colorblind people. There are a couple of different ways to help with this including, picking a color palette that is colorblind friendly or using a couple of different methods to distinguish the different groups. 
+
+*Go over the viridis package*
+
+*Talk about changing the symbols for the points or the lien types for the lines.*
 
 
 
-* Legends (if not above)
+*Talking about themes may be a stretch goal/not the most important part of this exercise. How do we feel about leaving this out?*
 * Basic themes
 * Ways to make complicated themes
-* Colors (and how to make them accessible)
-* Shapes and sizes
-* Groups, etc. 
 
 # Reviewing your plots
 
 Go back to the beginning of this document and look back at what you identified as the key takeaways from the data analysis. Take this as a chance to reflect on if your choice of graph is the best for summarizing this information
 
 Review how you identified your audience, do your choices of added graph elements benefit this audience? If you could improve the graph in some way, how would you? (even if you don't know how to code this yet)
+
+# More Resources for Plotting in R
