@@ -97,12 +97,21 @@ Now that you have created a basic plot that technically has all of the informati
 
 ## Adding context
 
-One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can use ?labs to learn about all the different things you can do in this layer but basically, it lets you change 
+One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can use ?labs to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc. In the following plot we have changed the axis labels and added a title. 
 
 ```{r}
 ggplot(data = site_1, aes(x = age, y = tree_number))+
   geom_point()+
-  labs(x = "Site Age", y = "Number of Trees")
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 1")
+#The labs function allows you to adjust the labels of many different aspects of
+#the graph simultaneously. Caption allows you to add a caption to the graph, 
+#while x and y adjust the names of the axes respectively. Finally, title allows
+#you to rename the title of the graph and subtitle to add extra information.
+```
+While you add labels to your grpah below, think about the data that you are trying to convey to your chosen audience. How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
+
+```{r}
+
 ```
 
 
@@ -123,7 +132,90 @@ ggplot(forest, aes(x = age, y = board_feet))+
 #adjust the size and color of the title and subtitle. 
   theme(plot.title = element_text(size= "20", color="blue"), plot.subtitle = element_text(size = "10", color="purple"))
 ```
-Think about the data that you are trying to convey to your chosen audience. How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
+## Adding More Sites
+
+*This may need to be substantially edited depending on what previous lessons covered*
+
+Now that we have a plot that describes the trends at one site lets add in the information from the other sites. There are two main ways to do this, either by creating a different plot for each site and then arranging the plots next to one another, or adding all the sites to one plot. 
+
+First we will show you how to arrange multiple different plots side by side using the package patchwork. The first thing to do is download and then load the package itself. 
+
+```{r}
+# If you do not already have patchwork downloaded on your computer, delete the # in the next line to uncomment that code and then run the follwoing line to download the package. 
+#install.packages(patchwork)
+
+# Loading the package into this session of R
+library(patchwork)
+```
+To use patchwork you need to create graphs for each of the sites, and then save each graph as its own variable the same way you would for any other variable. 
+
+```{r}
+site_1_plot <- ggplot(data = site_1, aes(x = age, y = tree_number))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 1")
+site_2_plot <- ggplot(data = site_2, aes(x = age, y = tree_number))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 2")
+site_3_plot <- ggplot(data = site_3, aes(x = age, y = tree_number))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 3")
+site_4_plot <- ggplot(data = site_4, aes(x = age, y = tree_number))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 4")
+```
+
+Then, to arrange the the graphs you can use + and / with the plots you saved above. I have provided a couple of examples below but you can see all the different ways you can sue this package to arrange graphs here: https://patchwork.data-imaginist.com/
+
+```{r}
+# + puts the two graphs next to one another
+site_1_plot + site_2_plot
+
+# / Puts the graphs on top of one another
+site_1_plot / site_2_plot
+
+# Then you can get fancy with it!
+(site_1_plot + site_2_plot) / site_3_plot
+
+```
+Experiment with patchwork with your own graphs below until you find an arrangement you like. 
+
+```{r}
+
+```
+
+
+The second way to show data from multiple sites is to put all of the sites on one graph. We can do this in the aes() portion of the ggplot function by telling R to represent which site a point is from with another aspect of the graph. In our example we will use the color of the points and lines .
+
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+  geom_point()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site")
+```
+Note in this graph that the scale for the color on the right hand side of the plot is a continuous gradient of color rather than individual colors. This is because when we set up the site ID during the last lesson we set the ID of each site as a number. When we input a variable as a number, R automatically assumes that variable is a continuous, numerical variable. Since we are using the site ID as different categories for which site each observation is from we need this variable to be a factor (or categorical) variable rather than a number which we can do with the following code.
+
+```{r}
+forest$site_ID <- as.factor(forest$site_ID)
+```
+
+Now we can use the exact same code as above and it will color the points in discrete colors for each site. We can also add back in the lines which were removed in the previous point because the line plots do not work well with the previous color scale.
+
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+  geom_point()+
+  geom_line()+
+  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site")
+```
+Both of these methods, arranging multiple graphs and adding colors, will show information on how the sites differ but they each have different pros and cons. In the arranged plots, each individual plot is cleaner and simpler where as there is a lot going on in the combined plot. However, the combined plot lets you see the differences between sites more clearly and it takes up less space in a slide or a paper. 
+
+Which format do you think will best convey the information to your proposed audience? Why? 
+
+While both options have merits, the combined plot with different colors lets us more easily address the other topics we want to cover about improving your graphs so moving forward in this lesson we will be refering back to the combined, color coded graph. 
+
+## Legends
 
 
 ## Adding visual elements
