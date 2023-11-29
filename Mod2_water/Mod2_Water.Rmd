@@ -242,12 +242,27 @@ tribal land managers to truly understand what's going on, they need to analyze
 water temperature and dissolved oxygen together. To do this, we need to change 
 how our data is set up in each data frame and then merge these data frames together. 
 
-
+[CRA 11/29 5:30pm: Edit to add text to explain why we want to pivot]
 To modify our data we need to do something called "pivoting". In our current 
 data for water temperature, we have columns for the year the sample was collected,
 the temperature for the samples from Stream A, and the temperature of the samples in 
 Stream B. Instead, we want columns for the year, the site where the sample was collected, 
 and a column for all the temperatures. 
+
+Another reason we want to "pivot" our data is because tidyverse (the package
+we have been using to wrangle, analyze, and then plot our data) prefers our data 
+to be in what is called "long form" as opposed to "wide form". Wide form data means 
+that there are no repeat values in our data frame. In our case, the repeat data 
+we would be looking for is site data, or which Stream was sampled from. This is because 
+there are individual columns for each stream. 
+
+"Long form" data means that there are repeated rows for every observation of a value 
+made for each stream. In that case,our data frame would look different. A long form version 
+of our data means that there would be a column called "site" and a column that contains values for 
+temperature and DO for all sites. We would know if the measurement for temperature 
+or DO was from stream A or B by looking at the row the data is in, and seeing what 
+value is entered in the site column in that row. Long form data makes it easier to
+summarize data and look at trends over time, which is why tidyverse prefers it. 
 
 To do this we will use a command from tidyverse called "pivot_longer". See the 
 code chunk below for more explanation! 
@@ -263,8 +278,9 @@ stream_temp <- stream_temp %>%
     #specified in the line above to be entries in a new column we're creating 
     #called "site". 
     names_to = "site", 
-    #values_to = tells R that we want the values from the columns in col = 
-    #to be moved into a new column we're making called "temperature_C". 
+    #Based on what "names_to" means, what do you think the next line of code 
+    #values_to means? (Hint - searching the internet for the answer is a great
+    #way to figure this out, and looking things up is a huge part of coding!)
     values_to = "temperature_C" 
   )
 ```
@@ -307,9 +323,10 @@ Left join means we want to put one data frame next to the the other. In other wo
 we want to match up the rows in the data frame, so it becomes wider, not longer. This is 
 because we want to preserve the columns from the two data frames we are combining. 
 ```{r}
-streams <- left_join(stream_temp,stream_DO)
 #Here, we are using left_join to put the streams_temp data frame next to the streams_DO
 #data frame.
+streams <- left_join(stream_temp,stream_DO)
+
 ```
 
 
@@ -326,7 +343,7 @@ Great job data wrangling! We can now continue to analyze our data.
 
 [#JMc note to CRA @ 11/28 8pm: I think code below here needs updating.]
 ```{r}
-mean(water$temperature)
+mean(streams$temperature)
 ```
 
 Ah! Our code didn't work. R gave us an error message that says: "". This means 
@@ -346,14 +363,14 @@ data set by telling R to ignore the NAs.
 # This will help 
 # https://dplyr.tidyverse.org/
 # JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
-na.omit(water)
+na.omit(streams)
 ```
 
 Great! Now let's try to run our command to get the mean for temperature again. 
 
 
 ```{r}
-mean(water$temperature)
+mean(streams$temperature)
 ```
 
 Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
@@ -371,7 +388,7 @@ is in the water across all samples?
 #What is the median amount of temperature across all samples? 
 
 ```{r}
-median(water$temperature)
+median(streams$temperature)
 ```
 
 
@@ -385,8 +402,8 @@ median(water$temperature)
 #What is the maximum and minimum temperature in our data?
 
 ```{r}
-max(water$temperature)
-min(water$temperature)
+max(streams$temperature)
+min(streams$temperature)
 ```
 
 #Your turn: figure out the minimum and maximum amount of dissolved oxygen recorded
