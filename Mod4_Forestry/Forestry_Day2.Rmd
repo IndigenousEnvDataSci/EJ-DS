@@ -13,11 +13,6 @@ The goal of the second day of the forestry module is to have the students fully 
 
 --------------------------------------------------------------------------------
 
-# New Data
-
-*Maybe add in some more variables with the previous days data.*
-
-
 # Outlining your presentation
 
 ## Determining your audience
@@ -34,33 +29,82 @@ The goal of the second day of the forestry module is to have the students fully 
 
 # Refining your graphs
 
-<<<<<<< HEAD
-  The type of graph that will best portray your data mainly depends on what kind of data you want to show. Are you interested in showing the changes in one variable or the relationship between two or more variables? Is your data numerical or groups? Is there a time series involved? 
-  
-  **Add resource here**
-  
-  **Add code for one or more types of graphs here**
-  
-  Now that you have identified the best type of graph for your data it is time to actually graph it. In the code chunk below, create a basic graph for your data which we will build on throughout the rest of the lesson. 
-  
-```{r}
+For the rest of this module we will be focusing on different ways we can improve and customize ggplot graphs with a focus on honing those graphs specifically for a presentation for a more general audience. We will be demonstrating these concepts with data on the number of trees in the same potential forestry plots as in day 1 of this module and then letting you explore how to apply these concepts to your data on the yield over time in each of these sites. 
 
+```{r}
+# Cleaning environment and setting working directory
+rm(list = ls())
+current_path = rstudioapi::getActiveDocumentContext()$path
+setwd(dirname(current_path))
+set.seed(1)
+# Load libraries
+library(tidyverse)
+#Read in and reformat data
+site_1 <- read.csv("site_1.csv") %>% 
+  mutate(site_ID = 1)
+site_2 <- read.csv("site_2.csv") %>% 
+  mutate(site_ID = 2)
+site_3 <- read.csv("site_3.csv") %>% 
+  mutate(site_ID = 3)
+site_4 <- read.csv("site_4.csv") %>% 
+  mutate(site_ID = 4)
+forest<- rbind(site_1, site_2, site_3, site_4)
 ```
 
-=======
-Different types of graphs for different data. 
+The first part of making an effective graph is picking what kind of graph you want to make. We have generally been using scatterplots *and ______* throughout this course but ggplot offers a wide variety of different plot types for you to play with. Generally the first step for picking a plot type is determining how many variables you are trying to represent and what your goal for the plot is. 
 
 Here is a link to a graphic that explains what kinds of graphs are most useful in depicting different types of data, depending on the amount and kinds of variables that make up that data. Take a look at the graphic, but keep in mind that there are many graphs that we will not be discussing.
 
-Here is a graph (from Day 1) that shows the board_feet vs age for each site of the K'avi forest.
+*NOte: find something to put here. It also probably makes more sense to move this segment up*
+
+In our example of the number of trees over time at site 1 we have two different variables, time and number of trees. Both time and number of trees are continuously changing variables (not groups) so we would choose either a scatterplot or a line plot to represent them. 
+
+Here is an example of a scatterplot:
 ```{r}
-ggplot(forest, aes(x = age, y = board_feet))+
-  geom_point(aes(color = as.factor(site_ID)))
+ggplot(site_1, aes(x = age, y = tree_number))+
+  geom_point()
 ```
-If you look at the forestry data in the global environment, you can see that both board_feet and age are both numeric variables.
->>>>>>> ec09a764cf659ac8422bd2ea94ceaeb8da944835
+Here is a line plot:
+
+```{r}
+ggplot(site_1, aes(x = age, y = tree_number))+
+  geom_line()
+```
+In this case the scatterplot focuses on the number of trees at each time point whereas the line plot focuses more on the overall trend in trees over time. Which of these do you think is more important for your presentation on yield over time at this site? What story do you want to tell? 
+
+You can plot whichever plot you decide on here:
+
+```{r}
+
+```
+
+
+Another cool thing that ggplot lets us do is layer different plots on top of one another. Using this we can show both the scatterplot and the line plot if we want to. 
+
+```{r}
+ggplot(site_1, aes(x = age, y = tree_number))+
+  geom_line()+
+  geom_point()
+```
+
+Try it out with your plot here:
+
+```{r}
+
+```
+
+Now that you have created a basic plot that technically has all of the information in it, if you could change anything about the graph what would you change about it to better fit the audience you identified in part 1? 
 
 ## Adding context
+
+One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can use ?labs to learn about all the different things you can do in this layer but basically, it lets you change 
+
+```{r}
+ggplot(data = site_1, aes(x = age, y = tree_number))+
+  geom_point()+
+  labs(x = "Site Age", y = "Number of Trees")
+```
+
 
 Take a look at the graph below. What are the differences between it and the one above?
 ```{r, adding labels}
@@ -87,6 +131,13 @@ Think about the data that you are trying to convey to your chosen audience. How 
 This sections is about how graphs are a way to convey information visually and so the visual elements of the graph should fit in this goal. 
 Introducing themes as a way of giving more control over the visual elements of your graph. *This seems like a good place to reference some online resources*. 
 Mentioning that the visuals can be simple or complicated and that as you give more presentations you will figure out waht works for you and for the audience you are presenting to but here are the tools for when you do. 
+
+```{r}
+ggplot(data = forest, aes(x = age, y = tree_number, color = as.factor(site_ID)))+
+  geom_point()+
+  labs(x = "Site Age", y = "Number of Trees", color = "Site")
+```
+
 
 * Legends (if not above)
 * Basic themes
