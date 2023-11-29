@@ -78,7 +78,7 @@ head(site_4)
 What are the dimensions of the data from each site? What variables does the data you just loaded in contain? 
 
 
-What do these variables?mean in the context of forestry management? How could this data be used to determine which site is the best choice for forestry? 
+What do these variables mean in the context of forestry management? How could this data be used to determine which site is the best choice for forestry? 
 
 *I edited this to use dplyr syntax which I am hoping was covered in the previous lesson*
 ```{r}
@@ -104,7 +104,7 @@ mean(site_4_new$board_feet)
 
 ```
 
-Based on these summary statistics, which site seems like the best site so far? What other factors would you like to consider about each of these different sites that was not provided in this dataset?
+Based on these summary statistics, which site seems like the best site so far? What other factors would you like to consider about each of these different sites that was not provided in this data set?
 
 #Combining the data
 Now that you've loaded in and explored that data from each of the sites, it will be useful to combine it in one large data set.
@@ -116,7 +116,7 @@ forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
  
 #Now calculate the mean board_feet at each site from the new combined data.
 ```{r, calculating board_feet}
-#Use think chunk to calculate the mean board_feet from the combined data, it 
+#Use this chunk to calculate the mean board_feet from the combined data, it 
 #could be useful to use group_by
 forest %>% 
   group_by(site_ID) %>% 
