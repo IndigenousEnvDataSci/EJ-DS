@@ -327,7 +327,7 @@ Great job data wrangling! We can now continue to analyze our data.
 
 #
 
-[#JMc note to CRA: I think code below here needs updating 11/28 8pm]
+[#JMc note to CRA @ 11/28 8pm: I think code below here needs updating.]
 ```{r}
 mean(water$temperature)
 ```
