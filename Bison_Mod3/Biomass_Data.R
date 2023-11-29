@@ -52,3 +52,33 @@ elk <- data.frame(
 )
 View(elk)
 write.csv(elk, "elk.csv", row.names = FALSE)
+
+
+#Making code for N at each site
+site1N <- data.frame(
+  Site = rep(1, each = quadrats_per_site),
+  Quadrat = rep(1:quadrats_per_site),
+  Nitrogen = rnorm(n = 50, mean = 90, sd = 10)
+)
+view(site1N)
+
+site2N <- data.frame(
+  Site = rep(2, each = quadrats_per_site),
+  Quadrat = rep(1:quadrats_per_site),
+  Nitrogen = rnorm(n = 50, mean = 70, sd = 14)
+)
+View(site2N)
+
+site3N <- data.frame(
+  Site = rep(3, each = quadrats_per_site),
+  Quadrat = rep(1:quadrats_per_site),
+  Nitrogen = rnorm(n = 50, mean = 80, sd = 10)
+)
+View(site3N)
+
+#now just combining these all together into a single data frame
+N <- data.frame(
+  rbind(site1N,site2N,site3N)
+)
+View(N)
+write.csv(N, "Nitrogen.csv", row.names = FALSE)
