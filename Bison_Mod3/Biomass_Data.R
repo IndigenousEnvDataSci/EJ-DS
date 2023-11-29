@@ -43,7 +43,7 @@ site_size <- data.frame(
   Hectares = c(1700, 1300, 900)
 )
 View(site_size)
-write.csv(site_size, "bison_sites.csv", row.names = FALSE)
+write.csv(site_size, "sites.csv", row.names = FALSE)
 
 #Makign a dataset for Elk Populations at each site
 elk <- data.frame(
