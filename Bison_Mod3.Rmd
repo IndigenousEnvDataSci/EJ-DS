@@ -159,8 +159,8 @@ What can these totals tell us about each site? Which site do you think is best s
 Bison eat a lot of plants! One bison needs about 21,900 kg of biomass a year to live a healthy life. Since we have the total kg of biomass for each site now, we have an idea of which site might be best to introduce the bison. Bison are social animals and live in herds. It is important to the tribal agriculture managers to ensure that they can sustain a full herd population which would be between X and X bison. How many bison can each of these sites maintain?
 
 ```{r maximum bison}
-total_available<-mutate(total_available, max_bison=total_biomass/21900) #maybe come up with a different name
-print(total_available)
+max_bison<-mutate(total_available, max_bison=total_biomass/21900) #maybe come up with a different name
+print(max_bison)
 ```
 Which site(s) would be able to maintain a healthy bison population (around 200 Bison)? 
 
@@ -220,14 +220,29 @@ elk <- read.csv("elk.csv", header = TRUE, sep = ',')
 ```
 
 2) each site has x, y, z of elk
-  - multiply number of elk by kg of biomass per elk (2,158 kg/year)
+  - multiply number of elk by kg of biomass per elk (2,518 kg/year)
 ```{r kg biomass for elk}
-
+elk_consumption <- elk %>%
+  group_by(Site)%>%
+  summarise(biomass_consumed = Elk * 2518)
+print(elk_consumption)
+```
+```{r}
+ elk_consum <- elk %>%
+  group_by(Site)%>%
+  summarise(elk_consum = Elk * 2158)
+print(elk_consum)
 ```
 
 3) subtract from total biomass of site
 ```{r subtracts from total biomass}
+elk_site <- left_join(total_available, elk_consumption, by = "Site")
+print(elk_site)
+```
 
+```{r Biomass available for Bison after Accounting for Elk}
+biomass_post_elk <- mutate(elk_site, post_elk_biomass = total_biomass - biomass_consumed)
+print(biomass_post_elk)
 ```
 
 4) graph biomass per site
@@ -239,9 +254,10 @@ ggplot(new_total_biomass, mapping= aes(x=Site))+
 
 5) divide new biomass by bison to get new population #
   - does this change the best site for reintroduction?
-```{r new bison #}
-mutate (new_total_biomass, new_max_bison=new_total_biomass/21900)
+```{r max bison with elk}
+bison_elk <- biomass_post_elk %>%
+  group_by(Site) %>%
+  summarise(max_bison = post_elk_biomass / 21900)
+print(bison_elk)
 ```
-
-**do again with N for Elk?**
 
