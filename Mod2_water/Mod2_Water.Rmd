@@ -13,6 +13,7 @@ Water sustains life on our planet and water is sacred to Native Americans. "Wate
 
 Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because they require water temperatures below XX degrees centigrade and 
 
+<<<<<<< HEAD
 
 VIGNETTE OUTLINE:
 Set up: 
@@ -24,6 +25,20 @@ Set up:
 
 
 -------
+=======
+VIGNETTE:
+**Some questions/thoughts [from CRA]:
+- I know in class we discussed the angle for the vignette is that tribal land 
+managers are interested in how water quality is changing due to climate change.
+This is also relevant based on Georgia's EJDS 2023 example 
+- Is there a way to frame this that would make it more relevant to students? 
+- Maybe introduce a reason - tribal communities use the water in X way 
+(fishing etc.), this is why they're concerned
+  - Could lead into why temperature and DO are important (fish kills?)
+  - DO levels being low could be an important factor, and raising temperatures
+  causes less oxygen to be dissolved in water. 
+  
+>>>>>>> 6a5ee821ae1c316b9e69ecc940debbde9cc596ff
 Notes from JMc to Catherine about data:  
 Overall Data qualities: 
 (1) We should have average *annual* T and DO data (because Temp and DO will cycle seasonally, which will both make these data harder to simulate and also be more difficult to visualize trends over time)
@@ -31,30 +46,51 @@ Overall Data qualities:
 (3) The data should be in wide form (described in summary below), which will allow us to "tidy" the data by pivoting to long form data.
 
 Stream A Data qualities: 
-D.O. is on the low side (occasionally sneaking into the danger zone), but Temp is OK. No trend in either, because the groundwater spring keeps Temp stable, and DO is a function of Temp.
+  D.O. is on the low side (occasionally sneaking into the danger zone), but Temp is OK. No trend in either, because the groundwater spring keeps Temp stable, and DO is a function of Temp.
 
 Stream B Data qualities: 
-On average, D.O. and Temp are better than Stream A, but the trend is towards higher T and lower D.O. (because climate change is warming the lake water and D.O. declines as T increases)
+  On average, D.O. and Temp are better than Stream A, but the trend is towards higher T and lower D.O. (because climate change is warming the lake water and D.O. declines as T increases)
 
 Summary of fake data set:
-- 5 Columns: headings are "Year", "StreamA_Temperature". "StreamA_DO", "StreamB_Temperature". "StreamB_DO"
+  - 5 Columns: headings are "Year", "StreamA_Temperature". "StreamA_DO", "StreamB_Temperature". "StreamB_DO"
 - 15 Rows: 2007 to 2022
 - Values are as described above, with NA for Stream A from 2007 to 2011
 -------
-
+  
 Overview of upcoming steps:
-1. Import data, pivot to tidier long format & removing NAs, Calculate summary stats for both sites. Q: Which site looks better? A: Site B, because it has higher D.O. and lower T.
-2. Make a scatter plot of Temp & D.O. from both sites. Plot sites with different colors. Add lines (or overlay a box) identifying the T and D.O. thresholds. Q: Which site looks better? A: Site B, again, because more points are outside of the "danger zone."
-3. Now let's make a new kind of graph: time series of changing T and D.O. from the two sites. First graph is Temperature from both sites. Second graph is DO from both sites (use the same colors for each site as in step 2). NOTE: THIS IS REVISED FROM 11/20: AVOID THE DOUBLE AXIS COMPLICATIONS AND EASIER TO COMPARE TRENDS ACROSS SITES.
-Place graphs side-by-side. Q: Which site looks better now? A: Maybe Site A, because even though it has more days when the water quality dips into the danger zone, it's not getting worse. Site B is better for now, but climate change seems to be moving it into  more unhealthy conditions.
+1. Import data, pivot to tidier long format & removing NAs, Calculate summary stats for both sites. 
+Q: Which site looks better? A: Site B, because it has higher D.O. and lower T.
+
+2. Make a scatter plot of Temp & D.O. from both sites. Plot sites with different colors. 
+Add lines (or overlay a box) identifying the T and D.O. thresholds. 
+Q: Which site looks better? A: Site B, again, because more points are outside of the "danger zone."
+
+3. Now let's make a new kind of graph: time series of changing T and D.O. from the two sites.
+First graph is Temperature from both sites. Second graph is DO from both sites 
+(use the same colors for each site as in step 2). 
+NOTE: THIS IS REVISED FROM 11/20: AVOID THE DOUBLE AXIS COMPLICATIONS AND EASIER 
+TO COMPARE TRENDS ACROSS SITES.
+Place graphs side-by-side. Q: Which site looks better now? A: Maybe Site A, because 
+even though it has more days when the water quality dips into the danger zone, 
+it's not getting worse. Site B is better for now, but climate change seems to be 
+moving it into  more unhealthy conditions.
 
 
 In this module, there are four main coding goals: 
-1. We will explore how water quality data can help communities make decisions to protect culturally important species.
-2. We will learn how to rearrange data into a "tidy" format that makes graphing easier and we will learn how to "debug" code, in other words, we'll learn how to fix common problems that we see when using real world data. 
+ 1. We will explore how water quality data can help communities make decisions 
+to protect culturally important species.
+
+2. We will learn how to rearrange data into a "tidy" format that makes graphing easier
+and we will learn how to "debug" code, in other words, we'll learn how to fix common 
+problems that we see when using real world data. 
+
 3. We will learn how to separate data into meaningful categories in R based on 
 similarities. This is known as subsetting. 
-4. We will learn how to make graphs of data over time. These are called "time series" graphs.
+
+4. We will learn how to make graphs of data over time. These are called 
+"time series" graphs.  
+  
+
 
 --------------------------------------------------------------------------------
 #INSTRUCTOR'S VERSION: Learning goals 
@@ -67,19 +103,19 @@ begin to analyze it.
 
 3. Students will review how to load in packages. 
 
-4. NEW SKILL: Students will learn how to reformat data (in this case from "wide form" data to "long form" data). This is an example of data wrangling, an important step in data science.
+4. Students will review basic summary statistic commands in R to pull the mean, 
+median, max, and min values for different variables in the dataset. 
 
-5. Students will review basic summary statistic commands in R to pull the mean, 
-median, max, and min values for different variables in the data set. 
+5. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
 
-6. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
-
-7. NEW SKILL: students will learn how to subset data in R based on scientifically 
+6. NEW SKILL: students will learn how to subset data in R based on scientifically 
 relevant groups. 
 
-7. Students will review how to make a scatter plot graph using ggplot. 
-
-8. NEW SKILL: Students will learn how to make a new kind of plot in ggplot (a time-series line graph), This will be framed to show how data presentation can help communities make decisions about trends over time.
+7. NEW SKILL/review: Students will review how to make a graph using ggplot. 
+Students will learn how to make a new kind of plot in ggplot (line graph),
+in addition to the scatterplot and ribbon plot they learned about in Module 1 fish.
+This will be framed in understanding how we should present data in a meaningufl 
+way to any community, 
 
 --------------------------------------------------------------------------------
 #PART 1: Loading in and exploring the data 
@@ -104,7 +140,9 @@ rm(list = ls())
 We will now set our working directory. As you may remember, setting our working 
 directory tells R where to find the files we want to work with on our computer. 
 
-[JMc comment: We should decide as a class whether we want to set working directories this way, or just put the data files in the same directory as this .Rmd file. When you knit an R Markdown it looks for the data in that directory.
+[JMc comment: We should decide as a class whether we want to set working directories this way, 
+or just put the data files in the same directory as this .Rmd file. 
+When you knit an R Markdown it looks for the data in that directory.
 See this link, too: https://github.com/yihui/knitr/issues/277#issuecomment-6528846
 ]
 
@@ -127,11 +165,21 @@ library(tidyverse)
 
 #Load in our data! 
 
-Now it's time to load in our data! (NOTE: this may change if data is not in a 
+Now it's time to load in our data! In this scenario, temeperature data 
+and dissovled oxygen data were collected and stored in two separate files. 
+Therefore, we will need to load in both files in order to use them. 
+
+(NOTE: this may change if data is not in a 
 csv file)
 
 ```{r}
-water <- read.csv("water_quality.csv", header = TRUE, sep =",")
+#We will first load in our data for water temperature. 
+stream_temperature <- read.csv("streams_temperature.csv", header = TRUE, sep =",")
+```
+
+```{r}
+#Now we will load in our data for dissolved oxygen concentrations.
+stream_DO <- read.csv("streams_DissolvedOxygen.csv", header = TRUE, sep =",")
 ```
 
 #Viewing the data 
@@ -140,37 +188,39 @@ Now that our data is loaded into R, we can explore the data using the view and
 head command. 
 
 ```{r}
-View(water)
+View(stream_temperature)
 ```
 
 ```{r}
-head(water)
+head(stream_DO)
 ```
 
-*What kind of variables are in our dataset for water quality on the K'avi lands? 
-
-*Are there some variables in particular that you think would be important for 
-tribal land managers to focus on to understand how climate change is affecting 
-water quality on their lands? 
+*What do you notice is different between using the command "View" and the command
+"head"? Which one do you think is more useful? 
 
 It may also be helpful for us to understand how big our dataset is. We can 
 get this number by using the command "dim".
 
 ```{r}
-dim(water)
+dim(stream_temperature)
+dim(stream_DO)
 ```
 
-*How many data entries are in this dataset? 
+*How many data entries are in this dataset for water temperature? 
+
+*How many data entries are in this dataset for dissolved oxygen? 
 
 
-## Recap 
+RECAP:
 You now reviewed ways to set up your R environment, read in data, and explore 
 your data! These steps are all important for when we analyze our data later in 
 this module. 
 
 
 --------------------------------------------------------------------------------
-#PART 2: Debugging data, and running some basic summary statistics
+#PART 2: Pivoting data, debugging data, and running some basic summary statistics
+
+[CRA: from here up until line 302 are edits I made on 11/28 per the new data]
 
 Tribal land managers are interested in how the temperature and dissolved 
 oxygen of the water on their lands have changed over the last several years. 
@@ -178,6 +228,102 @@ They are also interested in learning about the mean, median, minimum, and maximu
 values of temperature and dissolved oxygen in water they have in their data. 
 These values will help them understand how current values compare to the rest of
 the values in their data. 
+
+
+As of now, our data for water temperature for Stream A and B exists in a separate
+data frame from the dissolved oxygen concentrations for Stream A and B. For
+tribal land managers to truly understand what's going on, they need to analyze
+water temperature and dissolved oxygen together. To do this, we need to change 
+how our data is set up in each data frame and then merge these data frames together. 
+
+
+To modify our data we need to do something called "pivoting". In our current 
+data for water temperature, we have columns for the year the sample was collected,
+the temperature for the samples from Stream A, and the temperature of the samples in 
+Stream B. Instead, we want columns for the year, the site where the sample was collected, 
+and a column for all the temperatures. 
+
+To do this we will use a command from tidyverse called "pivot_longer". See the 
+code chunk below for more explanation! 
+```{r}
+streams_temp <- streams_temp %>%  #this first line of code tells R that we want to
+  #re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
+  pivot_longer( #we use the pivot_longer code to tell R to change the columns we want
+    cols = c(StreamA, StreamB),  #cols = tells R which columns we want to modify
+    names_to = "site", #names_to tells R that we want the names of the columns we 
+    #specified in the line above to be entries in a new column we're creating called "site". 
+    values_to = "temperature_C" #values_to = tells R that we want the values from the columns in col = 
+    #to be moved into a new column we're making called "temperature_C". 
+  )
+```
+
+To check our work, we can view streams_temp: 
+```{r}
+View(streams_temp)
+```
+
+
+Great! Our code worked. Now let's do the same for the dissolved oxygen data set.
+We want to change it in the same way we changed the temperature data set above. 
+
+```{r}
+
+streams_DO <- streams_DO %>%
+  pivot_longer(
+    cols = c(StreamA, StreamB),
+    names_to = "site",
+    values_to = "dissolved_oxygen"
+  )
+```
+
+Again, we should check our work to make sure that our data looks the way we want
+it to. We want there to be three columns, one for the year the sample was collected,
+one for the site name, and one for the dissovled oxygen values (mg/L). 
+
+```{r}
+View(streams_DO)
+```
+
+Good work! This data set looks the way we want it to now as well. 
+
+Next, we need to merge these two data frames together into one, so we can analyze 
+trends in temperature and dissolved oxygen at the same time for both streams. 
+
+
+To do this, we will use a command in tidyverse called "left_join". 
+Left join means we want to put one data set next to the the other. In other words, 
+we want to match up the rows in the dataset, so it becomes wider, not longer. This is 
+because we want to preserve the columns from the two data sets we are combining. 
+```{r}
+streams <- left_join(streams_temp,streams_DO, by="year")
+#Here, we are using left_join to put the streams_temp dataset next to the streams_DO
+#dataset. We want R to match these rows up by the same year, which is why we include 
+# "by = "year"". 
+```
+
+
+Great! Now let's check to make sure that we successfully merged our two datasets.
+```{r}
+View(streams)
+```
+
+
+We successfully merged our data! But it seems that we have some duplicate columns 
+for year and site. We can easily remove those with the following command "select". 
+
+Select removes columns based on their position (number) in the data frame. In our case, 
+we want to remove the 4th and 5th column, so we indicate that when using select. 
+```{r}
+streams <- select(streams,-c(4,5))
+```
+
+Let's check our work again: 
+```{r}
+View(streams)
+```
+
+Great job data wrangling! We can now continue to analyze our data. 
+
 
 #
 
@@ -251,17 +397,3 @@ in our dataset?
 ```{r}
 
 ```
-
-
-**QUESTION: Do we want to introduce subsetting in the summary statistics section?
-Or do we just want to keep it in the visualizations portion? If so, I would 
-have some ideas on how to restructure the rest of this section. 
-
-
-
-
-
---------------------------------------------------------------------------------
-#PART 3: Visualizing our data! 
-
-
