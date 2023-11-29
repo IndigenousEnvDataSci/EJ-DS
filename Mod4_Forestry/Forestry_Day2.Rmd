@@ -18,21 +18,29 @@ The goal of the second day of the forestry module is to have the students fully 
 
 --------------------------------------------------------------------------------
 
-# Outlining your presentation
+# PART 1: Outlining your presentation
 
-## Determining your audience
+**Determining your audience**
   
-  The first step to making an effective presentation is having a clear picture of what you are trying to present. This comes from having a clear overview of the main outcomes of your data analysis. An important aspect of doing this successfully is what type of audience you are interested in presenting to and what type of information is most relevant to that audience.
+  The first step to making an effective presentation is having a clear picture of what you are trying to present. This comes from having a clear overview of the main outcomes of your data analysisas well as understanding what type of audience you are interested in presenting to and what type of information is most relevant to that audience.
   
-  First up lets work to identify the audience you are presenting to. Who would be involved in the process of deciding where to set up a new forestry area? Are there multiple groups that would be interested/involved in this process or just one? Who is included in these decision making groups? If you have identified multiple groups that would be involved in this process, for the sake of this exercise select one group you would like to present to. 
+  First up, lets work to identify the audience you are presenting to. 
   
-  Once you have identified who you will be giving your presentation to lets narrow down what kind of presentation they will be most interested in. What kind of background do they have in forestry? What kind of data do you think they would find most helpful in deciding where to set up this forest plot? 
+  **Class Questions** 
+* Who would be involved in the process of deciding where to set up a new forestry area?
+* Are there multiple groups that would be interested/involved in this process or just one? 
+* Who is included in these decision making groups? If you have identified multiple groups that would be involved in this process, for the sake of this exercise, select one group you would like to present to. 
   
-## Determining What Data to Focus on
+  Once you have identified who you will be giving your presentation to lets narrow down what kind of presentation they will be most interested in.
+  **Class Questions**
+* What kind of background do they have in forestry? 
+* What kind of data do you think they would find most helpful in deciding where to set up this forest plot? 
+  
+**Determining What Data to Focus on**
 
   Now that you have identified your audience it is time to look back at your data analysis from part 1 of this module. What were your main findings from that analysis? How do those findings relate to selecting a site for a new forestry patch?  
 
-# Refining your graphs
+#PART 2: Refining your graphs
 
 For the rest of this module we will be focusing on different ways we can improve and customize ggplot graphs with a focus on honing those graphs specifically for a presentation for a more general audience. We will be demonstrating these concepts with data on the number of trees in the same potential forestry plots as in day 1 of this module and then letting you explore how to apply these concepts to your data on the yield over time in each of these sites. 
 
@@ -58,10 +66,6 @@ forest<- rbind(site_1, site_2, site_3, site_4)
 
 The first part of making an effective graph is picking what kind of graph you want to make. We have generally been using scatterplots *and ______* throughout this course but ggplot offers a wide variety of different plot types for you to play with. Generally the first step for picking a plot type is determining how many variables you are trying to represent and what your goal for the plot is. 
 
-Here is a link to a graphic that explains what kinds of graphs are most useful in depicting different types of data, depending on the amount and kinds of variables that make up that data. Take a look at the graphic, but keep in mind that there are many graphs that we will not be discussing.
-
-*Note: find something to put here. It also probably makes more sense to move this segment up*
-
 In our example of the number of trees over time at site 1 we have two different variables, time and number of trees. Both time and number of trees are continuously changing variables (not groups) so we would choose either a scatterplot or a line plot to represent them. 
 
 Here is an example of a scatterplot:
@@ -75,7 +79,12 @@ Here is a line plot:
 ggplot(site_1, aes(x = age, y = tree_number))+
   geom_line()
 ```
-In this case the scatterplot focuses on the number of trees at each time point whereas the line plot focuses more on the overall trend in trees over time. Which of these do you think is more important for your presentation on yield over time at this site? What story do you want to tell? 
+
+In this case the scatterplot focuses on the number of trees at each time point whereas the line plot focuses more on the overall trend in trees over time.
+
+**Class Questions**
+* Which of these do you think is more important for your presentation on yield over time at this site?
+* What story do you want to tell with these graphs? 
 
 You can plot whichever plot you decide on here:
 
@@ -84,7 +93,7 @@ You can plot whichever plot you decide on here:
 ```
 
 
-Another cool thing that ggplot lets us do is layer different plots on top of one another. Using this we can show both the scatterplot and the line plot if we want to. 
+Another cool thing that ggplot lets us do is layer different plots on top of one another. Using this we can show both the scatterplot and the line plot. 
 
 ```{r}
 ggplot(site_1, aes(x = age, y = tree_number))+
@@ -98,11 +107,15 @@ Try it out with your plot here:
 
 ```
 
+**Class Questions**
+
 Now that you have created a basic plot that technically has all of the information in it, if you could change anything about the graph what would you change about it to better fit the audience you identified in part 1? 
 
-## Adding context
+# PART 3: Informative Labels
 
-One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can type ?labs in the Console to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc. In the following plot we have changed the axis labels and added a title:
+One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. 
+We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can type ?labs in the Console to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc. 
+In the following plot we have changed the axis labels and added a title:
 
 ```{r, labels}
 ggplot(data = site_1, aes(x = age, y = tree_number))+
@@ -113,7 +126,7 @@ ggplot(data = site_1, aes(x = age, y = tree_number))+
 #while x and y adjust the names of the axes respectively. Finally, title allows
 #you to rename the title of the graph and subtitle to add extra information.
 ```
-While you add labels to your grpah below, think about the data that you are trying to convey to your chosen audience. How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
+While you add labels to your graph below, think about the data that you are trying to convey to your chosen audience. How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
 
 ```{r}
 
@@ -136,18 +149,17 @@ ggplot(forest, aes(x = age, y = board_feet))+
        x="Age (Years)", y="Board Feet", title="Board Feet vs. Age per Site", 
        subtitle="Subtitle for this graph")
 ```
-## Adding More Sites
+
+## PART 4: Adding more sites
 
 *This may need to be substantially edited depending on what previous lessons covered*
 
-Now that we have a plot that describes the trends at one site lets add in the information from the other sites. There are two main ways to do this, either by creating a different plot for each site and then arranging the plots next to one another, or adding all the sites to one plot. 
+Now that we have a plot that describes the trends at one site we can add in the information from the other sites. There are two main ways to do this, either by creating a different plot for each site and then arranging the plots next to one another, or adding all the sites to one plot. 
 
 First we will show you how to arrange multiple different plots side by side using the package patchwork. The first thing to do is download and then load the package itself. 
 
 ```{r}
-# If you do not already have patchwork downloaded on your computer, delete the # 
-#in the next line to uncomment that code and then run the following line to 
-#download the package: 
+# If you do not already have patchwork downloaded on your computer, delete the # in the next line to uncomment that code and then run the following line to download the package: 
 #install.packages(patchwork)
 
 # Loading the package into this session of R
@@ -160,14 +172,17 @@ site_1_plot <- ggplot(data = site_1, aes(x = age, y = tree_number))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 1")
+
 site_2_plot <- ggplot(data = site_2, aes(x = age, y = tree_number))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 2")
+
 site_3_plot <- ggplot(data = site_3, aes(x = age, y = tree_number))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 3")
+
 site_4_plot <- ggplot(data = site_4, aes(x = age, y = tree_number))+
   geom_point()+
   geom_line()+
@@ -192,7 +207,6 @@ Experiment with patchwork with your own graphs below until you find an arrangeme
 ```{r}
 
 ```
-
 
 The second way to show data from multiple sites is to put all of the sites on one graph. We can do this in the aes() portion of the ggplot function by telling R to represent which site a point is from with another aspect of the graph. In our example we will use the color of the points and lines.
 
@@ -224,15 +238,17 @@ Try adding all the sites onto your graph here:
 
 Both of these methods, arranging multiple graphs and adding colors, will show information on how the sites differ but they each have different pros and cons. In the arranged plots, each individual plot is cleaner and simpler whereas there is a lot going on in the combined plot. However, the combined plot lets you see the differences between sites more clearly and it takes up less space in a slide or a paper. 
 
-Which format do you think will best convey the information to your proposed audience? Why? 
+**Class Questions:**
+*Which format do you think will best convey the information to your proposed audience? Why? 
 
-While both options have merits, the combined plot with different colors lets us more easily address the other topics we want to cover about improving your graphs so moving forward in this lesson we will be referring back to the combined, color coded graph. 
+While both options have merits, the combined plot with different colors lets us more easily address the other topics we want to cover so moving forward in this lesson we will be referring back to the combined, color coded graph. 
 
-## Legends
+#PART 5: Legends
 
 You may have noticed in the previous section that when you added color categories for different sites, ggplot automatically created a legend. This legend on the right hand side of the plot describes what each color means. However, like many things ggplot automatically generates, the legend is not particularly reader-friendly. 
 
-What would you like to change about your legend to tailor it to your specific audience? 
+**Class Questions:**
+What would you like to change about your legend to tailor it to your specific audience?
 
 Here are a couple of resources about how to change your legend in ggplot. They all cover similar things but you may prefer one over the others:
 
@@ -247,7 +263,7 @@ Using one of the resources provided above or another resource that you prefer, c
 ```
 
 
-## Adding visual elements
+# PART 6: Adding visual elements
 
 Now that you have a plot with multiple site, different colors, and a legend it's time to give you more control over what those colors are and other ways to show groupings. 
 
@@ -304,7 +320,6 @@ Try it out on your own graphs
 
 Another options for making graphs more accessible for color-blind people is by using multiple kinds of visual cues to separate different groups. This can look different for different kinds of plots so here are examples of what this would look like for scatterplots and line plots. 
 
-
 In scatterplots we can change the shapes of the points. 
 ```{r}
 ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, shape = site_ID))+
@@ -330,6 +345,7 @@ ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, linetype = 
 ```
 Which of these options do you think is best for your audience?
 
+# PART 7: Themes
 *Talking about themes may be a stretch goal/not the most important part of this exercise. How do we feel about leaving this out?*
 * Basic themes
 ```{r}
