@@ -17,9 +17,13 @@ Bull trout are a culturally important, but threatened species of fish native to 
 
 In this module, we will use data about water quality trends to help the K'avi Fish and Wildlife department decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding to bring the bull trout back to one stream and they have narrowed the choices of possible locations for the reintroduction to two streams, where temperature and D.O.have been monitored for about 15 years. Neither site is perfect, but they are both pretty good options. Your job is to analyze the temperature and D.O. data to help the tribe decide which is the best site. 
 
-Stream A is 
+The upstream source of Stream A is a groundwater spring. Groundwater in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature.
 
-analyze water temperature and dissolved oxygen data the K'avi collected from two streams. The question the K'avi fish and wildlife biologists have to answer
+The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial meltwater is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
+
+STEPS.
+LEARNING GOALS
+
 
 VIGNETTE OUTLINE:
 Set up: 
@@ -256,7 +260,7 @@ code chunk below for more explanation!
 # re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
 stream_temp <- stream_temp %>%  
   pivot_longer( #we use the pivot_longer code to tell R to change the columns we want
-    cols = c(StreamA_temp, StreamB_temp),  #cols = tells R which columns we want to modify
+    cols = c(StreamA, StreamB),  #cols = tells R which columns we want to modify
     names_to = "site", #names_to tells R that we want the names of the columns we 
     #specified in the line above to be entries in a new column we're creating called "site". 
     values_to = "temperature_C" #values_to = tells R that we want the values from the columns in col = 
@@ -277,7 +281,7 @@ We want to change it in the same way we changed the temperature data set above.
 
 stream_DO <- stream_DO %>%
   pivot_longer(
-    cols = c(StreamA_DO, StreamB_DO),
+    cols = c(StreamA, StreamB),
     names_to = "site",
     values_to = "dissolved_oxygen"
   )
