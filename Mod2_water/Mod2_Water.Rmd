@@ -174,7 +174,7 @@ csv file)
 
 ```{r}
 #We will first load in our data for water temperature. 
-stream_temperature <- read.csv("streams_temperature.csv", header = TRUE, sep =",")
+stream_temp <- read.csv("streams_temperature.csv", header = TRUE, sep =",")
 ```
 
 ```{r}
@@ -188,7 +188,7 @@ Now that our data is loaded into R, we can explore the data using the view and
 head command. 
 
 ```{r}
-View(stream_temperature)
+View(stream_temp)
 ```
 
 ```{r}
@@ -202,7 +202,7 @@ It may also be helpful for us to understand how big our dataset is. We can
 get this number by using the command "dim".
 
 ```{r}
-dim(stream_temperature)
+dim(stream_temp)
 dim(stream_DO)
 ```
 
@@ -246,10 +246,10 @@ and a column for all the temperatures.
 To do this we will use a command from tidyverse called "pivot_longer". See the 
 code chunk below for more explanation! 
 ```{r}
-streams_temp <- streams_temp %>%  #this first line of code tells R that we want to
+stream_temp <- stream_temp %>%  #this first line of code tells R that we want to
   #re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
   pivot_longer( #we use the pivot_longer code to tell R to change the columns we want
-    cols = c(StreamA, StreamB),  #cols = tells R which columns we want to modify
+    cols = c(StreamA_temp, StreamB_temp),  #cols = tells R which columns we want to modify
     names_to = "site", #names_to tells R that we want the names of the columns we 
     #specified in the line above to be entries in a new column we're creating called "site". 
     values_to = "temperature_C" #values_to = tells R that we want the values from the columns in col = 
@@ -259,7 +259,7 @@ streams_temp <- streams_temp %>%  #this first line of code tells R that we want 
 
 To check our work, we can view streams_temp: 
 ```{r}
-View(streams_temp)
+View(stream_temp)
 ```
 
 
@@ -268,9 +268,9 @@ We want to change it in the same way we changed the temperature data set above.
 
 ```{r}
 
-streams_DO <- streams_DO %>%
+stream_DO <- stream_DO %>%
   pivot_longer(
-    cols = c(StreamA, StreamB),
+    cols = c(StreamA_DO, StreamB_DO),
     names_to = "site",
     values_to = "dissolved_oxygen"
   )
@@ -281,7 +281,7 @@ it to. We want there to be three columns, one for the year the sample was collec
 one for the site name, and one for the dissovled oxygen values (mg/L). 
 
 ```{r}
-View(streams_DO)
+View(stream_DO)
 ```
 
 Good work! This data set looks the way we want it to now as well. 
@@ -295,7 +295,7 @@ Left join means we want to put one data set next to the the other. In other word
 we want to match up the rows in the dataset, so it becomes wider, not longer. This is 
 because we want to preserve the columns from the two data sets we are combining. 
 ```{r}
-streams <- left_join(streams_temp,streams_DO, by="year")
+streams <- left_join(stream_temp,stream_DO, by="year")
 #Here, we are using left_join to put the streams_temp dataset next to the streams_DO
 #dataset. We want R to match these rows up by the same year, which is why we include 
 # "by = "year"". 
@@ -327,6 +327,7 @@ Great job data wrangling! We can now continue to analyze our data.
 
 #
 
+[#JMc note to CRA: I think code below here needs updating 11/28 8pm]
 ```{r}
 mean(water$temperature)
 ```
