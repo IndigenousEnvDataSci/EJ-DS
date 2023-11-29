@@ -252,8 +252,9 @@ and a column for all the temperatures.
 To do this we will use a command from tidyverse called "pivot_longer". See the 
 code chunk below for more explanation! 
 ```{r}
-stream_temp <- stream_temp %>%  #this first line of code tells R that we want to
-  #re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
+# this first line of code tells R that we want to
+# re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
+stream_temp <- stream_temp %>%  
   pivot_longer( #we use the pivot_longer code to tell R to change the columns we want
     cols = c(StreamA_temp, StreamB_temp),  #cols = tells R which columns we want to modify
     names_to = "site", #names_to tells R that we want the names of the columns we 
