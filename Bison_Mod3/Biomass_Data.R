@@ -38,9 +38,17 @@ write.csv(sites, "biomass.csv", row.names = FALSE)
 
 
 #Making a dataset that just has the acreage of each site
-site_acreage <- data.frame(
+site_size <- data.frame(
   Site = c(1, 2, 3),
-  Acres = c(100, 80, 60)
+  Hectares = c(1700, 1300, 900)
 )
-View(site_acreage)
-write.csv(site_acreage, "bison_sites.csv", row.names = FALSE)
+View(site_size)
+write.csv(site_size, "bison_sites.csv", row.names = FALSE)
+
+#Makign a dataset for Elk Populations at each site
+elk <- data.frame(
+  Site = c(1,2,3),
+  Elk = c(36, 302, 129)
+)
+View(elk)
+write.csv(elk, "elk.csv", row.names = FALSE)
