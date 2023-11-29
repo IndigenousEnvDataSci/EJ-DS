@@ -11,9 +11,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Water sustains life on our planet and water is sacred to Native Americans. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
 
-Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because they require water temperatures below XX degrees centigrade and 
+Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because they require water temperatures below 14 degrees C and dissolved oxygen levels above 6.2 mg/L. Such cold clean water conditions are growing scarcer due to worsening water quality caused by climate warming and pollution.
 
-<<<<<<< HEAD
+[#JMcnote: We need to check these values.]
+
+In this module, we will use data about water quality trends to help the K'avi Fish and Wildlife department decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding to bring the bull trout back to one stream and they have narrowed the choices of possible locations for the reintroduction to two streams, where temperature and D.O.have been monitored for about 15 years. Neither site is perfect, but they are both pretty good options. Your job is to analyze the temperature and D.O. data to help the tribe decide which is the best site. 
+
+Stream A is 
+
+analyze water temperature and dissolved oxygen data the K'avi collected from two streams. The question the K'avi fish and wildlife biologists have to answer
 
 VIGNETTE OUTLINE:
 Set up: 
@@ -311,8 +317,12 @@ View(streams)
 We successfully merged our data! But it seems that we have some duplicate columns 
 for year and site. We can easily remove those with the following command "select". 
 
+[#JMc note to CRA: (A) I get two nuisance index columns "X.x" and "Y.y" (columns 1 and 5). (B) The site identifiers in the site.x and site.y columns have different names: "StreamA_temp" vs "StreamA_DO". We should check in at this point tomorrow.]
+
+
 Select removes columns based on their position (number) in the data frame. In our case, 
 we want to remove the 4th and 5th column, so we indicate that when using select. 
+
 ```{r}
 streams <- select(streams,-c(4,5))
 ```
