@@ -7,99 +7,34 @@ date: "2023-11-14"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# DRAFT: Background for Module 2: Water Quality
+# Background for Module 2: Water Quality
 
 Water sustains life on our planet and water is sacred to Native Americans. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
 
-Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because they require water temperatures below 14 degrees C and dissolved oxygen levels above 6.2 mg/L. Such cold clean water conditions are growing scarcer due to worsening water quality caused by climate warming and pollution.
+Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because, to thrive, bull trout require water temperatures below 14 degrees C and dissolved oxygen levels above 6.2 mg/L. Such cold clean water conditions are growing scarcer due to climate warming and pollution.
 
-[#JMcnote: We need to check these values.]
+[#JMc note: We need to check these threshold values for T and DO.]
 
-In this module, we will use data about water quality trends to help the K'avi Fish and Wildlife department decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding to bring the bull trout back to one stream and they have narrowed the choices of possible locations for the reintroduction to two streams, where temperature and D.O.have been monitored for about 15 years. Neither site is perfect, but they are both pretty good options. Your job is to analyze the temperature and D.O. data to help the tribe decide which is the best site. 
+In this module, we will use data about water quality trends to help K'avi Fish and Wildlife managers decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding to bring the bull trout back to one stream. They have narrowed the choice of possible locations for the reintroduction to two streams, where temperature and D.O.have been monitored for about 15 years. Neither site is perfect, but they are both pretty good options. Your job is to analyze the temperature and D.O. data to help the tribe decide which is the best site. 
 
-The upstream source of Stream A is a groundwater spring. Groundwater in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature.
+The upstream source of Stream A is a groundwater spring. Water in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature.
 
-The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial meltwater is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
-
-STEPS.
-LEARNING GOALS
+The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial melt-water is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
 
 
-VIGNETTE OUTLINE:
-Set up: 
-- Bull trout: culturally important and threatened species.
-- Thresholds of low D.O. and high T that are dangerous for bull trout (from lit)
-- Goal: Picking between 2 streams for trout introduction.
--- Stream A is fed by a nearby groundwater spring.
--- Stream B is outflow from a mountain lake. 
-
-
--------
-=======
-VIGNETTE:
-**Some questions/thoughts [from CRA]:
-- I know in class we discussed the angle for the vignette is that tribal land 
-managers are interested in how water quality is changing due to climate change.
-This is also relevant based on Georgia's EJDS 2023 example 
-- Is there a way to frame this that would make it more relevant to students? 
-- Maybe introduce a reason - tribal communities use the water in X way 
-(fishing etc.), this is why they're concerned
-  - Could lead into why temperature and DO are important (fish kills?)
-  - DO levels being low could be an important factor, and raising temperatures
-  causes less oxygen to be dissolved in water. 
-  
->>>>>>> 6a5ee821ae1c316b9e69ecc940debbde9cc596ff
-Notes from JMc to Catherine about data:  
-Overall Data qualities: 
-(1) We should have average *annual* T and DO data (because Temp and DO will cycle seasonally, which will both make these data harder to simulate and also be more difficult to visualize trends over time)
-(2) Stream A should have a shorter observational length (like 2012 - 2022), than Stream B (say 2007 - 2022). This is because we want some NA values that we will learn to delete later.]
-(3) The data should be in wide form (described in summary below), which will allow us to "tidy" the data by pivoting to long form data.
-
-Stream A Data qualities: 
-  D.O. is on the low side (occasionally sneaking into the danger zone), but Temp is OK. No trend in either, because the groundwater spring keeps Temp stable, and DO is a function of Temp.
-
-Stream B Data qualities: 
-  On average, D.O. and Temp are better than Stream A, but the trend is towards higher T and lower D.O. (because climate change is warming the lake water and D.O. declines as T increases)
-
-Summary of fake data set:
-  - 5 Columns: headings are "Year", "StreamA_Temperature". "StreamA_DO", "StreamB_Temperature". "StreamB_DO"
-- 15 Rows: 2007 to 2022
-- Values are as described above, with NA for Stream A from 2007 to 2011
--------
-  
-Overview of upcoming steps:
-1. Import data, pivot to tidier long format & removing NAs, Calculate summary stats for both sites. 
-Q: Which site looks better? A: Site B, because it has higher D.O. and lower T.
-
-2. Make a scatter plot of Temp & D.O. from both sites. Plot sites with different colors. 
-Add lines (or overlay a box) identifying the T and D.O. thresholds. 
-Q: Which site looks better? A: Site B, again, because more points are outside of the "danger zone."
-
-3. Now let's make a new kind of graph: time series of changing T and D.O. from the two sites.
-First graph is Temperature from both sites. Second graph is DO from both sites 
-(use the same colors for each site as in step 2). 
-NOTE: THIS IS REVISED FROM 11/20: AVOID THE DOUBLE AXIS COMPLICATIONS AND EASIER 
-TO COMPARE TRENDS ACROSS SITES.
-Place graphs side-by-side. Q: Which site looks better now? A: Maybe Site A, because 
-even though it has more days when the water quality dips into the danger zone, 
-it's not getting worse. Site B is better for now, but climate change seems to be 
-moving it into  more unhealthy conditions.
-
-
-In this module, there are four main coding goals: 
- 1. We will explore how water quality data can help communities make decisions 
-to protect culturally important species.
+**In this module, there are four main coding goals:** 
+1. We will review skills you learned in Module 1, such as calculating summary statistics and making scatter plots.
 
 2. We will learn how to rearrange data into a "tidy" format that makes graphing easier
 and we will learn how to "debug" code, in other words, we'll learn how to fix common 
 problems that we see when using real world data. 
 
-3. We will learn how to separate data into meaningful categories in R based on 
-similarities. This is known as subsetting. 
+3. We will learn how to make graphs of data over time. These are called 
+"time series" graphs.
 
-4. We will learn how to make graphs of data over time. These are called 
-"time series" graphs.  
-  
+4. We will explore how water quality data can help communities make decisions 
+to protect culturally important species.
+
 
 
 --------------------------------------------------------------------------------
@@ -274,15 +209,7 @@ code chunk below for more explanation!
 # this first line of code tells R that we want to
 # re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
 stream_temp <- stream_temp %>%  
-<<<<<<< HEAD
-  pivot_longer( #we use the pivot_longer code to tell R to change the columns we want
-    cols = c(StreamA, StreamB),  #cols = tells R which columns we want to modify
-    names_to = "site", #names_to tells R that we want the names of the columns we 
-    #specified in the line above to be entries in a new column we're creating called "site". 
-    values_to = "temperature_C" #values_to = tells R that we want the values from the columns in col = 
-    #to be moved into a new column we're making called "temperature_C". 
-=======
-  #we use the pivot_longer code to tell R which columns we want to change.
+#we use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
     #cols = tells R which columns we want to modify
     cols = c(StreamA, StreamB), 
@@ -294,7 +221,6 @@ stream_temp <- stream_temp %>%
     #values_to means? (Hint - searching the internet for the answer is a great
     #way to figure this out, and looking things up is a huge part of coding!)
     values_to = "temperature_C" 
->>>>>>> 9b3460d2054bb5897bf39ad6c9aa820b47ea0065
   )
 ```
 
@@ -306,6 +232,7 @@ View(stream_temp)
 
 Great! Our code worked. Now let's do the same for the dissolved oxygen data set.
 We want to change it in the same way we changed the temperature data set above. 
+[#JMc Note: We could reframe this as an "I do", "We do" exercise, since it's similar to the last code chunk.]
 
 ```{r}
 
