@@ -168,7 +168,7 @@ Is there another way to show which site might be best? (not sure if we plan on m
 
 
 ***Day 2***
-
+```
 From last class, we have multiple sites that have enough biomass to sustain a healthy bison population! This is great, but upon further investigation, tribal agriculture managers realize that while the physical amount of biomass might be enough, they didn't take into consideration the quality of the forage. Since bison are generalist foragers, they'll eat almost anything, but they need to make sure that they consume 73,000 g/m^2 (*not sure about this value*) of nitrogen a year. Luckily, the tribal agriculture managers have another dataset that has the nitrogen content per quadrat at each site. 
 
 *Have not made N dataset yet with realistic values, because do not know how much Bison require. Current dataset is for the purpose of showing the data structure, making sure that the code works, etc.*
@@ -206,19 +206,21 @@ mutate(total_N, new_max=total_n_available/73000)
 #insert code to get to the total N when given (ha) already
   
 Does this change your decision for which site would be best for reintroduction?
+```
 
-Even though there might be several sites with enough biomass to support a large herd of
+Even though there might be multiple sites with enough biomass to support a large herd of
 bison, it is not plausible that the bison will eat 100% of the forage available. There are
 elk populations present in the prairies that must be accounted for to ensure that both
 groups have enough biomass to sustain their populations.The present elk population must be
 able to coexist with the reintroduced bison population. Elk require 2,158 kg/year of plant
-biomass and 13,140 g/m^2 a year of N to live a healthy lifestyle.
+biomass.
 
 1) import elk dataset
 ```{r import elk data}
 elk <- read.csv("elk.csv", header = TRUE, sep = ',')
 ```
 
+How much biomass are the elk consuming per site?
 2) each site has x, y, z of elk
   - multiply number of elk by kg of biomass per elk (2,518 kg/year)
 ```{r kg biomass for elk}
@@ -233,6 +235,14 @@ print(elk_consumption)
   summarise(elk_consum = Elk * 2158)
 print(elk_consum)
 ```
+Are these herds of elk consuming more or less biomass than the bison? 
+
+
+What does this tell us about the effect they'll have on the site we reintroduce bison to?
+
+
+How would we go about determining the total biomass available at each site when the elk consumption is
+taken into consideration?
 
 3) subtract from total biomass of site
 ```{r subtracts from total biomass}
@@ -245,19 +255,44 @@ biomass_post_elk <- mutate(elk_site, post_elk_biomass = total_biomass - biomass_
 print(biomass_post_elk)
 ```
 
+
+Now that we have the biomass after considering the elk, tribal agriculture managers want a visual
+representation of the biomass available per site. This can be a tibble, graph, etc, but they want
+something that clearly communicates the biomass per site with units and a title. Make it pretty! The
+most effective communication is clear and concise!
+
 4) graph biomass per site
 ```{r bargraph of new available biomass}
 library(ggplot2)
-ggplot(new_total_biomass, mapping= aes(x=Site))+
-  geom_bar(fill=green)
+biomass_post_elk %>%
+  ggplot()+
+  geom_bar(aes(x=Site, y= total_biomass), stat='identity', fill='green')
+
 ```
+Why do you believe this is the best way to present the data?
+
+
+Is there another way to show this data?
+
+
+It's great to have an understanding of just how much is available for the bison, with the elk in
+consideration. As tribal agriculture managers begin the process of reintroduction, they once again would like to know the maximum number of bison they can introduce to each site. Ideally, they would be able to introduce a herd of <200 bison to ensure a healthy and stable population.
 
 5) divide new biomass by bison to get new population #
-  - does this change the best site for reintroduction?
 ```{r max bison with elk}
 bison_elk <- biomass_post_elk %>%
   group_by(Site) %>%
   summarise(max_bison = post_elk_biomass / 21900)
 print(bison_elk)
 ```
+Does this change which sites we should introduce the bison to?
+
+
+Why is important to consider outside factors when working with data?
+
+
+Are there any other factors you would consider when looking to reintroduce a species into its native
+habitat?
+
+
 
