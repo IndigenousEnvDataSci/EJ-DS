@@ -98,6 +98,11 @@ Now, let's look again at the data that we have: we want to figure out which site
 
 While this collection method is actually feasible, this dataset doesn't quite yet give the information the tribal agriculture managers are looking for, which is the total biomass at each site. 
 
+#A Note About dplyr
+The dplyr package, which is part of the tidyverse, provides numerous unique tools to easily create, edit, and manipulate data, which is often necessary when your raw data is not perfectly set up to answer the questions you are asking. Mastering these tools will give you data management skills relevant and desirable in both academic and professional settings. In this module, we will only discuss a few of the potential data management functions available, but you are encouraged to explore all of the tools and make decisions for the appropriate ones to use as you see fit! A "cheat sheet" explaining all of these functions can be found here: 
+###dplyr cheat sheet###
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+
 ####The big question####
 What we have right now is the annual biomass in fifty 0.25 square meter quadrats at each site. How can we turn these fifty values into an estimate of the total biomass at each site?
 
