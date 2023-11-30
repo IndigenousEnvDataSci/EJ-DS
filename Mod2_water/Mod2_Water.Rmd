@@ -349,9 +349,13 @@ StreamA_WQ <- subset(streams, site == "StreamA")
 We created "StreamA_WQ" and StreamB_WQ" so that we could use the summarise() command that you saw in Module 1 to compare all the summary statistics for water temperature and dissolved oxygen between the two streams.
 
 ```{r}
-#Write your code here! 
+# print() just prints a line with whatever is inside the parentheses (). 
+# Here, we just want to separate Stream A statistics from Stream B statistics.
 print("StreamA")
+# The summary() command is the same one you used in Module 1.
 summary(StreamA_WQ)
+
+# Now we do the same thing for Stream B
 print("StreamB")
 summary(StreamB_WQ)
 
@@ -362,3 +366,100 @@ summary(StreamB_WQ)
 On Day 2 of this module, we will explore the water quality data in detail, and use this exploration of data to help inform the best decision about which stream is most promising for bull trout reintroduction. 
 
 For now, let's use the information in the summary tables above to get a preliminary sense of which stream might have better water quality for bull trout. Comparing the two tables, which stream seems better? Which of the summary statistics is most useful? Is there any other information you'd like to know in order to make the best recommendation to the tribe?    
+
+# Day 2: Detailed exploration of the water quality data with graphs.
+
+The summary statistics we generated using the summary() command gave us an overview of how water temperature and dissolved oxygen differ between the two sites. Summary statistics are useful, and tribes are often asked to generate such statistics for reports (for instance the water quality reports tribes for the U.S. Environmental Protection Agency). 
+
+However, it is always a good idea to look at your data in many ways, including charts and graphs. Today, we will look at two different graphs of the water quality data, then revisit the question of which stream would be best for the bull trout reintroduction.
+
+**Scatter plot of water temperature and dissolved oxygen**
+
+Bull trout prefer water below 14 deg C and above 6.2 mg/L dissolved oxygen, but these thresholds are only part of the story. We can use a scatter plot to look at all the data for both streams to see patterns in the overall temperature and DO values are. 
+
+We'll use code that is similar to the scatter plot code in Module 1:
+
+```{r}
+# The first line says we're making a plot using the streams dataframe.
+# We're going to plot temperature_C against dissolved_oxygen.
+# And we're going to color the symbols by site, distinguishing StreamA and StreamB.
+ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site)) +
+  # Then we specify a scatter plot (points)
+  geom_point() +
+  # Then we'll add red lines depicting the levels of temperature and DO 
+  # that are dangerous for bull trout.  
+  geom_hline(yintercept = 6.2, col = "red") +
+  geom_vline(xintercept = 14, col = "red") +
+    # We'll use the same simple "theme" we used in module 1.
+    theme_minimal()
+
+```
+
+**Class Questions:**
+
+Where are the best values of water quality for bull trout? Where are the worst values?
+
+When you ran the code chunk, you might have gotten a warning message that says, "Warning: Removed 5 rows containing missing values (`geom_point()`)." What does that mean? How does this affect your interpretation of the graph?
+
+Does looking at this graph change your opinion about which stream will be healthier for bull trout? What other information would help the tribe make this decision?
+
+
+**Time series graphs of water quality**
+
+The scatter plot shows more detail than the summary statistics, but there is still more useful information in our data set. The K'avi have measured temperature and DO for 15 years, which is a long time. Since we know that temperatures are rising, it would be useful to see if these values change over time (we're looking for a trend). 
+
+This might be particularly important for Stream B, since the water in this streams comes from melt water from a glacier that is shrinking over time. Stream A is fed by ground water, and so it might have more stable temperatures. 
+
+These ideas form a "hypothesis" about how water quality might be changing over time: We hypothesize that the water quality of Stream A might be stable over time, while the water quality of Stream B might be getting worse.
+
+We can assess these hypotheses by plotting water tempertature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
+
+First, we'll plot temperatures from both sites across the 15 years that the tribe has been monitoring water temperatures.
+
+```{r}
+# The first line says we're making a plot using the streams dataframe.
+# We're going to plot temperature_C over time (year).
+# And we're going to color the symbols by site, distinguishing StreamA and StreamB.
+ggplot(streams, aes(year, temperature_C, color = site)) +
+  # We start by plotting points (as we did in the scatter plot code)
+  geom_point() +
+  # Next, we add lines connecting adjacent points in time using geom_line()
+  # Note how ggplot() allows you to add features like lines in a step by step way. 
+  geom_line() +
+  # We'll add a line indicating the "danger zone" of temperatures above 14 C.
+  geom_hline(yintercept = 14, col = "red") +
+  # and we'll use the same theme as always.
+  theme_minimal()
+
+
+```
+
+**Class Questions:**
+
+What do the two colored lines represent? 
+
+Why are there breaks in the blue line?
+
+Do the trends over time support our hypothesis that the water quality of Stream A is stable, while the water quality of Stream B is declining? 
+
+See if you can make a similar time-series plot showing changes in dissolved oxygen over time:
+
+```{r}
+# Write your code here:
+
+
+```
+
+Although Stream B tends to have had better water quality in the past, it seems that the data support our the hypothesis that the water quality of Stream B is getting worse, while the water quality of Stream A is fairly constant.
+
+**Class Questions:**
+
+Why do you think the water quality in Stream B is getting worse?
+
+Which stream do you think will be healthier for bull trout in the future?
+
+If you were using this analysis to make a recommendation to K'avi fisheries biologists, what would you suggest they consider as they decide which stream should be the site for bull trout reintroductions?
+
+Beyond the case of bull trout reintroductions, what other water quality issues are important to tribes?
+
+How can coding in R help inform tribal decisions about water quality? 
