@@ -171,8 +171,8 @@ library(tidyverse)
 
 #Load in our data! 
 
-Now it's time to load in our data! In this scenario, temeperature data 
-and dissovled oxygen data were collected and stored in two separate files. 
+Now it's time to load in our data! In this scenario, temperature data 
+and dissolved oxygen data were collected and stored in two separate files. 
 Therefore, we will need to load in both files in order to use them. 
 
 (NOTE: this may change if data is not in a 
@@ -242,12 +242,27 @@ tribal land managers to truly understand what's going on, they need to analyze
 water temperature and dissolved oxygen together. To do this, we need to change 
 how our data is set up in each data frame and then merge these data frames together. 
 
-
+[CRA 11/29 5:30pm: Edit to add text to explain why we want to pivot]
 To modify our data we need to do something called "pivoting". In our current 
 data for water temperature, we have columns for the year the sample was collected,
 the temperature for the samples from Stream A, and the temperature of the samples in 
 Stream B. Instead, we want columns for the year, the site where the sample was collected, 
 and a column for all the temperatures. 
+
+Another reason we want to "pivot" our data is because tidyverse (the package
+we have been using to wrangle, analyze, and then plot our data) prefers our data 
+to be in what is called "long form" as opposed to "wide form". Wide form data means 
+that there are no repeat values in our data frame. In our case, the repeat data 
+we would be looking for is site data, or which Stream was sampled from. This is because 
+there are individual columns for each stream. 
+
+"Long form" data means that there are repeated rows for every observation of a value 
+made for each stream. In that case,our data frame would look different. A long form version 
+of our data means that there would be a column called "site" and a column that contains values for 
+temperature and DO for all sites. We would know if the measurement for temperature 
+or DO was from stream A or B by looking at the row the data is in, and seeing what 
+value is entered in the site column in that row. Long form data makes it easier to
+summarize data and look at trends over time, which is why tidyverse prefers it. 
 
 To do this we will use a command from tidyverse called "pivot_longer". See the 
 code chunk below for more explanation! 
@@ -255,12 +270,18 @@ code chunk below for more explanation!
 # this first line of code tells R that we want to
 # re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
 stream_temp <- stream_temp %>%  
-  pivot_longer( #we use the pivot_longer code to tell R to change the columns we want
-    cols = c(StreamA_temp, StreamB_temp),  #cols = tells R which columns we want to modify
-    names_to = "site", #names_to tells R that we want the names of the columns we 
-    #specified in the line above to be entries in a new column we're creating called "site". 
-    values_to = "temperature_C" #values_to = tells R that we want the values from the columns in col = 
-    #to be moved into a new column we're making called "temperature_C". 
+  #we use the pivot_longer code to tell R which columns we want to change.
+  pivot_longer( 
+    #cols = tells R which columns we want to modify
+    cols = c(StreamA, StreamB), 
+    #names_to tells R that we want the names of the columns we 
+    #specified in the line above to be entries in a new column we're creating 
+    #called "site". 
+    names_to = "site", 
+    #Based on what "names_to" means, what do you think the next line of code 
+    #values_to means? (Hint - searching the internet for the answer is a great
+    #way to figure this out, and looking things up is a huge part of coding!)
+    values_to = "temperature_C" 
   )
 ```
 
@@ -277,7 +298,7 @@ We want to change it in the same way we changed the temperature data set above.
 
 stream_DO <- stream_DO %>%
   pivot_longer(
-    cols = c(StreamA_DO, StreamB_DO),
+    cols = c(StreamA, StreamB),
     names_to = "site",
     values_to = "dissolved_oxygen"
   )
@@ -291,47 +312,29 @@ one for the site name, and one for the dissovled oxygen values (mg/L).
 View(stream_DO)
 ```
 
-Good work! This data set looks the way we want it to now as well. 
+Good work! This data frame looks the way we want it to now as well. 
 
 Next, we need to merge these two data frames together into one, so we can analyze 
 trends in temperature and dissolved oxygen at the same time for both streams. 
 
 
 To do this, we will use a command in tidyverse called "left_join". 
-Left join means we want to put one data set next to the the other. In other words, 
-we want to match up the rows in the dataset, so it becomes wider, not longer. This is 
-because we want to preserve the columns from the two data sets we are combining. 
+Left join means we want to put one data frame next to the the other. In other words, 
+we want to match up the rows in the data frame, so it becomes wider, not longer. This is 
+because we want to preserve the columns from the two data frames we are combining. 
 ```{r}
-streams <- left_join(stream_temp,stream_DO, by="year")
-#Here, we are using left_join to put the streams_temp dataset next to the streams_DO
-#dataset. We want R to match these rows up by the same year, which is why we include 
-# "by = "year"". 
+#Here, we are using left_join to put the streams_temp data frame next to the streams_DO
+#data frame.
+streams <- left_join(stream_temp,stream_DO)
+
 ```
 
 
-Great! Now let's check to make sure that we successfully merged our two datasets.
-```{r}
-View(streams)
-```
-
-
-We successfully merged our data! But it seems that we have some duplicate columns 
-for year and site. We can easily remove those with the following command "select". 
-
-[#JMc note to CRA: (A) I get two nuisance index columns "X.x" and "Y.y" (columns 1 and 5). (B) The site identifiers in the site.x and site.y columns have different names: "StreamA_temp" vs "StreamA_DO". We should check in at this point tomorrow.]
-
-
-Select removes columns based on their position (number) in the data frame. In our case, 
-we want to remove the 4th and 5th column, so we indicate that when using select. 
-
-```{r}
-streams <- select(streams,-c(4,5))
-```
-
-Let's check our work again: 
+Great! Now let's check to make sure that we successfully merged our two data frames.
 ```{r}
 View(streams)
 ```
+
 
 Great job data wrangling! We can now continue to analyze our data. 
 
@@ -340,18 +343,18 @@ Great job data wrangling! We can now continue to analyze our data.
 
 [#JMc note to CRA @ 11/28 8pm: I think code below here needs updating.]
 ```{r}
-mean(water$temperature)
+mean(streams$temperature)
 ```
 
 Ah! Our code didn't work. R gave us an error message that says: "". This means 
-we have some missing chunks of data in our dataset that R doesn't know how to 
+we have some missing chunks of data in our data set that R doesn't know how to 
 work with. 
 
 Sometimes when collecting data, it's possible that we don't have all complete 
 data sequences for all samples in our data set. While this is very normal, as we can
 see, it can make running commands in R a little bit tricky.
 
-These missing data are entered as NA (not availabe) in R automatically.
+These missing data are entered as NA (not available) in R automatically.
 In this section, we'll go over some easy ways to fix this problem in our "water"
 data set by telling R to ignore the NAs. 
 
@@ -360,14 +363,14 @@ data set by telling R to ignore the NAs.
 # This will help 
 # https://dplyr.tidyverse.org/
 # JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
-na.omit(water)
+na.omit(streams)
 ```
 
 Great! Now let's try to run our command to get the mean for temperature again. 
 
 
 ```{r}
-mean(water$temperature)
+mean(streams$temperature)
 ```
 
 Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
@@ -385,7 +388,7 @@ is in the water across all samples?
 #What is the median amount of temperature across all samples? 
 
 ```{r}
-median(water$temperature)
+median(streams$temperature)
 ```
 
 
@@ -399,8 +402,8 @@ median(water$temperature)
 #What is the maximum and minimum temperature in our data?
 
 ```{r}
-max(water$temperature)
-min(water$temperature)
+max(streams$temperature)
+min(streams$temperature)
 ```
 
 #Your turn: figure out the minimum and maximum amount of dissolved oxygen recorded
