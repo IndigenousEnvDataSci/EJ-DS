@@ -35,40 +35,45 @@ problems that we see when using real world data.
 4. We will explore how water quality data can help communities make decisions 
 to protect culturally important species.
 
+**We will reach these goals in six steps**
+1. On day 1 of this module, we'll start by reviewing the usual steps for getting started: setting the working directory, bringing a dataset into RStudio, etc.
 
+2. Next, we'll "wrangle" the dataset into a format that will make it easier to analyze in R. This includes organizing columns of data in a "tidy" way, merging two datasets, changing the names of variables, etc. Data wrangling is an important component of data science. It's a way of making sure the data you analyze is in a format that is reliable and complete.
+
+3. After step 2, we will have the data in tidy form, and we can use familiar code to learn the summary statistics: means, minima, maxima, etc. We'll end Day 1 of the module using these statistics to make a preliminary assessment of whether Stream A or Stream B would be a better choice for reintroducing bull trout to K'avi land.
+
+4. We will spend Day 2 analyzing patterns in the temperature and DO data from the two streams in more detail. First, we'll use familiar code to make a scatter plot of temperature and DO. This will help us visualize all of the data from both streams, which might give us insights we didn't see from the summary statistics. We can use this scatterplot to learn which stream had more years in the "danger zone" for bull trout, where temperatures were above 14 degrees C or dissolved oxygen was below 6.2 mg/L.
+
+5. Next, we'll learn how to adapt our plotting code to show trends in temperature and dissolved oxygen over the 15 years that the K'avi have been collecting data from these streams. These "time series graphs" tell us whether water quality in the two streams is getting better, getting worse, or staying the same.  
+
+6. Finally, you can use all the analyses you have conducted (summary statistics, scatter plots, and time series plots) to make recommendations to the K'avi fisheries managers about which stream is a better bet for supporting healthy bull trout populations on tribal land. How does each analysis help you understand patterns in water quality? Which analysis was most useful? 
 
 --------------------------------------------------------------------------------
-#INSTRUCTOR'S VERSION: Learning goals 
+#INSTRUCTOR'S VERSION: Learning goals and instructor resources
 
-1. Students will review the steps to set a working directory and load in data from 
-an extrenal data file. 
+1. Students will review the steps to set a working directory, load packages, and load in data from 
+two external data files. 
 
-2. Students will review basic commands in R to explore their data before they 
-begin to analyze it. 
+2. Students will use new commands, like pivot_longer() and left_join() to make the data "tidy", so it can be more easily reliable. There are many websites that can help you and your students learn these new tools and approaches. Here are a few to get you started: [tidying data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html); [pivoting data](https://tidyr.tidyverse.org/articles/pivot.html); [joining data](https://r4ds.hadley.nz/joins.html).
 
-3. Students will review how to load in packages. 
+3. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
 
 4. Students will review basic summary statistic commands in R to pull the mean, 
-median, max, and min values for different variables in the dataset. 
+median, max, and min values for water temperature and dissolved oxygen at the two streams. 
 
-5. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
+5. NEW SKILL/review: Students will review how to make a scatter plot using ggplot. Then they will learn how to make a new kind of plot in ggplot (time series line graphs). This shows the adaptability of ggplot, and the ability to add graphical features. [Here's a link with more information](https://ggplot2.tidyverse.org/)
 
-6. NEW SKILL: students will learn how to subset data in R based on scientifically 
-relevant groups. 
-
-7. NEW SKILL/review: Students will review how to make a graph using ggplot. 
-Students will learn how to make a new kind of plot in ggplot (line graph),
-in addition to the scatterplot and ribbon plot they learned about in Module 1 fish.
-This will be framed in understanding how we should present data in a meaningufl 
-way to any community, 
+6. From the scientific analysis perspective, this module highlights why it is useful to visualizing data in multiple ways. There is one question: "Which of two streams has water quality most appropriate to maintain a healthy bull trout population?" But we ask it three times, after seeing summary statistics, then a scatter plot, then time series plots. The summary statistics and the scatter plot show that Stream B generally has better water quality than Stream A, but the time-series graph shows that both temperature and dissolved oxygen are getting worse for bull trout. The question of which stream is a better choice (the one with better values or the one without a dangerous trend) is for the class to discuss.
 
 --------------------------------------------------------------------------------
-#PART 1: Loading in and exploring the data 
 
+#**DAY 1: Loading, merging, and tidying data** 
+
+**Preliminary steps**
 Like we did in Module 1, before we being to analyze our data, we need to do a few
 steps first.
 
-#Clearing Environment 
+*Clearing the Environment* 
 
 Before we start to do anything in R, we should clear our environment. As a reminder,
 your environment is where R stores all the objects and data you were working with
@@ -79,8 +84,7 @@ your environment.
 rm(list = ls())
 ```
 
-
-#Setting the Working Directory 
+*Setting the Working Directory* 
 
 We will now set our working directory. As you may remember, setting our working 
 directory tells R where to find the files we want to work with on our computer. 
@@ -97,25 +101,20 @@ current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
 
-
-#Load in packages 
+*Load in packages* 
 
 Next, we will load in packages, to get the extra tools we need for this module 
-loaded in R! We will load in the tidyverse package. 
+loaded in R. For this module, we will load in the tidyverse package. 
 
 ```{r}
 library(tidyverse)
 ```
 
-
-#Load in our data! 
+*Load in our data* 
 
 Now it's time to load in our data! In this scenario, temperature data 
 and dissolved oxygen data were collected and stored in two separate files. 
 Therefore, we will need to load in both files in order to use them. 
-
-(NOTE: this may change if data is not in a 
-csv file)
 
 ```{r}
 #We will first load in our data for water temperature. 
@@ -127,10 +126,10 @@ stream_temp <- read.csv("streams_temperature.csv", header = TRUE, sep =",")
 stream_DO <- read.csv("streams_DissolvedOxygen.csv", header = TRUE, sep =",")
 ```
 
-#Viewing the data 
+*Viewing the data* 
 
 Now that our data is loaded into R, we can explore the data using the view and 
-head command. 
+head commands. Our goal is to make sure things loaded correctly and to get a first look to see if the data make sense. 
 
 ```{r}
 View(stream_temp)
@@ -140,40 +139,32 @@ View(stream_temp)
 head(stream_DO)
 ```
 
-*What do you notice is different between using the command "View" and the command
-"head"? Which one do you think is more useful? 
+**Class Question:**
 
-It may also be helpful for us to understand how big our dataset is. We can 
-get this number by using the command "dim".
+What do you notice is different between using the command "View" and the command "head"? Which one do you think is more useful?
+
+It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
 
 ```{r}
 dim(stream_temp)
 dim(stream_DO)
 ```
 
-*How many data entries are in this dataset for water temperature? 
+**Class Questions:**
+
+How many data entries are in this dataset for water temperature? 
 
 *How many data entries are in this dataset for dissolved oxygen? 
 
 
-RECAP:
+*RECAP:*
 You now reviewed ways to set up your R environment, read in data, and explore 
-your data! These steps are all important for when we analyze our data later in 
+your data. These steps are all important for when we analyze our data later in 
 this module. 
 
 
 --------------------------------------------------------------------------------
-#PART 2: Pivoting data, debugging data, and running some basic summary statistics
-
-[CRA: from here up until line 302 are edits I made on 11/28 per the new data]
-
-Tribal land managers are interested in how the temperature and dissolved 
-oxygen of the water on their lands have changed over the last several years. 
-They are also interested in learning about the mean, median, minimum, and maximum
-values of temperature and dissolved oxygen in water they have in their data. 
-These values will help them understand how current values compare to the rest of
-the values in their data. 
-
+**Tidying datasets for more reliable analysis**
 
 As of now, our data for water temperature for Stream A and B exists in a separate
 data frame from the dissolved oxygen concentrations for Stream A and B. For
@@ -181,50 +172,52 @@ tribal land managers to truly understand what's going on, they need to analyze
 water temperature and dissolved oxygen together. To do this, we need to change 
 how our data is set up in each data frame and then merge these data frames together. 
 
-[CRA 11/29 5:30pm: Edit to add text to explain why we want to pivot]
-To modify our data we need to do something called "pivoting". In our current 
-data for water temperature, we have columns for the year the sample was collected,
-the temperature for the samples from Stream A, and the temperature of the samples in 
-Stream B. Instead, we want columns for the year, the site where the sample was collected, 
-and a column for all the temperatures. 
+Manipulating data so that it is formatted in a way that we can easily and reliably analyze is called "data wrangling". In R, we like our data to be "tidy". This means: 
 
-Another reason we want to "pivot" our data is because tidyverse (the package
-we have been using to wrangle, analyze, and then plot our data) prefers our data 
-to be in what is called "long form" as opposed to "wide form". Wide form data means 
-that there are no repeat values in our data frame. In our case, the repeat data 
-we would be looking for is site data, or which Stream was sampled from. This is because 
-there are individual columns for each stream. 
+Every column of the data table is a variable. For our water quality dataset, these are categories like "temperature" and "dissolved oxygen" and also things like, "year" (which is the year the measurements were made) and "site" (which means which of the two streams was measured). 
 
-"Long form" data means that there are repeated rows for every observation of a value 
-made for each stream. In that case,our data frame would look different. A long form version 
-of our data means that there would be a column called "site" and a column that contains values for 
-temperature and DO for all sites. We would know if the measurement for temperature 
-or DO was from stream A or B by looking at the row the data is in, and seeing what 
-value is entered in the site column in that row. Long form data makes it easier to
-summarize data and look at trends over time, which is why tidyverse prefers it. 
+Every row of the data table is an observation. For our water quality dataset, each row corresponds to a year where temperature and dissolved oxygen were measured at the two streams.
 
-To do this we will use a command from tidyverse called "pivot_longer". See the 
-code chunk below for more explanation! 
+Every cell is a single value. For example, if row 1 is "2007" and column 2 is "temperature", the cell for row 1, column 2 might be "13.5" showing that the water temperature of a stream was 13.5 degrees C in 2007.  
+
+If you want to learn more about tidy data, [here's a useful website](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
+
+*It will take several steps to make our data tidy.*
+
+First, we will use the pivot_longer() command to reorganize the columns from the temperature dataset, so that there is one column for "site" and one column for "temperature_C" The goal is to make only one column for each variable.
+
+**Class Question**
+
+Look back at the current "messy" version of stream_temp. Can you see explain why there is more than one column with the same variable? 
+
+The pivot_longer() command allows us to combine columns, which transforms our dataset into a form with more rows (longer), and fewer columns (less wide). Long form data makes it easier to summarize data and look at trends over time, which allows the tidyverse package to work better. 
+
+In the code chunk below, we use pivot_longer() to transform the temperature data. The green #comments describe what each line of code does.
+
 ```{r}
-# this first line of code tells R that we want to
-# re-save the streams_temp dataset with the changes we make to it with pivot_longer. 
+# The first line of code tells R that we want to re-define 
+# the streams_temp dataset with the changes we make below. 
+# This weird thing %>% is called the "pipe". It says that the code lines that come next, 
+# which are linked by a "+" at the end of each line,
+# will all contribute to a transfomed version of stream_temp. 
+
 stream_temp <- stream_temp %>%  
-#we use the pivot_longer code to tell R which columns we want to change.
+# We use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
     #cols = tells R which columns we want to modify
     cols = c(StreamA, StreamB), 
-    #names_to tells R that we want the names of the columns we 
-    #specified in the line above to be entries in a new column we're creating 
-    #called "site". 
+    # names_to tells R that we want the names of the columns we specified 
+    # above to be entries in a new column we're creating called "site". 
     names_to = "site", 
-    #Based on what "names_to" means, what do you think the next line of code 
-    #values_to means? (Hint - searching the internet for the answer is a great
-    #way to figure this out, and looking things up is a huge part of coding!)
+    # Question: Based on what "names_to" means, what do you think the next line 
+    # of code values_to means? 
+    # (Hint - searching the internet for the answer is a great way to figure this out.)
+    # Looking things up online is a huge part of coding!
     values_to = "temperature_C" 
   )
 ```
 
-To check our work, we can view streams_temp: 
+To make sure this long command worked the way we intended, we should now view streams_temp: 
 ```{r}
 View(stream_temp)
 ```
@@ -246,7 +239,7 @@ stream_DO <- stream_DO %>%
 
 Again, we should check our work to make sure that our data looks the way we want
 it to. We want there to be three columns, one for the year the sample was collected,
-one for the site name, and one for the dissovled oxygen values (mg/L). 
+one for the site name, and one for the dissolved oxygen values (mg/L). 
 
 ```{r}
 View(stream_DO)
@@ -254,17 +247,18 @@ View(stream_DO)
 
 Good work! This data frame looks the way we want it to now as well. 
 
-Next, we need to merge these two data frames together into one, so we can analyze 
-trends in temperature and dissolved oxygen at the same time for both streams. 
+*Merging datasets*
 
+So far, we have separate datasets for temperature and DO. We want to combine them into one tidy dataset, so we can analyze 
+trends in temperature and dissolved oxygen at the same time for both streams. 
 
 To do this, we will use a command in tidyverse called "left_join". 
 Left join means we want to put one data frame next to the the other. In other words, 
 we want to match up the rows in the data frame, so it becomes wider, not longer. This is 
 because we want to preserve the columns from the two data frames we are combining. 
 ```{r}
-#Here, we are using left_join to put the streams_temp data frame next to the streams_DO
-#data frame.
+# Here, we are using left_join to put the streams_temp data frame 
+# next to the streams_D data frame.
 streams <- left_join(stream_temp,stream_DO)
 
 ```
@@ -276,41 +270,41 @@ View(streams)
 ```
 
 
-Great job data wrangling! We can now continue to analyze our data. 
+Great job data wrangling! We now have a single tidy dataset that we can use to analyze water quality and determine which stream is best for introducing bull trout to tribal land.
 
+**Summary statistics**
 
-#
+We know that bull trout prefer cold clean water. Temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L  tend to be bad for bull trout, though these are only general approoximations and the healthiness of stream water for bull trout depends on many factors. 
 
-[#JMc note to CRA @ 11/28 8pm: I think code below here needs updating.]
+We'll start our analysis of water quality by using the statistical summary commands that will be familiar from Module 1. First, we'll calculate the mean (or average) water temperature
+
 ```{r}
 mean(streams$temperature)
 ```
 
-Ah! Our code didn't work. R gave us an error message that says: "". This means 
-we have some missing chunks of data in our data set that R doesn't know how to 
-work with. 
+Ah! Our code didn't work. R gave us an error message. Error messages are a normal part of programming. Although they might seem surprising or frustrating, you can think about them as a challenge for you to figure out. 
 
-Sometimes when collecting data, it's possible that we don't have all complete 
-data sequences for all samples in our data set. While this is very normal, as we can
-see, it can make running commands in R a little bit tricky.
+Here, R is telling you that the dataset has missing data, which is indicated in R by "the "NA", which means "not available". If you look at the "streams" dataset, you'll see that there are, indeed, some NA values. 
 
-These missing data are entered as NA (not available) in R automatically.
-In this section, we'll go over some easy ways to fix this problem in our "water"
+How did these NAs get there? When we merged the separate stream_DO and stream_temp datasets using left_join(), there were years when a stream had either temperature or DO data, but not both. These are years when the K'avi were not able to measure both temperature AND dissolved oxygen at one of the streams. It is very common to have missing data in datasets. left_join() inserts "NA" into cells that don't have data.
+
+The reason this causes R to throw an error message is because the command mean() assumes that there are actual numbers in each cell that R is computing the mean of. R is telling you that it doesn't know how to calculate the value of something called "NA".
+
+In the next section, we'll go over some easy ways to fix this problem in our "water"
 data set by telling R to ignore the NAs. 
 
+The command na.omit() deletes any row that has NAs in it. The code below doesn't change the streams dataset, it just prints streams without any rows that have NAs.
+
 ```{r}
-#JMc We're going to change this to dplyr 
-# This will help 
-# https://dplyr.tidyverse.org/
-# JMc e.g., https://www.youtube.com/watch?v=8SGif63VW6E
 na.omit(streams)
 ```
 
 Great! Now let's try to run our command to get the mean for temperature again. 
+We don't want to remove these rows from the streams data permanently, so we'll nest the na.omit() command within the mean() command, allowing us to calculate the mean of all the temperatures for both streams,  
 
 
 ```{r}
-mean(streams$temperature)
+mean(na.omit(streams$temperature_C))
 ```
 
 Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
@@ -324,31 +318,47 @@ is in the water across all samples?
 
 ```
 
-
-#What is the median amount of temperature across all samples? 
+Now lets use another familiar command to show the MEDIAN of temperature measured across all streams and years? 
 
 ```{r}
-median(streams$temperature)
+median(na.omit(streams$temperature))
 ```
 
-
-#What is the median amount of dissolved oxygen across all samples? 
+**Class question:**
+What is the median amount of dissolved oxygen across all samples? 
 
 ```{r}
 #Write your code here! 
 
 ```
 
-#What is the maximum and minimum temperature in our data?
+Since our goal is to compare the water quality of Stream A and Stream B, let's temporarily create separate dataframes for each stream using a new command called subset(). 
 
 ```{r}
-max(streams$temperature)
-min(streams$temperature)
+# Below, we define a new dataframe "StreamA_WQ" as the subset of "streams" that have "StreamA" in the column "site" 
+StreamA_WQ <- subset(streams, site == "StreamA")
+
+# PRACTICE YOUR OWN CODE:
+# See if you can make a new dataframe called "StreamB_WQ" 
+# that is the subset of "streams" that have "StreamB" in the column "site"
+# WRITE YOUR OWN CODE BELOW:
+
+
 ```
 
-#Your turn: figure out the minimum and maximum amount of dissolved oxygen recorded
-in our dataset? 
+We created "StreamA_WQ" and StreamB_WQ" so that we could use the summarise() command that you saw in Module 1 to compare all the summary statistics for water temperature and dissolved oxygen between the two streams.
 
 ```{r}
+#Write your code here! 
+print("StreamA")
+summary(StreamA_WQ)
+print("StreamB")
+summary(StreamB_WQ)
 
 ```
+
+**Preliminary analysis of water quality data from Stream A and Stream B**
+
+On Day 2 of this module, we will explore the water quality data in detail, and use this exploration of data to help inform the best decision about which stream is most promising for bull trout reintroduction. 
+
+For now, let's use the information in the summary tables above to get a preliminary sense of which stream might have better water quality for bull trout. Comparing the two tables, which stream seems better? Which of the summary statistics is most useful? Is there any other information you'd like to know in order to make the best recommendation to the tribe?    
