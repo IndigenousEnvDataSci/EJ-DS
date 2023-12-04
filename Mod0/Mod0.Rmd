@@ -9,44 +9,109 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-*NOTES TO JMc FOR THIS MODULE. ERASE LATER* 
-This is the "Hello World" Module, orienting students to the RStudio Environment.
+--------------------------------------------------------------------------------
+*NOTES TO INSTRUCTOR* 
+This is a quick overview Module, orienting students to the RStudio Environment. There are a lot of online resources availbale with more detail, for instance [this video](https://www.youtube.com/watch?v=Icqx39olZHg).
 
-Stuff to include:
-- Orientation to R-Studio windows/tabs
+---------------------------------------------------------------------------------
 
--- Chunk1: There are 4 windows and various tabs.
+Welcome to RStudio. You should be seeing four "window" with various tabs. Each window allows you to do something different in R programming. In Module 0, we'll walk you through a set of coding tasks that will introduce you to each of them.
 
---- (1) The upper left window (where you are reading this) is called the "source editor." It's where you write instructions (when there's white background) and where you write code that you want to run in R (when there's grey background). 
+**Reading text and running code**
 
----- If the background in this window is white (like here), then R doesn't try to run any of the text as code. It's like writing in Word. This is a place for writing introductions to ideas or explanations of code (like this text).
+The upper left window (where you are reading this) is called the "source editor." It's where you write instructions (when there's white background) and where you write code that you want to run in R (when there's grey background). 
 
----- If the background is grey, that's called a code chunk. Inside 
+If the background in this window is white (like here), then R doesn't try to run any of the text as code. It's like writing in Word. This is a place for writing introductions to ideas or explanations of code (like this text). You can type new text here and save it using the tabs at the top of the screen or the little picture of a blue floppy disc. Floppy discs were how we used to save files in the 1980's. They look like [this](https://en.wikipedia.org/wiki/Floppy_disk#/media/File:Floppy_disc.jpg).
 
+You might have noticed weird symbols in the last sentence, like [this](https://bookdown.org/yihui/rmarkdown/basics.html). If you use that slightly awkward syntax, RStudio will "knit" the document in this window into a nicely formatted document. You can see that by clicking on the blue ball of yarn that says "Knit" in the tabs at the top of this window (you might have to wait a few seconds for this to work and a bunch of code will run in the window below). 
 
-- Knitting
-Click the **"Knit"** button on the menu bar (it has an icon with a ball of blue yarn).
-After a few seconds, this will make a nicely formatted file presenting the contents of this document.
+**Code Chunks**
+If the background is grey, like the paragraph below, that's called a code chunk. Text inside these grey chunks is computer code that R can run. For instance, R comes with a few data sets that you can use to practice writing code. One of them is called "pressure". If you click on the green arrow at the right of the grey code chunk below, R will run the computer code inside the chunk. Here, it will print out the first 10 rows of the pressure dataset. Note that anything following the pound sign "#" within a grey code chunk is called a "comment" and R does NOT run this code. In these modules, we'll use #comments in the code chunks to explain the code. Like this: 
 
-- Libraries (reconcile this with Module 1 content)
-- [RMarkdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-*^ERASE ABOVE^*
+```{r}
+# In R, if you type the name of a data set, R will print it out.
+# You can see that by running this code chunk, which will print 
+# a description of "pressure", which is a "data frame" 
+# with 19 rows and 2 columns. df[19,2]
+# Then R will show you the first few lines of that data.
 
+# If you, instead, type "pressure" in the Console window, below,
+# R will print the wholw dataframe in that window.
 
+# The line below is the only line of code in this chunk.
+# the rest is all comments.
 
-```{r pressure}
 pressure
 ```
 
-```{r What is pressure?}
+So, now you've run a line of code! Notice that when you run the code in the chunk, the text of that code appears in the lower left window (below). That is called the "console" window. If you are in the leftmost tab of that window, anything you write in there is code that is run by R. You can type "pressure" after the blue ">" prompt, and the R will print all 19 rows of the pressure dataset in the console window. 
+
+
+**Getting help**
+
+But what is "pressure"? If you have a question about any command in R, you can type a ask for a help file explaining what that command means. If you click the gren arrow on the code chunk below (or if you type ?pressure in the console window),  helpful content explaining that "pressure" is a dataset showing the vapor pressure of mercury at 19 different temperatures.
+
+```{r}
+# The line of code below, "?pressure",  will print some helpful text
+# explaining what "pressure" is in the lower right window.
+# You can get a help file ofr anything in R, by typing "?" before the command. 
+
 ?pressure
 ```
 
-## Including Plots
-You can also embed plots, for example:
+Apart from the ?help command, there are *many* ways to get help with R.
 
-```{r pressure plot, echo=FALSE}
-plot(pressure)
+- The "Help" tab at the top of the page is a good place to explore. Check out the "Cheatsheets" tab, for instance.
+
+- There's also a helpful online community where many people help new programmers for free! Most R coders Google questions about their code constantly while they are working. Resources include Official R resources[like this](https://rmarkdown.rstudio.com/lesson-1.html); free online books [like this](https://r4ds.had.co.nz/); and programmer question-and-answer sites [like this](https://stackoverflow.com/questions/tagged/rstudio)
+
+
+**Making new things with R** 
+
+If you make new things in R, they will show up in the upper right-hand "Environment" window. Just for example, in the code chunk below, we'll define something called "X" as the number 3. Then we'll define "Y" as the sequence 1, 2, 3. 
+
+```{r}
+# The left arrow <- defines the new thing (to the left) using the code on the right.
+# Here, X is defined as the number three.
+ X <- 3
+
+# We can also define things using R commands.
+# The command seq() makes sequences between the starting and ending numbers.
+# For details on this, use the help function like this:
+?seq()
+
+# We'll define Y as the sequence 1,2,3 like this:
+Y <- seq(from = 1, to = 3, by = 1)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+When you run the chunk above (by clicking the green arrow, X and Y appear in the Environment window (upper left) 
+
+What do you think R will produce if we multiply X by Y? You can probably imagine a few things. Our last chunk calculates a new variable Z as X * Y, then we print Z.
+
+```{r}
+# 
+Z <- X * Y
+
+# N
+Z
+
+```
+Z shows up in the Environment window and we can see that it is the sequence 3, 6, 9.
+
+**Extra stuff we'll mostly ignore for now**
+
+There are a few extra things that are useful for files in RStudio, but which we won't talk about much. Here, we'll just explain what they are, in case you are wondering. You can always use google, or help to find out more.
+
+You might have noticed that each of our code chunks starts with ```{r} and ends with ```. Those are the symbols R uses to delineate white text chunks from grey code chunks. 
+
+The last code chunk we ran, was a modified version of this ```{r, echo=FALSE}. We added 'echo = FALSE' to prevent printing of the R code that generated the plot.
+
+The first code chunk we ran included ```{r setup, include=FALSE} and 
+knitr::opts_chunk$set(echo = TRUE). These are just commands that tell R how to format the "knitting" of the file 
+
+Finally, all of our files will start with a "YAML header" that specifies the title of the project, who wrote the document and when, and what format the file will be, if you choose to knit it. 
+
+Any of the strange little pieces of R that you run into can be explored, [like this](https://intro2r.com/r-markdown-anatomy.html).
+
+That's all you need to get going. Don't worry if you don't feel comfortable with this stuff yet. We'll go through things several times in upcoming modules. And, really, all of us are a little uncomfortable when we're coding. That's because we're making something new with the help of a bunch of people we haven't met and with computers. It's sort of awkward, but you can use it to make cool things.
