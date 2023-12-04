@@ -5,9 +5,16 @@ output:
 ---
 # Vignette
 
-In the first part of this module, you explored data collected by K'avi tribal forestry managers for different sites of a forest that they managed. Based on data analysis and other qualitative factors, you decided which site would be the best for a lumber harvest.
+In the first part of this module, you explored data collected by K'avi tribal forestry managers for different sites of a forest that they managed. Based on data analysis and other qualitative factors, you decided which site would be the best for a timber harvest.
+
+[#JMc: As mentioned in a comment on Day 1.Rmd, it might be good to highlight tradeoffs between maximum timber yield and other priorities, somehow.] 
+[For example.](https://www.klcc.org/nature/2019-01-30/native-american-tribes-gaining-recognition-for-timber-and-forestry-practices)
+
+[#JMc: One question about sequencing: In the paragraph below, we say "Now that you've explored the data" but we do further exploration and new graphs on Day 2. It seems best practice to me to start with the goals, then do the analysis, then think about the presentation.]
 
 Now that you have explored this forestry data set, it is time to present what you have learned to the broader community. You will create and present suggestions on the management of these forests to community leaders, using the data science tools you have developed throughout the semester. These leaders would like for you to present your analysis and the reasons for your choice of site.
+
+[#JMc: above, it says, "leaders". This might be what you want, but an alternative would be "communities"]
 
 *We should flesh this out a little more.*
 
@@ -16,33 +23,49 @@ Now that you have explored this forestry data set, it is time to present what yo
 
 The goal of the second day of the forestry module is to have the students fully explore what creating and presenting recommendations for management based on data science means with a strong emphasis on how to best make and present graphs that are accessible and helpful for the general public. 
 
+[#JMc: I think these goals are admirable, but, in practice, I think they end up a little at-odds in this module. On the one hand, students are encouraged to come up with their own questions and make their own plots. On the other hand, the datasets are limited (3 variables) and the code directs them to make specific plots (age vs tree_number). I would recommend backing off Goal 1 (creativity & freedom), in favor of Goal 2 (Answering a specific question and focusing on presenting this in a compelling way). We could end with a discussion of how these skills allow creativity and freedom going forward.]
 --------------------------------------------------------------------------------
 
 # PART 1: Outlining your presentation
 
 **Determining your audience**
   
-  The first step to making an effective presentation is having a clear picture of what you are trying to present. This comes from having a clear overview of the main outcomes of your data analysisas well as understanding what type of audience you are interested in presenting to and what type of information is most relevant to that audience.
+  The first step to making an effective presentation is having a clear picture of what you are trying to present. This comes from having a clear overview of the main outcomes of your data analysis as well as understanding what type of audience you are interested in presenting to and what type of information is most relevant to that audience.
+
+[#JMc: We might start with a statement of the goals of the presentation. That's still a little unclear to me: I think the Goal is to recommend that the site with maximum productivity be harvested?]
   
   First up, lets work to identify the audience you are presenting to. 
   
   **Class Questions** 
+  
 * Who would be involved in the process of deciding where to set up a new forestry area?
 * Are there multiple groups that would be interested/involved in this process or just one? 
 * Who is included in these decision making groups? If you have identified multiple groups that would be involved in this process, for the sake of this exercise, select one group you would like to present to. 
   
+[#JMc: By "forestry area" I think you mean "timber harvest site". If that's right, let's switch to that term since forestry > timber]  
+  
   Once you have identified who you will be giving your presentation to lets narrow down what kind of presentation they will be most interested in.
+  
   **Class Questions**
+  
 * What kind of background do they have in forestry? 
 * What kind of data do you think they would find most helpful in deciding where to set up this forest plot? 
+
+[#JMc: I think forest plot = forestry area = timber harvest site]
   
 **Determining What Data to Focus on**
 
   Now that you have identified your audience it is time to look back at your data analysis from part 1 of this module. What were your main findings from that analysis? How do those findings relate to selecting a site for a new forestry patch?  
 
+[#JMc: My big confusion here is what tree_number means. Is it stem density? That is, I think each "site" is a general location which has many stands, each of a different age, and tree_number is the density of stems in each of those stands. Whetehr or not that's correct, I think readers need some background information on what that is and why it might be important to foresters. This should probably come in the Intro material on Day 1]
+
 #PART 2: Refining your graphs
 
 For the rest of this module we will be focusing on different ways we can improve and customize ggplot graphs with a focus on honing those graphs specifically for a presentation for a more general audience. We will be demonstrating these concepts with data on the number of trees in the same potential forestry plots as in day 1 of this module and then letting you explore how to apply these concepts to your data on the yield over time in each of these sites. 
+
+[#JMc: As mentioned previously, I think it's best to get preliminary graphs and analysis done before working on the presentation. This new analysis seems to come mixed in with the presentation preparation.]
+
+[#JMc: Below, it might be a good opportunity to explain why they have to make "forest" again, when they did this on Day 1. (I think this is because they've cleared the environment, but it might not be obvious to students.)]
 
 ```{r}
 # Cleaning environment and setting working directory
@@ -50,9 +73,11 @@ rm(list = ls())
 current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 set.seed(1)
+
 # Load libraries
 library(tidyverse)
-#Read in and reformat data
+
+# Read in and reformat data
 site_1 <- read.csv("site_1.csv") %>% 
   mutate(site_ID = 1)
 site_2 <- read.csv("site_2.csv") %>% 
@@ -83,6 +108,7 @@ ggplot(site_1, aes(x = age, y = tree_number))+
 In this case the scatterplot focuses on the number of trees at each time point whereas the line plot focuses more on the overall trend in trees over time.
 
 **Class Questions**
+
 * Which of these do you think is more important for your presentation on yield over time at this site?
 * What story do you want to tell with these graphs? 
 
@@ -111,11 +137,16 @@ Try it out with your plot here:
 
 Now that you have created a basic plot that technically has all of the information in it, if you could change anything about the graph what would you change about it to better fit the audience you identified in part 1? 
 
+[#JMc: Since a big focus of this Day is graphis, it might be useful to provide some principles or guidance on these choices.] [Here's a reference I use](https://socviz.co/lookatdata.html#what-makes-bad-figures-bad), though it's quite opinionated. Maybe just ask them which principles are important for conveying meaning in data?]
+
+
 # PART 3: Informative Labels
 
 One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. 
 We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can type ?labs in the Console to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc. 
 In the following plot we have changed the axis labels and added a title:
+
+[#JMc: Note that in the knit pdf from this document, the titles get cut off when the graphs are plotted side-by-side with patchwork.]
 
 ```{r, labels}
 ggplot(data = site_1, aes(x = age, y = tree_number))+
@@ -239,6 +270,7 @@ Try adding all the sites onto your graph here:
 Both of these methods, arranging multiple graphs and adding colors, will show information on how the sites differ but they each have different pros and cons. In the arranged plots, each individual plot is cleaner and simpler whereas there is a lot going on in the combined plot. However, the combined plot lets you see the differences between sites more clearly and it takes up less space in a slide or a paper. 
 
 **Class Questions:**
+
 *Which format do you think will best convey the information to your proposed audience? Why? 
 
 While both options have merits, the combined plot with different colors lets us more easily address the other topics we want to cover so moving forward in this lesson we will be referring back to the combined, color coded graph. 
@@ -248,7 +280,8 @@ While both options have merits, the combined plot with different colors lets us 
 You may have noticed in the previous section that when you added color categories for different sites, ggplot automatically created a legend. This legend on the right hand side of the plot describes what each color means. However, like many things ggplot automatically generates, the legend is not particularly reader-friendly. 
 
 **Class Questions:**
-What would you like to change about your legend to tailor it to your specific audience?
+
+* What would you like to change about your legend to tailor it to your specific audience?
 
 Here are a couple of resources about how to change your legend in ggplot. They all cover similar things but you may prefer one over the others:
 
@@ -290,6 +323,7 @@ Note that the number of colors you give R must equal the number of categories yo
 It is also important to note here that displaying important information with different colors in your plot can make reading your plots hard for colorblind people. There are a couple of different ways to help with this including, picking a color palette that is colorblind friendly or using a couple of different methods to distinguish the different groups. 
 
 There is a package in R that specifically has color-blind friendly palettes that you can use in your graphs. It is called viridis and here are some examples of it.
+
 
 ```{r}
 # Uncomment this and run it to initially install the package
@@ -346,7 +380,11 @@ ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, linetype = 
 Which of these options do you think is best for your audience?
 
 # PART 7: Themes
+
 *Talking about themes may be a stretch goal/not the most important part of this exercise. How do we feel about leaving this out?*
+
+[#JMc: There's a lot more they could do on graphics, of course, so we'll have to draw the line somewhere. Maybe suggest it as one "Future directions option." Just point them in this direction, perhaps under the "More Resources" section at the end?]
+
 * Basic themes
 ```{r}
 #This allows you to adjust finer details of the graph. For instance, you can 
