@@ -58,21 +58,21 @@ write.csv(elk, "elk.csv", row.names = FALSE)
 site1N <- data.frame(
   Site = rep(1, each = quadrats_per_site),
   Quadrat = rep(1:quadrats_per_site),
-  Nitrogen = rnorm(n = 50, mean = 90, sd = 10)
+  Nitrogen = rnorm(n = 50, mean = 0.23, sd = 0.05)
 )
 view(site1N)
 
 site2N <- data.frame(
   Site = rep(2, each = quadrats_per_site),
   Quadrat = rep(1:quadrats_per_site),
-  Nitrogen = rnorm(n = 50, mean = 70, sd = 14)
+  Nitrogen = rnorm(n = 50, mean = 0.38, sd = 0.1)
 )
 View(site2N)
 
 site3N <- data.frame(
   Site = rep(3, each = quadrats_per_site),
   Quadrat = rep(1:quadrats_per_site),
-  Nitrogen = rnorm(n = 50, mean = 80, sd = 10)
+  Nitrogen = rnorm(n = 50, mean = 0.48, sd = 0.07)
 )
 View(site3N)
 
