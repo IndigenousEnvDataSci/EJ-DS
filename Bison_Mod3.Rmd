@@ -10,7 +10,7 @@ output: html_document
 4) Ask them to find the average biomass at each site (how to get summary statistics of groups)
 5) Convert biomass units to match with hectare units: Using mutate to make a new column that is a math function of existing column
 6) Ask them to calculate the average biomass/acre at each site
-7) Ask them to calculate the estimated total biomass at each site (avg biomass/acre * total acres)
+7) Ask them to calculate the estimated total biomass at each site (avg biomass/hectare * total hectares)
 8) Ask them to figure out if/which sites can support a viable Bison population (which will be described)
 9) Ask them to figure out how many Bison each site can support in total
 10) Ask them to think about, discuss, and explain the action that they would recommend to the K'avi community takes for Bison reintroduction: should entire bison population go to just one site, split amongst multiple sites, no sites at all? 
@@ -65,11 +65,10 @@ to place this first herd of 200 bison.
 ```{r}
 biomass <- read.csv("Bison_Mod3/biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
 sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
+#Delete this code at the end!!! Maybe just keep the names "biomass <-" and "sites <-", for consistency sake later on in the module!
 ```
 
 #Look at all of the data
-
-*Evan: Maybe ask them to get the average biomass / quadrat at each site? Depending on what they learn in Module 2, they should already know generally how to get stats for multiple sites, so they may not need to have group_by explained to them. Consult with Mod2*
 
 Previously, we learned to work with data across multiple sites by having each site as a separate column. This approach allowed us to easily graph data from multiple sites over time. Here, since we will not be looking at data over time, we will be comparing data between multiple sites in a different way, with all of the sites in a single column. View the "biomass" dataset to see this structure.
 
@@ -99,13 +98,13 @@ https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 ####The big question####
 What we have right now is the annual biomass in fifty 0.25 square meter quadrats at each site. How can we turn these fifty values into an estimate of the total biomass at each site?
 
-Using group_by and summary to get the average biomass/quadrat at each site (maybe actually have this after the unit conversions?)
+Using group_by and summary to get the average biomass/quadrat at each site
 ```{r group and summary}
 biomass %>% 
   group_by(Site) %>% 
   summarise(avg_biomass=mean(Biomass))
 ```
-*Side note: Even though this code chunk produced a 3 x 2 tibble showing us average biomass at each site, this did not change the "biomass" dataset, and we can see that this tibble is not in our Global Environment, and does not actually have a name. This is because we did not give this tibble a name and assign it to a new dataset. In the next code chunk, there will be new code, the <- , which allows us to make new datasets for us to work with later on.* (do not delete)
+*Side note: Even though this code chunk produced a 3 x 2 tibble showing us average biomass at each site, this did not change the "biomass" dataset, and we can see that this tibble is not in our Global Environment, and does not actually have a name. This is because we did not give this tibble a name and assign it to a new dataset (using the <-).*
 
 What site has the highest average plant biomass in its quadrats? What might this tell us about the viability of these sites for bison reintroduction?
 
@@ -119,7 +118,7 @@ All of the unit conversions that need to happen:
   currently in g/0.25 m2 and want to get to kg/ha 
   Conversion of g/0.25 m2 to kg/ha is to multiply by 40
 
-To do this conversion and add it to our data, we weed to make a new column with the converted units. To make a new column in a dataset, we can use the mutate() function in tidyverse. mutate() creates new columns that are functions of existing variables. It can also modify and delete columns, but we won't do either of those today. To make sure that this does not alter the original data, we will make a copy of the biomass dataset with the new column and assign it to a new dataset (using <-) called "biomass2". Since this is just adding a new column to the original data, you can also apply these changes to "biomass" and not make a new dataset by doing "biomass <-" instead. Just make sure to be careful when making changes to any dataset!
+To do this conversion and add it to our data, we need to make a new column with the converted units. To make a new column in a dataset, we can use the mutate() function in tidyverse. mutate() creates new columns that are functions of existing variables. It can also modify and delete columns, but we won't do either of those today. To make sure that this does not alter the original data, we will make a copy of the biomass dataset with the new column and assign it to a new dataset (using <-) called "biomass2". Since this is just adding a new column to the original data, you can also apply these changes to "biomass" and not make a new dataset by doing "biomass <-" instead. Just make sure to be careful when making changes to any dataset!
 ```{r}
   biomass2<- mutate(biomass, kg_ha = Biomass * 40) 
 #the various parts of the mutate() function: mutate(name of dataset, new column = function of existing column)
@@ -127,7 +126,7 @@ biomass2 #this is optional code that you can also add for this chunk to produce 
 ```
 This new dataset--biomass2-- now has a new column that converts the biomass in g/m^2 into kg/ha. The column "kg_ha" will be the new column we will call when we are looking at the biomass data because its now in the correct units!
 
-We should take the average biomass per quadrant again, but this time with the converted units. *No code will be given*
+We should take the average biomass per quadrat again, but this time with the converted units. *No code will be given*
 ```{r new average with right units}
 biomass_avg<- biomass2 %>% #making new dataset called biomass_avg 
   group_by(Site) %>% #grouping data by site
@@ -144,7 +143,7 @@ If you'd like, play around with both mutate() and group_by() %>% summarise() lat
 
 
 
-There is another dataset the tribal agriculture managers have with the sizes of each site in hectares, called "sites", which we loaded in with biomass data at the beginning of class. We are going to merge this "sites" dataset with our "biomass_avg" dataset, which has the average biomass at each site (kg per hectare), into one dataset using the function left_join(), which is part of tidyverse. We can do this because both datasets have matching columns (Site). 
+There is another dataset the tribal agriculture managers have with the sizes of each site in hectares, called "sites", which we loaded in with biomass data at the beginning of class. We are going to merge this "sites" dataset with our "biomass_avg" dataset, which has the average biomass at each site (kg per hectare), into one dataset using the function left_join(), which we learned in the Water Module. We can do this because both datasets have matching columns (Site). 
 
 ```{r join}
 Site_biomass <- left_join(sites, biomass_avg, by = "Site") #left_join(dataset 1, dataset 2, by = "shared column"); Join matching rows from dataset 2 to dataset 1 using their shared column "Site".
@@ -191,7 +190,7 @@ max_bison %>%
 
 From last class, we have multiple sites that have enough biomass to sustain a healthy bison population! This is great, but upon further investigation, tribal agriculture managers realize that while the physical amount of biomass might be enough, they didn't take into consideration the quality of the forage. Since bison are generalist foragers, they'll eat almost anything, but they need to make sure that they consume 73,000 g of nitrogen a year. Luckily, the tribal agriculture managers have another dataset that has the nitrogen content per quadrat at each site. 
 
-*We are strongly considering not having them do anything with Nitrogen, both for the sake of time and also since we can't find a number online for nitrogen requirements of bison. Ignore N section for now!*
+
 import N dataset 
 ```{r import N dataset}
 nitrogen <- read.csv("Nitrogen.csv", header = TRUE, sep = ',')
