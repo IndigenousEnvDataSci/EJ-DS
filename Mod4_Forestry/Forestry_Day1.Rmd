@@ -3,29 +3,40 @@ Module 4: Forestry Management
 # Vignette
 Members of the K'avi tribe have managed a forest on their lands for decades. Recently, tribal forestry managers have started collecting data from a few different sites in the forest. They would like to set up a location for managing and harvesting Douglas firs for lumber. It is your job to analyze the data and determine which of the proposed sites would be the best for a harvest.
 
-**NOTE TO SKC/ND DEVELOPERS:**
+**Overview of Module**
+*Exploring the data 
+*Summary statistics
+*Choosing a site
+*Combining the data
+*Calculating statistics from the combined data
+*Creating a table 
+*Graphing
+*Recap
 
-Learning goals for this module:
+**Learning goals for this module:**
 
-The goal of the first day of the this forestry module is to have the students replicate what they did in the first 3 modules all at once and to do so more independently than previously. 
+The goal of the first day of this module is to review what you have learned from the previous 3 modules and use that knowledge to answer questions about data more independently. More specifically:
 
-Things this module should include are: 
+1. Min, max, median, mean review
 
-1. Min, max, median, mean review.  
+2. Exploring data sets
 
-2. Maximum sustained yield. 
+3. Combining data sets
 
-3. More time-series exploration
+4. Creating graphs
 
-4. More complex data visualization. 
+5. Using quantitative and qualitative data to make decision about which site is the most productive
 
-**END NOTE TO DEVELOPERS**
+6. Data visualization
 
 # PART 1: Introducing the data
 
 **Setting up the session**
+
+**Class Questions:**
+* What does the code below do? Add comments explaining its functions below:
 ```{r}
-# CLearing the environment
+# Clearing the environment
 rm(list = ls())
 # Setting the working directory
 current_path = rstudioapi::getActiveDocumentContext()$path
@@ -36,7 +47,7 @@ library(tidyverse)
 
 **Read in data**
 
-Throughout the time that the tribal forestry managers have been caring for the forest, they found that there are many factors that affect the quality of a given site. Components such as altitude, aspect, soil, and rainfall, as well as the combination of these factors have an effect on the productivity of a site. 
+The K'avi want to choose a site that is the most productive, or in other words, has the greatest average board_feet value for a given time period. But, they have also found throughout the time that they have been caring for the forest, that there are many factors that affect the quality of a given site. Components such as altitude, aspect, soil, and rainfall, as well as the combination of these factors have an effect on the productivity of a site. 
 
 1. Altitude affects productivity by shortening the length of the growing season and lowering the mean temperature. At high altitude, growth begins late and stops early, therefore making them less productive.
 
@@ -87,11 +98,6 @@ head(site_4)
 Now lets start to explore the differences between the sites with summary statistics. 
 
 **Class Questions**
-* What do these variables mean in the context of forestry management? 
-* How could this data be used to determine which site is the best choice for forestry? 
-
-
-**Class Questions**
 * What statistics would help you explore the difference in productivity between the different sites? 
 
 You can use the following chunk to perform whichever summary statistics you would find helpful. 
@@ -107,15 +113,13 @@ mean(site_4_new$board_feet)
 
 **Class Questions**
 * Based on these summary statistics, which site seems like the best site so far? 
-* If you were in charge of collecting more data what other factors would you like to consider about each of these different sites that was not provided in this data set?
+* Is there any other information you would like to consider about these sites that was not provided in this data set?
 
 # PART 3: Combining the sites
 
-Now that you've loaded in and explored that data from each of the sites, it will be useful to combine it in one large data set. Use what you have learned in the previous parts to combine the datasets. 
+Now that you've loaded in and explored that data from each of the sites, it will be useful to combine it in one large data set. Use what you have learned in the previous parts to combine the data sets. 
 
-**We will come back to this when we have read each of the other modules**
-
-```{r}
+```{r, combining the data}
 site_1_new <- site_1 %>%
   mutate(site_ID = 1)
 site_2_new <- site_2 %>%
@@ -124,7 +128,8 @@ site_3_new <- site_3 %>%
   mutate(site_ID = 3)
 site_4_new <- site_4 %>%
   mutate(site_ID = 4)
-
+#The function rbind combines the data vertically. This places all of the site 2,
+#3, and 4 below the data from site 1.
 forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
 ```
  
