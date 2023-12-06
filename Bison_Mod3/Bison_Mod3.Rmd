@@ -19,7 +19,6 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ### Set your working directory and load in tidyverse
@@ -268,7 +267,7 @@ Even though there might be multiple sites with enough biomass to support a large
 bison, it is not plausible that the bison will eat 100% of the forage available. There are
 elk populations present in the prairies that must be accounted for to ensure that both
 groups have enough biomass to sustain their populations.The present elk population must be
-able to coexist with the reintroduced bison population. Elk require 2,158 kg/year of plant
+able to coexist with the reintroduced bison population. Elk require 2,518 kg/year of plant
 biomass. As a reminder, bison require 21,900 kg/year of biomass. 
 
 ### import elk dataset
@@ -282,7 +281,7 @@ How many elk are there at each site?
 Considering the elk populations and the total biomass (from last class) at each site, do you expect the suitable sites for bison reintroduction to change? Why or why not? 
 
 
-If each elk requires 2,158 kg/year of plant biomass, how much biomass are the elk consuming at each site? What code would you use to figure this out?
+If each elk requires 2,518 kg/year of plant biomass, how much biomass are the elk consuming at each site? What code would you use to figure this out?
 ```{r kg biomass for elk}
 
 ```
