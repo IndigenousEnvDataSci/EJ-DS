@@ -24,7 +24,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ### Set your working directory and load in tidyverse
 ```{r set wd}
-current_path = rstudioapi::getActiveDocumentContext()$path #For editing purposes! Students would have to do this step on their own
+current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
 
