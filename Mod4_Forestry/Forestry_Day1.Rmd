@@ -21,7 +21,7 @@ Things this module should include are:
 
 **END NOTE TO DEVELOPERS**
 
-# PART 1: INtroducing the data
+# PART 1: Introducing the data
 
 **Setting up the session**
 ```{r}

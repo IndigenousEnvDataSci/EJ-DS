@@ -20,7 +20,7 @@ In the first part of this module, you explored data collected by K'avi tribal fo
 
 Based on your exploration of this timber data set in the first part of this module, it is time to present what you have learned to the broader community. You will create and present suggestions on the management of these forests to the community, using the data science tools you have developed throughout the semester. 
 
-The goal of this lesson is to work on refining the graphs that you have been making throughout the course so that they are an effective tool for sharing what you have learned through your data analysis with the broader community. We will demonstrate each new graphing tool using a graph of the density of trees within a one acre plot versus the age of the one acre plot and then we will let you explore ways to use each technique on the plot of board feet versus age that you created at the end of day 1 of this module. 
+The goal of this lesson is to work on refining the graphs that you have been making throughout the course so that they are an effective tool for sharing what you have learned through your data analysis with the broader community. We will demonstrate each new graphing tool using a graph of the density of trees which is defined here as the number of trees within a one acre plot versus the age of the one acre plot and then we will let you explore ways to use each technique on the plot of board feet versus age that you created at the end of day 1 of this module. 
 
 --------------------------------------------------------------------------------
 # WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
@@ -95,13 +95,13 @@ In our example of the number of trees over time at site 1 we have two different 
 
 Here is an example of a scatterplot:
 ```{r, satter plot}
-ggplot(site_1, aes(x = age, y = tree_number))+
+ggplot(site_1, aes(x = age, y = tree_density))+
   geom_point()
 ```
 Here is a line plot:
 
 ```{r, line plot}
-ggplot(site_1, aes(x = age, y = tree_number))+
+ggplot(site_1, aes(x = age, y = tree_density))+
   geom_line()
 ```
 
@@ -123,7 +123,7 @@ You can make whichever graph you decided on here:
 Another cool thing that ggplot lets us do is layer different plots on top of one another. Using this we can show both the scatterplot and the line plot. 
 
 ```{r}
-ggplot(site_1, aes(x = age, y = tree_number))+
+ggplot(site_1, aes(x = age, y = tree_density))+
   geom_line()+
   geom_point()
 ```
@@ -152,7 +152,7 @@ We can do this using the labs() layer in ggplot. To add this layer all you need 
 In our example plot of tree density and age below, we have changed the axis labels and added a title:
 
 ```{r, labels}
-ggplot(data = site_1, aes(x = age, y = tree_number))+
+ggplot(data = site_1, aes(x = age, y = tree_density))+
   geom_point()+
   labs(x = "Site Age", y = "Number of Trees", title = "Tree Density Over Time at Site 1")
 #The labs function allows you to adjust the labels of many different aspects of
@@ -202,22 +202,22 @@ library(patchwork)
 To use patchwork you need to create graphs for each of the sites, and then save each graph as its own variable the same way you would for any other variable. 
 
 ```{r, creating the graphs at each site}
-site_1_plot <- ggplot(data = site_1, aes(x = age, y = tree_number))+
+site_1_plot <- ggplot(data = site_1, aes(x = age, y = tree_density))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 1")
 
-site_2_plot <- ggplot(data = site_2, aes(x = age, y = tree_number))+
+site_2_plot <- ggplot(data = site_2, aes(x = age, y = tree_density))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 2")
 
-site_3_plot <- ggplot(data = site_3, aes(x = age, y = tree_number))+
+site_3_plot <- ggplot(data = site_3, aes(x = age, y = tree_density))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 3")
 
-site_4_plot <- ggplot(data = site_4, aes(x = age, y = tree_number))+
+site_4_plot <- ggplot(data = site_4, aes(x = age, y = tree_density))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 4")
@@ -246,9 +246,9 @@ Experiment with patchwork with your own graphs below until you find an arrangeme
 The second way to show data from multiple sites is to put all of the sites on one graph. We can do this in the aes() portion of the ggplot function by telling R to represent which site a point is from with another aspect of the graph. In our example we will use the color of the points and lines.
 
 ```{r}
-ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site")
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site")
 ```
 Note in this graph that the scale for the color on the right hand side of the plot is a continuous gradient of color rather than individual colors. This is because when we set up the site ID during the last lesson we set the ID of each site as a number. When we input a variable as a number, R automatically assumes that variable is a continuous, numerical variable. Since we are using the site ID as different categories for which site each observation is from we need this variable to be a factor (or categorical) variable rather than a number which we can do with the following code.
 
@@ -259,10 +259,10 @@ forest$site_ID <- as.factor(forest$site_ID)
 Now we can use the exact same code as above and it will color the points in different/discrete colors for each site rather than a gradient. We can also add back in the lines which were removed in the previous point because the line plots do not work well with the previous color scale.
 
 ```{r}
-ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+
   geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site")
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site")
 ```
 In the previous two graphs you can also see that R uses different default colors depending on what kind of variable it is working with. When R thought that the site ID was a continuous variable it used a light blue to dark blue gradient but after we converted the site ID to different categories R uses 4 distinct colors. 
 
@@ -329,10 +329,10 @@ Colors:
 * https://r-graph-gallery.com/42-colors-names.html
 
 ```{r}
-ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+
   geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site")+
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site")+
   scale_color_manual(values = c("dodgerblue4", "skyblue3", "steelblue1", "navyblue"))
 ```
 Note that the number of colors you give R must equal the number of categories you have. Change the color in your plot here:
@@ -357,10 +357,10 @@ library(viridis)
 Now lets try it on our graph
 
 ```{r}
-ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID))+
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+
   geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site")+
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site")+
 #Viridis automatically defaults to a continuous color scale, but since we have a 
 #discrete number of sites with a discrete number of colors, we have to add
 #discrete = TRUE
@@ -377,12 +377,12 @@ Another options for making graphs more accessible for color-blind people is by u
 
 In scatterplots we can change the shapes of the points. 
 ```{r}
-ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, shape = site_ID))+
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, shape = site_ID))+
 #We can use size to make the points larger and easier to see. Larger numbers make
 #the points larger on the graph 
   geom_point(size = 4)+ 
   geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site", shape = "Site")+
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site", shape = "Site")+
   scale_color_viridis(discrete = TRUE)
 
 ```
@@ -391,11 +391,11 @@ With line plots we can change the line types.
 ```{r}
 #Here we can make each site have a different color and a different type of line 
 #by assigning them by site_ID
-ggplot(data = forest, aes(x = age, y = tree_number, color = site_ID, linetype = site_ID))+
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype = site_ID))+
   geom_point()+  
 #Again we can use the size command to increase the width of the lines
   geom_line(size = 3)+ 
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
   scale_color_viridis(discrete = TRUE)
 ```
 Which of these options do you think is best for your audience?
@@ -407,20 +407,89 @@ Go back to the beginning of this document and look back at what you identified a
 
 Review how you identified your audience. Do the added graph elements that you chose to add benefit this audience? If you could improve the graph in some way, how would you? (even if you don't know how to code this yet)
 
-# Additional Resources
+# If you have extra time: Additional Resources/ Future Directions
 
-# PART 7: Themes
+In the future, if you want to fully customize each element of your graph you will probably run into themes. This topic gets very complicated, very quickly so you do not need to know everything about themes but we want to show you that it is an option if you need it in the future. There are two main ways you might want to use themes, using a predefined theme or using themes to change specific items in your graph.
 
-*Talking about themes may be a stretch goal/not the most important part of this exercise. How do we feel about leaving this out?*
+*Basic themes*
 
-[#JMc: There's a lot more they could do on graphics, of course, so we'll have to draw the line somewhere. Maybe suggest it as one "Future directions option." Just point them in this direction, perhaps under the "More Resources" section at the end?]
+Ggplot comes with a couple of predefined themes that you can apply to your graphs. Below we will create the code to apply each predefined themes and then show you what they look like. 
 
-* Basic themes
+```{r}
+# This code creates a graph with no added theme
+no_theme <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
+  geom_point()+  
+  geom_line()+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "No Theme", color = "Site")
+
+# This is the black and white theme
+theme_bw <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
+  geom_point()+  
+  geom_line()+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Black and White Theme", color = "Site")+
+  theme_bw()
+
+# This one makes the linedraw theme
+theme_linedraw <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
+  geom_point()+  
+  geom_line()+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Line Draw Theme", color = "Site")+
+  theme_linedraw()
+
+# Dark theme
+theme_dark <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
+  geom_point()+  
+  geom_line()+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Dark Theme", color = "Site")+
+  theme_dark()
+
+# Minimal Theme
+theme_minimal <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
+  geom_point()+  
+  geom_line()+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Minimal Theme", color = "Site")+
+  theme_minimal()
+
+# Void Theme
+theme_void <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
+  geom_point()+  
+  geom_line()+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Void Theme", color = "Site")+
+  theme_void()
+
+(no_theme + theme_bw + theme_linedraw)/(theme_dark + theme_minimal + theme_void)
+```
+
+Feel free to check out these resources for a list of all the predefined themes:
+* https://ggplot2-book.org/themes
+* https://www.datanovia.com/en/blog/ggplot-themes-gallery/
+* https://r-charts.com/ggplot2/themes/ 
+* https://r-graph-gallery.com/192-ggplot-themes.html
+
+
+*More Detailed Themes*
+
+Themes in ggplot also let you build your own themes by specifying each element in your graph. 
+
+If you have extra time feel free to explore these links to see how you would change a specific element of your graph but we are mainly including the following links so that in the future if you are refering back to this lesson you have some more resources to look at to further customize your plots. We have also included a plot below to show just how many things you can change with themes (and how terrible you can make the graphs look with themes):
+
+* https://ggplot2-book.org/themes (Part 17.3) 
+* https://ggplot2tor.com/theme/
+* https://datavizm20.classes.andrewheiss.com/lesson/05-lesson/ 
+
+
 ```{r}
 #This allows you to adjust finer details of the graph. For instance, you can 
 #adjust the size and color of the title and subtitle. 
-  theme(plot.title = element_text(size= "20", color="blue"), plot.subtitle = element_text(size = "10", color="purple"))
+ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype = site_ID))+
+  geom_point()+  
+#Again we can use the size command to increase the width of the lines
+  geom_line(size = 3)+ 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
+  scale_color_viridis(discrete = TRUE)+
+  theme(plot.title = element_text(size= "20", color="blue"), #Changes the color of the title
+    plot.background = element_rect(fill="purple"), #Changes the color of the background
+    panel.border = element_rect(linetype = "dashed", fill = NA), # gives the border of the plot a dashed line
+    panel.grid.major = element_line(colour = "black"), #Makes the grid lines heavy 
+    legend.text = element_text(size = 8, colour = "red")) # Makes the text of the legends red
 ```
-
-* Ways to make complicated themes
-
