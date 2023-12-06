@@ -9,9 +9,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Background for Module 2: Water Quality
 
-Water sustains life on our planet and water is sacred to Native Americans. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
+Water is a valuable resource that is important for maintaining many aspects of a community's well being. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
 
-Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects Indigenous culture, because, to thrive, bull trout require water temperatures below 14 degrees C and dissolved oxygen levels above 6.2 mg/L. Such cold clean water conditions are growing scarcer due to climate warming and pollution.
+Bull trout are a culturally important, but threatened species of fish native to the U.S. Northwest and the Canadian Rockies. They provide an example of how water quality affects community culture, because, to thrive, bull trout require water temperatures below 14 degrees C and dissolved oxygen levels above 6.2 mg/L. Such cold clean water conditions are growing scarcer due to climate warming and pollution. 
+
+It is also important to note that water temperature and levels of dissolved oxygen are related. As water temperature increases, dissolved oxygen levels decrease in water. This is concerning as climate warming has the power to increase water temperature, causing dissolved oxygen to dip to unhealthy levels for aquatic life. 
 
 [#JMc note: We need to check these threshold values for T and DO.]
 
@@ -35,35 +37,29 @@ problems that we see when using real world data.
 4. We will explore how water quality data can help communities make decisions 
 to protect culturally important species.
 
-**We will reach these goals in six steps**
-1. On day 1 of this module, we'll start by reviewing the usual steps for getting started: setting the working directory, bringing a dataset into RStudio, etc.
 
-2. Next, we'll "wrangle" the dataset into a format that will make it easier to analyze in R. This includes organizing columns of data in a "tidy" way, merging two datasets, changing the names of variables, etc. Data wrangling is an important component of data science. It's a way of making sure the data you analyze is in a format that is reliable and complete.
-
-3. After step 2, we will have the data in tidy form, and we can use familiar code to learn the summary statistics: means, minima, maxima, etc. We'll end Day 1 of the module using these statistics to make a preliminary assessment of whether Stream A or Stream B would be a better choice for reintroducing bull trout to K'avi land.
-
-4. We will spend Day 2 analyzing patterns in the temperature and DO data from the two streams in more detail. First, we'll use familiar code to make a scatter plot of temperature and DO. This will help us visualize all of the data from both streams, which might give us insights we didn't see from the summary statistics. We can use this scatterplot to learn which stream had more years in the "danger zone" for bull trout, where temperatures were above 14 degrees C or dissolved oxygen was below 6.2 mg/L.
-
-5. Next, we'll learn how to adapt our plotting code to show trends in temperature and dissolved oxygen over the 15 years that the K'avi have been collecting data from these streams. These "time series graphs" tell us whether water quality in the two streams is getting better, getting worse, or staying the same.  
-
-6. Finally, you can use all the analyses you have conducted (summary statistics, scatter plots, and time series plots) to make recommendations to the K'avi fisheries managers about which stream is a better bet for supporting healthy bull trout populations on tribal land. How does each analysis help you understand patterns in water quality? Which analysis was most useful? 
 
 --------------------------------------------------------------------------------
 #INSTRUCTOR'S VERSION: Learning goals and instructor resources
 
-1. Students will review the steps to set a working directory, load packages, and load in data from 
-two external data files. 
+**We will reach these goals in six steps**
+1. On day 1 of this module, we'll start by reviewing the usual steps for getting started: setting the working directory, bringing a dataset into RStudio, etc.
 
-2. Students will use new commands, like pivot_longer() and left_join() to make the data "tidy", so it can be more easily reliable. There are many websites that can help you and your students learn these new tools and approaches. Here are a few to get you started: [tidying data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html); [pivoting data](https://tidyr.tidyverse.org/articles/pivot.html); [joining data](https://r4ds.hadley.nz/joins.html).
+2. Next, we'll "wrangle" the dataset into a format that will make it easier to analyze in R. This includes organizing columns of data in a "tidy" way, merging two datasets, changing the names of variables, etc. Data wrangling is an important component of data science. It's a way of making sure the data you analyze is in a format that is reliable and complete. Students will use new commands, like pivot_longer() and left_join() to make the data "tidy", so it can be more easily reliable. There are many websites that can help you and your students learn these new tools and approaches. Here are a few to get you started: [tidying data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html); [pivoting data](https://tidyr.tidyverse.org/articles/pivot.html); [joining data](https://r4ds.hadley.nz/joins.html).
 
 3. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
 
-4. Students will review basic summary statistic commands in R to pull the mean, 
-median, max, and min values for water temperature and dissolved oxygen at the two streams. 
+4. After step 2, we will have the data in tidy form, and we can use familiar code to learn the summary statistics: means, minima, maxima, etc. We'll end Day 1 of the module using these statistics to make a preliminary assessment of whether Stream A or Stream B would be a better choice for reintroducing bull trout to K'avi land.
 
-5. NEW SKILL/review: Students will review how to make a scatter plot using ggplot. Then they will learn how to make a new kind of plot in ggplot (time series line graphs). This shows the adaptability of ggplot, and the ability to add graphical features. [Here's a link with more information](https://ggplot2.tidyverse.org/)
+4. We will spend Day 2 analyzing patterns in the temperature and DO data from the two streams in more detail. First, we'll use familiar code to make a scatter plot of temperature and DO. This will help us visualize all of the data from both streams, which might give us insights we didn't see from the summary statistics. We can use this scatterplot to learn which stream had more years in the "danger zone" for bull trout, where temperatures were above 14 degrees C or dissolved oxygen was below 6.2 mg/L. 
 
-6. From the scientific analysis perspective, this module highlights why it is useful to visualizing data in multiple ways. There is one question: "Which of two streams has water quality most appropriate to maintain a healthy bull trout population?" But we ask it three times, after seeing summary statistics, then a scatter plot, then time series plots. The summary statistics and the scatter plot show that Stream B generally has better water quality than Stream A, but the time-series graph shows that both temperature and dissolved oxygen are getting worse for bull trout. The question of which stream is a better choice (the one with better values or the one without a dangerous trend) is for the class to discuss.
+5. Next, we'll learn how to adapt our plotting code to show trends in temperature and dissolved oxygen over the 15 years that the K'avi have been collecting data from these streams. These "time series graphs" tell us whether water quality in the two streams is getting better, getting worse, or staying the same.  This shows the adaptability of ggplot, and the ability to add graphical features. [Here's a link with more information](https://ggplot2.tidyverse.org/)
+
+
+6. Finally, you can use all the analyses you have conducted (summary statistics, scatter plots, and time series plots) to make recommendations to the K'avi fisheries managers about which stream is a better bet for supporting healthy bull trout populations on tribal land. How does each analysis help you understand patterns in water quality? Which analysis was most useful? 
+
+
+7. From the scientific analysis perspective, this module highlights why it is useful to visualizing data in multiple ways. There is one question: "Which of two streams has water quality most appropriate to maintain a healthy bull trout population?" But we ask it three times, after seeing summary statistics, then a scatter plot, then time series plots. The summary statistics and the scatter plot show that Stream B generally has better water quality than Stream A, but the time-series graph shows that both temperature and dissolved oxygen are getting worse for bull trout. The question of which stream is a better choice (the one with better values or the one without a dangerous trend) is for the class to discuss.
 
 --------------------------------------------------------------------------------
 
@@ -112,17 +108,17 @@ library(tidyverse)
 
 *Load in our data* 
 
-Now it's time to load in our data! In this scenario, temperature data 
+Now it's time to load in our data! In this scenario, water temperature data 
 and dissolved oxygen data were collected and stored in two separate files. 
-Therefore, we will need to load in both files in order to use them. 
+Therefore, we will need to load in both files in order to use them.
+
+As a note, the units for temperature are Celsius (C) and the units for dissolved oxygen are mg/L. 
 
 ```{r}
-#We will first load in our data for water temperature. 
 stream_temp <- read.csv("streams_temperature.csv", header = TRUE, sep =",")
 ```
 
 ```{r}
-#Now we will load in our data for dissolved oxygen concentrations.
 stream_DO <- read.csv("streams_DissolvedOxygen.csv", header = TRUE, sep =",")
 ```
 
@@ -141,9 +137,9 @@ head(stream_DO)
 
 **Class Question:**
 
-What do you notice is different between using the command "View" and the command "head"? Which one do you think is more useful?
+*What do you notice is different between using the command "View" and the command "head"? Which one do you think is more useful?
 
-It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
+*It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
 
 ```{r}
 dim(stream_temp)
@@ -152,7 +148,7 @@ dim(stream_DO)
 
 **Class Questions:**
 
-How many data entries are in this dataset for water temperature? 
+*How many data entries are in this dataset for water temperature? 
 
 *How many data entries are in this dataset for dissolved oxygen? 
 
@@ -166,29 +162,25 @@ this module.
 --------------------------------------------------------------------------------
 **Tidying datasets for more reliable analysis**
 
-As of now, our data for water temperature for Stream A and B exists in a separate
-data frame from the dissolved oxygen concentrations for Stream A and B. For
-tribal land managers to truly understand what's going on, they need to analyze
-water temperature and dissolved oxygen together. To do this, we need to change 
-how our data is set up in each data frame and then merge these data frames together. 
+As of now, our data for water temperature for Stream A and B exists in a separate data frame from the dissolved oxygen concentrations for Stream A and B. For K'avi Fish and Wildlife managers to truly understand what's going on, they need to analyze water temperature and dissolved oxygen together. To do this, we need to change how our data is set up in each data frame and then merge these data frames together. 
 
-Manipulating data so that it is formatted in a way that we can easily and reliably analyze is called "data wrangling". In R, we like our data to be "tidy". This means: 
+Manipulating data so that it is formatted in a way that we can easily and reliably analyze is called "data wrangling". In R, we like our data to be "tidy". This means we don't want duplicate columns for the same variable. For example, in the stream_temp dataset, we have two columns for temperature, because we have a column for the water temperature of Stream A and the water temperature of Stream B. In a "tidy" version of thus dataset, we want all the temperature values to be in the same column.
 
-Every column of the data table is a variable. For our water quality dataset, these are categories like "temperature" and "dissolved oxygen" and also things like, "year" (which is the year the measurements were made) and "site" (which means which of the two streams was measured). 
+HOWEVER, if we put all the temperature values in the same column, how will we know which stream the measurements came from? Take a moment to think about this, and see the answer below!
 
-Every row of the data table is an observation. For our water quality dataset, each row corresponds to a year where temperature and dissolved oxygen were measured at the two streams.
+*ANSWER*
+We would want to make a column called "site" so when we read a row of data, we can see whether the water temperature or dissolved oxygen data was collected in Stream A or Stream B!
 
-Every cell is a single value. For example, if row 1 is "2007" and column 2 is "temperature", the cell for row 1, column 2 might be "13.5" showing that the water temperature of a stream was 13.5 degrees C in 2007.  
 
 If you want to learn more about tidy data, [here's a useful website](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
-*It will take several steps to make our data tidy.*
+*But how do we make our data tidy?*
 
 First, we will use the pivot_longer() command to reorganize the columns from the temperature dataset, so that there is one column for "site" and one column for "temperature_C" The goal is to make only one column for each variable.
 
 **Class Question**
 
-Look back at the current "messy" version of stream_temp. Can you see explain why there is more than one column with the same variable? 
+*Look back at the current "messy" version of stream_temp. Can you see that there is more than one column with the same variable? 
 
 The pivot_longer() command allows us to combine columns, which transforms our dataset into a form with more rows (longer), and fewer columns (less wide). Long form data makes it easier to summarize data and look at trends over time, which allows the tidyverse package to work better. 
 
@@ -224,15 +216,17 @@ View(stream_temp)
 
 
 Great! Our code worked. Now let's do the same for the dissolved oxygen data set.
-We want to change it in the same way we changed the temperature data set above. 
-[#JMc Note: We could reframe this as an "I do", "We do" exercise, since it's similar to the last code chunk.]
+We want to change it in the same way we changed the temperature data set above.
+
+HOWEVER, this time some chunks of code have been left blank. See if you can 
+fill them in based on what you saw in the example above! 
 
 ```{r}
 
 stream_DO <- stream_DO %>%
   pivot_longer(
-    cols = c(StreamA, StreamB),
-    names_to = "site",
+    cols = c(),
+       = "site",
     values_to = "dissolved_oxygen"
   )
 ```
@@ -274,7 +268,7 @@ Great job data wrangling! We now have a single tidy dataset that we can use to a
 
 **Summary statistics**
 
-We know that bull trout prefer cold clean water. Temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L  tend to be bad for bull trout, though these are only general approoximations and the healthiness of stream water for bull trout depends on many factors. 
+We know that bull trout prefer cold clean water. Temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L tend to be bad for bull trout, though these are only general approoximations and the healthiness of stream water for bull trout depends on many factors. 
 
 We'll start our analysis of water quality by using the statistical summary commands that will be familiar from Module 1. First, we'll calculate the mean (or average) water temperature
 
@@ -284,14 +278,13 @@ mean(streams$temperature)
 
 Ah! Our code didn't work. R gave us an error message. Error messages are a normal part of programming. Although they might seem surprising or frustrating, you can think about them as a challenge for you to figure out. 
 
-Here, R is telling you that the dataset has missing data, which is indicated in R by "the "NA", which means "not available". If you look at the "streams" dataset, you'll see that there are, indeed, some NA values. 
+Here, R is telling you that the dataset has missing data, which is indicated in R by "the "NA", which means "not available". As you may have already noticed when looking at the "streams" dataset, you'll see that there are, indeed, some NA values. 
 
-How did these NAs get there? When we merged the separate stream_DO and stream_temp datasets using left_join(), there were years when a stream had either temperature or DO data, but not both. These are years when the K'avi were not able to measure both temperature AND dissolved oxygen at one of the streams. It is very common to have missing data in datasets. left_join() inserts "NA" into cells that don't have data.
+It is very common to have missing data in datasets. Sometimes the data contains NAs in them by the scientists that entered the data (as in our case), but R will also enter NA in a row if there was no data there to begin with (it was left blank when the data was collected).
 
 The reason this causes R to throw an error message is because the command mean() assumes that there are actual numbers in each cell that R is computing the mean of. R is telling you that it doesn't know how to calculate the value of something called "NA".
 
-In the next section, we'll go over some easy ways to fix this problem in our "water"
-data set by telling R to ignore the NAs. 
+In the next section, we'll go over some easy ways to fix this problem in our "streams" data set by telling R to ignore the NAs. 
 
 The command na.omit() deletes any row that has NAs in it. The code below doesn't change the streams dataset, it just prints streams without any rows that have NAs.
 
@@ -311,7 +304,7 @@ Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
 carry on with our summary statistics.
 
 *Your turn! How would you figure out what the mean amount of dissolved oxygen 
-is in the water across all samples? 
+is in the water across Stream A and Stream B? 
 
 ```{r}
 #Write your code here!
@@ -325,17 +318,18 @@ median(na.omit(streams$temperature))
 ```
 
 **Class question:**
-What is the median amount of dissolved oxygen across all samples? 
+What is the median amount of dissolved oxygen across all samples? Try and fill 
+in the code chunk below:
 
 ```{r}
 #Write your code here! 
 
 ```
 
-Since our goal is to compare the water quality of Stream A and Stream B, let's temporarily create separate dataframes for each stream using a new command called subset(). 
+Since our goal is to compare the water quality of Stream A and Stream B, let's temporarily create separate dataframes for each stream using a new command called subset(). We explain the code and the commands we will use in the code chunk below. 
 
 ```{r}
-# Below, we define a new dataframe "StreamA_WQ" as the subset of "streams" that have "StreamA" in the column "site" 
+# Below, we define a new dataframe "StreamA_WQ" as the subset of "streams" that have "StreamA" in the column "site". Here, we use the "<-" to tell R that we want to make a new dataframe, from a dataframe that already exists (streams).
 StreamA_WQ <- subset(streams, site == "StreamA")
 
 # PRACTICE YOUR OWN CODE:
@@ -363,9 +357,20 @@ summary(StreamB_WQ)
 
 **Preliminary analysis of water quality data from Stream A and Stream B**
 
-On Day 2 of this module, we will explore the water quality data in detail, and use this exploration of data to help inform the best decision about which stream is most promising for bull trout reintroduction. 
+On Day 2 of this module, we will explore the water quality data in detail, and use this exploration of data to help inform the best decision about which stream is most promising for bull trout reintroduction. As a reminder,  temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L tend to be bad for bull trout. 
 
-For now, let's use the information in the summary tables above to get a preliminary sense of which stream might have better water quality for bull trout. Comparing the two tables, which stream seems better? Which of the summary statistics is most useful? Is there any other information you'd like to know in order to make the best recommendation to the tribe?    
+For now, let's use the information in the summary tables above to get a preliminary sense of which stream might have better water quality for bull trout. 
+
+**Class Questions**
+
+Comparing the two tables, which stream seems better? 
+
+Which of the summary statistics do you think is most useful? Is there any other information you'd like to know in order to make the best recommendation to the tribe?    
+
+*RECAP:*
+In this section, we reviewed ways to combine datasets in a "tidy" way, remove NAs, reviewed how to run summary statistics, and introduced a 
+technique to subset data so that we can look at data in different groups that may be useful for analysis. 
+
 
 # Day 2: Detailed exploration of the water quality data with graphs.
 
@@ -401,20 +406,24 @@ Where are the best values of water quality for bull trout? Where are the worst v
 
 When you ran the code chunk, you might have gotten a warning message that says, "Warning: Removed 5 rows containing missing values (`geom_point()`)." What does that mean? How does this affect your interpretation of the graph?
 
-Does looking at this graph change your opinion about which stream will be healthier for bull trout? What other information would help the tribe make this decision?
+Does looking at this graph change your opinion about whether Stream A or Stream B will be healthier for bull trout? What other information would help the tribe make this decision?
 
 
 **Time series graphs of water quality**
 
-The scatter plot shows more detail than the summary statistics, but there is still more useful information in our data set. The K'avi have measured temperature and DO for 15 years, which is a long time. Since we know that temperatures are rising, it would be useful to see if these values change over time (we're looking for a trend). 
+The scatter plot shows more detail than the summary statistics, but there is still more useful information in our data set. K'avi Fish and Wildlife managers have measured temperature and DO for 15 years, which is a long time. Since we know that temperatures are rising, it would be useful to see if these values change over time (we're looking for a trend). 
 
-This might be particularly important for Stream B, since the water in this streams comes from melt water from a glacier that is shrinking over time. Stream A is fed by ground water, and so it might have more stable temperatures. 
+To recap, Stream A is fed by a groundwater spring, and Stream B is fed by an alpine lake that is fed by a glacier. Because there sources of water are different, we can hypothesize that these streams may react differently to climate change. 
 
-These ideas form a "hypothesis" about how water quality might be changing over time: We hypothesize that the water quality of Stream A might be stable over time, while the water quality of Stream B might be getting worse.
+**Class Question:**
+Based on what we know about Stream A and Stream B, what would your hypothesis be on how the water quality for each stream may change as global temperatures increase with climate change? 
 
-We can assess these hypotheses by plotting water tempertature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
+
+We can assess our hypotheses by plotting water temperature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
 
 First, we'll plot temperatures from both sites across the 15 years that the tribe has been monitoring water temperatures.
+
+
 
 ```{r}
 # The first line says we're making a plot using the streams dataframe.
@@ -440,9 +449,9 @@ What do the two colored lines represent?
 
 Why are there breaks in the blue line?
 
-Do the trends over time support our hypothesis that the water quality of Stream A is stable, while the water quality of Stream B is declining? 
+Do the trends over time support your hypothesis about the stability of the temperature of the streams? Why or why not?
 
-See if you can make a similar time-series plot showing changes in dissolved oxygen over time:
+Using the code above as an example, see if you can make a similar time-series plot showing changes in dissolved oxygen for both streams over time:
 
 ```{r}
 # Write your code here:
@@ -450,7 +459,10 @@ See if you can make a similar time-series plot showing changes in dissolved oxyg
 
 ```
 
+*INSTUCTORS VERSION - this line of writing outline our intent with the plots*
 Although Stream B tends to have had better water quality in the past, it seems that the data support our the hypothesis that the water quality of Stream B is getting worse, while the water quality of Stream A is fairly constant.
+
+*STUDENT VERSION*
 
 **Class Questions:**
 
@@ -458,7 +470,7 @@ Why do you think the water quality in Stream B is getting worse?
 
 Which stream do you think will be healthier for bull trout in the future?
 
-If you were using this analysis to make a recommendation to K'avi fisheries biologists, what would you suggest they consider as they decide which stream should be the site for bull trout reintroductions?
+If you were using this analysis to make a recommendation to K'avi Fish and Wildlife managers, what would you suggest they consider as they decide which stream should be the site for bull trout reintroductions?
 
 Beyond the case of bull trout reintroductions, what other water quality issues are important to tribes?
 
