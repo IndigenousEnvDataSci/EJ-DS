@@ -466,6 +466,13 @@ Feel free to check out these resources for a list of all the predefined themes:
 * https://r-charts.com/ggplot2/themes/ 
 * https://r-graph-gallery.com/192-ggplot-themes.html
 
+ Explore different predefined themes here:
+ 
+```{r}
+
+```
+ 
+
 
 *More Detailed Themes*
 
@@ -493,3 +500,10 @@ ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype =
     panel.grid.major = element_line(colour = "black"), #Makes the grid lines heavy 
     legend.text = element_text(size = 8, colour = "red")) # Makes the text of the legends red
 ```
+
+Try out any other theme things here:
+
+```{r}
+
+```
+
