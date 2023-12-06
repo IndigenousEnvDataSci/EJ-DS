@@ -129,9 +129,7 @@ stream_DO <- read.csv("streams_DissolvedOxygen.csv", header = TRUE, sep =",")
 Now that our data is loaded into R, we can explore the data using the view and 
 head commands. Our goal is to make sure things loaded correctly and to get a first look to see if the data make sense. 
 
-```{r}
-View(stream_temp)
-```
+
 
 ```{r}
 head(stream_DO)
@@ -213,7 +211,7 @@ stream_temp <- stream_temp %>%
 
 To make sure this long command worked the way we intended, we should now view streams_temp: 
 ```{r}
-View(stream_temp)
+print(stream_temp)
 ```
 
 
@@ -223,13 +221,13 @@ We want to change it in the same way we changed the temperature data set above.
 HOWEVER, this time some chunks of code have been left blank. See if you can 
 fill them in based on what you saw in the example above! 
 
+*NOTE* This is filled in for the instructor's version, but will be left blank for students. 
 ```{r}
-
-stream_DO <- stream_DO %>%
-  pivot_longer(
-    cols = c(),
-       = "site",
-    values_to = "dissolved_oxygen"
+stream_DO <- stream_DO %>%  
+  pivot_longer( 
+    cols = c(StreamA, StreamB), 
+    names_to = "site", 
+    values_to = "dissolved_oxygen" 
   )
 ```
 
@@ -238,7 +236,7 @@ it to. We want there to be three columns, one for the year the sample was collec
 one for the site name, and one for the dissolved oxygen values (mg/L). 
 
 ```{r}
-View(stream_DO)
+print(stream_DO)
 ```
 
 Good work! This data frame looks the way we want it to now as well. 
@@ -261,8 +259,9 @@ streams <- left_join(stream_temp,stream_DO)
 
 
 Great! Now let's check to make sure that we successfully merged our two data frames.
+
 ```{r}
-View(streams)
+print(streams)
 ```
 
 
@@ -275,7 +274,7 @@ We know that bull trout prefer cold clean water. Temperatures above 14 degrees C
 We'll start our analysis of water quality by using the statistical summary commands that will be familiar from Module 1. First, we'll calculate the mean (or average) water temperature
 
 ```{r}
-mean(streams$temperature)
+mean(streams$temperature_C)
 ```
 
 Ah! Our code didn't work. R gave us an error message. Error messages are a normal part of programming. Although they might seem surprising or frustrating, you can think about them as a challenge for you to figure out. 
@@ -316,7 +315,7 @@ is in the water across Stream A and Stream B?
 Now lets use another familiar command to show the MEDIAN of temperature measured across all streams and years? 
 
 ```{r}
-median(na.omit(streams$temperature))
+median(na.omit(streams$temperature_C))
 ```
 
 **Class question:**
@@ -338,7 +337,7 @@ StreamA_WQ <- subset(streams, site == "StreamA")
 # See if you can make a new dataframe called "StreamB_WQ" 
 # that is the subset of "streams" that have "StreamB" in the column "site"
 # WRITE YOUR OWN CODE BELOW:
-
+StreamB_WQ <- subset(streams, site == "StreamB")
 
 ```
 
