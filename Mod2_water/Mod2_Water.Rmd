@@ -1,6 +1,8 @@
 ---
 title: "Mod2_water"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: "2023-11-14"
 ---
 ```{r setup, include=FALSE}
