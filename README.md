@@ -10,7 +10,7 @@ data science collaboration.
 # Contents of each module
 
 -   vignette
-    -   describes context of the data, including context in Inidigenous Environmental Justice
+    -   describes context of the data, including context in Indigenous Environmental Justice
     -   lists variables in dataset
     -   describes some ways that the data can be used
     -   describes discussion opportunities for EJ
