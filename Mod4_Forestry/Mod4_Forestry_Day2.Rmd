@@ -11,8 +11,8 @@ output:
 * Part 4: Adding more sites
 * Part 5: Legends
 * Part 6: Adding visual elements
-* Part 7: Themes
-* Part 8: Reviewing your plots
+* Part 7: Reviewing your plots
+* If you have extra time: Additional Resources/Future Directions
 
 # Vignette
 
@@ -47,21 +47,24 @@ Our graphing theory information was mainly inspired by these resources:
 **Class Questions**
 
 **What do you want to present?**
-  What are the variables that you have been working with? Why are these variables relevant to the goal of choosing a site to start a timber harvest site on? 
-  
-  How do those variables change between sites? How are the sites related? What relationship do you want to show between the different sites? 
 
-  In an effort to keep things simple, we have only been working with the yield of a specific site over time but in reality yield is far from the only variable that is relevant when picking out a site for a new timber harvest site. What other things would you want to consider when picking a new site for timber harvest? 
+* What are the variables that you have been working with? Why are these variables relevant to the goal of choosing a site to start a timber harvest site on? 
+  
+* How do those variables change between sites? How are the sites related? What relationship do you want to show between the different sites? 
+
+* In an effort to keep things simple, we have only been working with the yield of a specific site over time but in reality yield is far from the only variable that is relevant when picking out a site for a new timber harvest site. What other things would you want to consider when picking a new site for timber harvest? 
 
 **Who do you want to present it to?**
-  Who might you be presenting this information to? What type of background do they have in picking a site for timber harvest? 
+
+* Who might you be presenting this information to? What type of background do they have in picking a site for timber harvest? 
   
-  Why would this audience be interested in hearing about the productivity of different sites? 
+* Why would this audience be interested in hearing about the productivity of different sites? 
   
 **Setting goals for your plot**
-  Based on the other factors that are important for picking a timber harvest site that you identified in the first part of this question and the audience you identified in the second part of the question, what role do you think information on board feet versus the age of a forest stand would play in this presentation? 
+
+* Based on the other factors that are important for picking a timber harvest site that you identified in the first part of this question and the audience you identified in the second part of the question, what role do you think information on board feet versus the age of a forest stand would play in this presentation? 
   
-  How would a graph of board feet versus stand age help to achieve that role? What important characteristics should this graph have so that it fills the role you want it to have? 
+* How would a graph of board feet versus stand age help to achieve that role? What important characteristics should this graph have so that it fills the role you want it to have? 
   
 Now that you have an idea of what your goals are for this graph, we will present a couple different tools in ggplot to give you more control over your graphs. With each tool, we will show show one way you can use that tool on a graph of tree density versus stand age and then we will point you towards resources you can use to explore how to implement that tool with your own graphs. 
 
@@ -161,7 +164,11 @@ ggplot(data = site_1, aes(x = age, y = tree_density))+
 #you to rename the title of the graph and subtitle to add extra information.
 ```
 
-While you add labels to your graph below, think about the data that you are trying to convey to your chosen audience. How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
+**Class Questions**
+
+While you add labels to your graph below, think about the data that you are trying to convey to your chosen audience. 
+
+* How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
 
 ```{r}
 
@@ -267,9 +274,13 @@ ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
 In the previous two graphs you can also see that R uses different default colors depending on what kind of variable it is working with. When R thought that the site ID was a continuous variable it used a light blue to dark blue gradient but after we converted the site ID to different categories R uses 4 distinct colors. 
 
 **Class Questions**
+
 * How do the different color palettes that R uses relate to the relationships between the different sites? 
+
   Potential answer: The color palettes with a gradient of blues assumes a relationship between the different sites where you assume similar colors will mean similar sites whereas the more "random" colors in the other palatte show that the sites are distinct. 
+  
 * Based on relationships between the different sites, what color palette would be the most appropriate here? (Note: we will talk more about changing the color palettes soon if you would like to)
+
   Potential answer: Since we don't really have any data on how the sites are related to one another it would probably make the most sense to use distinct colors for each site. 
 
 Try adding all the sites onto your graph here:
@@ -281,10 +292,12 @@ Try adding all the sites onto your graph here:
 Both of these methods, arranging multiple graphs and adding colors, will show information on how the sites differ but they each have different pros and cons. In the arranged plots, each individual plot is cleaner and simpler whereas there is a lot going on in the combined plot. However, the combined plot lets you see the differences between sites more clearly and it takes up less space in a slide or a paper. 
 
 **Class Questions:**
+
 * What might be the benefits of putting each site on its own graph? What about including all the sites on the same graph? 
+
   Potential answer: Puttign each site on its own graph keeps the individual graphs cleaner and simpler while putting all the lines on the same graph highlights the differences between sites. 
   
-*Which format of including multiple sites do you think will best convey the information to your proposed audience? Why? 
+* Which format of including multiple sites do you think will best convey the information to your proposed audience? Why? 
 
 For the example plots in the next couple of sections we will be using the combined plot with different colors because some of the other ggplot techniques we want to highlight are easier to show with that plot. 
 
@@ -293,6 +306,7 @@ For the example plots in the next couple of sections we will be using the combin
 You may have noticed in the previous section that when you added color categories for different sites, ggplot automatically created a legend. This legend on the right hand side of the plot describes what each color means. However, like many things ggplot automatically generates, the legend is not particularly reader-friendly. 
 
 **Class Questions:**
+
 * How would changing your legend provide more context to your graph? 
 * What would you like to change about your legend to tailor it to your specific audience?
 
@@ -300,9 +314,9 @@ So far the goal of this course has been to help walk you through the foundations
 
 In the next couple of sections we have provided links to a couple of different online resources which address each topic. You are free to explore those links or other resources you may find helpful. We have provided multiple links for each section in case one of the links does not work for any reason. Additionally, here are a couple of links to PDFs about graphing in R that you can save on your device and refer back to later without needing an internet connection:
 
-https://www.tutorialspoint.com/ggplot2/ggplot2_tutorial.pdf
-https://ms.mcmaster.ca/~bolker/misc/ggb.pdf
-https://www.datanovia.com/en/wp-content/uploads/dn-tutorials/book-preview/ggplot2-essentials_preview.pdf
+* https://www.tutorialspoint.com/ggplot2/ggplot2_tutorial.pdf
+* https://ms.mcmaster.ca/~bolker/misc/ggb.pdf
+* https://www.datanovia.com/en/wp-content/uploads/dn-tutorials/book-preview/ggplot2-essentials_preview.pdf
 
 Here are a couple of resources about how to change your legend in ggplot. They all cover similar things but you may prefer one over the others:
 
@@ -324,6 +338,7 @@ Now that you have a plot with multiple site, different colors, and a legend it's
 To manually set what colors your plot you can use layer scale_color_manual() which will let you individually choose each color in your plot (example below). The resources below will provide you with a list of all the colors that R automatically knows the names of. You can also use the function colors() to get a list of all 657 colors that R knows the name of but that does not actually show the color along with the name. 
 
 Colors:
+
 * https://www.datanovia.com/en/blog/awesome-list-of-657-r-color-names/
 * http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
 * https://r-graph-gallery.com/42-colors-names.html
@@ -401,7 +416,7 @@ ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype =
 Which of these options do you think is best for your audience?
 
 
-# PART 8: Reviewing your plots
+# PART 7: Reviewing your plots
 
 Go back to the beginning of this document and look back at what you identified as the key takeaways from the data analysis. Take this as a chance to reflect on if your choice of graph is the best for summarizing this information
 
@@ -461,6 +476,7 @@ theme_void <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_
 ```
 
 Feel free to check out these resources for a list of all the predefined themes:
+
 * https://ggplot2-book.org/themes
 * https://www.datanovia.com/en/blog/ggplot-themes-gallery/
 * https://r-charts.com/ggplot2/themes/ 

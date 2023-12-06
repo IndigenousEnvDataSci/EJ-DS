@@ -62,7 +62,7 @@ to place this first herd of 200 bison.
 
 ### Load in Biomass Data and Site Datasets
 ```{r load in datasets}
-biomass <- read.csv("Bison_Mod3/biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
+biomass <- read.csv("biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
 sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
 #Delete this code at the end!!! Maybe just keep the names "biomass <-" and "sites <-", for consistency sake later on in the module!
 ```
