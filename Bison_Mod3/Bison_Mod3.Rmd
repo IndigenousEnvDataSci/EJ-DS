@@ -11,7 +11,7 @@ output: html_document
 
 3. We will learn how to convert units in R and add them to the dataset to make a more concise representation of the data.
 
-4. We will challenge you to visualize the data using your previously knowledge and creativity!
+4. We will challenge you to visualize the data using your previous knowledge and creativity!
 
 5. We will explore the importance of considering multiple variables when making management decisions and the value of reintroducing native species to their habitats.
 
@@ -19,6 +19,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ### Set your working directory and load in tidyverse
@@ -62,9 +63,8 @@ to place this first herd of 200 bison.
 
 ### Load in Biomass Data and Site Datasets
 ```{r load in datasets}
-biomass <- read.csv("Bison_Mod3/biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
+biomass <- read.csv("biomass.csv", header = TRUE, sep = ',')
 sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
-#Delete this code at the end!!! Maybe just keep the names "biomass <-" and "sites <-", for consistency sake later on in the module!
 ```
 
 ## Look at all of the data
@@ -100,14 +100,13 @@ biomass %>%
   group_by(Site) %>% 
   summarise(avg_biomass=mean(Biomass))
 ```
-*Side note: Even though this code chunk produced a 3 x 2 tibble showing us average biomass at each site, this did not change the "biomass" dataset, and we can see that this tibble is not in our Global Environment, and does not actually have a name. This is because we did not give this tibble a name and assign it to a new dataset (using the <-).*
 
 **Class Question**
 What site has the highest average plant biomass in its quadrats? What might this tell us about the viability of these sites for bison reintroduction?
 
 
 
-We take the average quadrat biomass at each site because due to the large size of the sites, it would be extremely time consuming and expensive to get an actual total biomass of each site. This average gives us an idea of the average biomass in each of the 50 quadrats where data was taken. This data is currently in g/m^2, but the site area data has been given in different units-- hectares. Bison also consume a lot of plants, with a single bison needing about 21,900 kg (1 kg = 1000g) of biomass a year to live a healthy life. So, we have data in different units from one another. Fortunately, we can easily do math in R to create new variables with updated units. 
+We take the average quadrat biomass at each site because due to the large size of the sites, it would be extremely time consuming and expensive to get an actual total biomass of each site. This average gives us an idea of the average biomass in each of the 50 quadrats where data was taken. This data is currently in g/0.25 m^2, but the site area data has been given in different units-- hectares. Bison also consume a lot of plants, with a single bison needing about 21,900 kg (1 kg = 1000g) of biomass a year to live a healthy life. So, we have data in different units from one another. Fortunately, we can easily do math in R to create new variables with updated units. 
 
 **Class Question**
 What's the problem with having data in two different units? What should we change the units to?
@@ -126,7 +125,7 @@ To do this conversion and add it to our data, we need to make a new column with 
 #the various parts of the mutate() function: mutate(name of dataset, new column = function of existing column)
 biomass2 #this is optional code that you can also add for this chunk to produce a table where we can view the data from automatically. 
 ```
-This new dataset--biomass2-- now has a new column that converts the biomass in g/m^2 into kg/ha. The column "kg_ha" will be the new column we will call when we are looking at the biomass data because its now in the correct units!
+This new dataset--biomass2-- now has a new column that converts the biomass in g/0.25 m^2 into kg/ha. The column "kg_ha" will be the new column we will call when we are looking at the biomass data because its now in the correct units!
 
 We should take the average biomass per quadrat again, but this time with the converted units.
 
@@ -143,7 +142,7 @@ while mutate() produces the same number of rows as the input.
 If you'd like, play around with both mutate() and group_by() %>% summarise() later on in this module to get a clearer idea of how they differ from one another
 
 
-There is another dataset the tribal agriculture managers have with the sizes of each site in hectares, called "sites", which we loaded in with biomass data at the beginning of class. We are going to merge this "sites" dataset with our "biomass_avg" dataset, which has the average biomass at each site (kg per hectare), into one dataset using the function left_join(), which we learned in the Water Module. We can do this because both datasets have matching columns (Site). 
+There is another dataset the tribal agriculture managers have with the sizes of each site in hectares, called "sites", which we loaded in with biomass data at the beginning of class. We are going to merge this "sites" dataset with our average biomass dataset we just created in the last code chunk, which has the average biomass at each site (kg per hectare), into one dataset using the function left_join(), which we learned in the Water Module. We can do this because both datasets have matching columns (Site). 
 
 ### Join the datasets
 ```{r combine datasets}
@@ -204,8 +203,6 @@ Today, you will be tasked with using the code from yesterday to investigate othe
 
 You are encouraged to first work with whichever dataset (Nitrogen or Elk) you find more interesting, and if you have enough time to then work on the other dataset. The code we used from last class, where we learned how to manipulate and create data, can be directly applied to address these additional factors. 
 
-Here are some important unit conversions:
-
  
 
 ## **Nitrogen**
@@ -223,6 +220,8 @@ Since the data is given in quadrats again, how would we find the total amount of
 ```{r average N}
 
 ```
+
+
 ```{r convert to kg/ha}
 
 ```
