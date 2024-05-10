@@ -19,8 +19,7 @@ the K’avi, and waste from this factory was dumped into the nearby waters.
 Tribal fishery managers are now concerned that members of the community 
 are being exposed to heavy metals through the fish that have been caught in these
 waters. As a result, they now want to start recording the concentrations of methyl
-mercury in the belly fat of fish in the area.The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined that concentrations of methylmercury greater than 4 mg of mercury per kg of fish (**4 mg/kg**) pose health hazards. 
-
+mercury in the belly fat of fish in the area.The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined a Reference Dose (RfD) of methylmercury based on body weight at 0.1ug per kg of body weight. Additionally, the Food and Drug Administration recommends eating no more than 0.46ug methylmercury/g of fish for one serving per week. Health hazards depend on how much a person consumes as well as their size, the RfD could range between 0.3ug per day for nursing mothers to 6.8ug for someone weighing 150 lbs. These values will be explored more in the code below. 
 **NOTE TO SKC/ND DEVELOPERS: WE NEED TO CHECK THIS NUMBER.**
 
 Back in 1998, the tribal fisheries managers caught fish and measured their length and also the concentration of mercury in the fish. The goals of these managers was to learn how common it was for concentrations of mercury to be above the safety level of 4 mg/kg.
@@ -81,14 +80,14 @@ rm(list = ls())
 
 ## Setting the Working Directory
 
-In the following code we will tell the computer where we want it to look for 
-  files on our computer. This is called a working directory. We will discuss this
-  more in depth later. --- Hannah: or will we? Did we do this in module 0? ---
+Note: if you are working out of a project, you do not need to run this section. You can check if you are in a project by looking in the top right corner of Rstudio for the project name, and in the bottom right panel you should see the files, including this one, listed. 
+
+In the following code we will tell the computer where we want it to look for files on our computer. This is called a working directory. We will discuss this more in depth later. 
+  
 ```{r set wd}
 current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
-
 
 
 ## Load in packages 
@@ -105,6 +104,26 @@ if(!require("tidyverse")) install.packages("tidyverse")
 # This loads a package that has already been installed, so you can use it.
 library(tidyverse)
 ```
+
+Before loading data, let's return to the reference dose (RfD). We can use R to calculate how much methylmercury can safely be consumed per day based on a person's weight. Run the code below, and then change the `weight` variable to see how the safe amount of consumption changes. 
+
+```{r rfd}
+
+# variable for RfD 
+RfD = 0.1 # ug mercury /kg body weight/day 
+
+# variable for weight, in pounds  
+weight = 165 # lbs 
+
+# convert to RdD amount per day
+# 1 lb = 0.45 kg 
+safe_limit = RfD*weight*0.45
+
+# output safe limit for serving size (ug mercury /day)
+safe_limit
+
+```
+
 
 
 **Now we will load in the dataset for the physical fish data**
@@ -127,13 +146,6 @@ Let's break down the different parts of what just happened:
 3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
 4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
 5) This command turns a file on your computer (fish_1998.csv) into a dataframe (fish_1998) that you can examine in RStudio. A 'dataframe' is the way R can see data that has rows and columns. When you run line of code above, R looks for the .csv file called "fish_1998.csv" and imports it into this RStudio session in a format (a database) that you can use for coding. The new dataframe (fish_1998) should appear in the RStudio "Environment" window in the upper right.
-
-**NOTE to ND/SKC developers: Below is an alternative format for loading data in RData format (commented out for now)**
-
-```{r fish_1998 RData}
-# load("fish_1998.RData")
-# fish_1998 <- fish_1998
-```
 
 **Viewing the data**
 
@@ -165,7 +177,7 @@ To answer these questions, it would be helpful to know how many fish have methyl
 
 The command dim() shows the dimension of the dataset. "Dimension" is the number of rows & number of columns.
 ```{r explore data dimensions}
-dim(fish) #shows the dimensions of the dataset, which will be important later on
+dim(fish_1998) #shows the dimensions of the dataset, which will be important later on
 ```
 
 **Class Question:**
@@ -181,14 +193,13 @@ We now know what sort of questions we can ask with this data. Next we'll learn h
 # PART 2: Calculating statistics that describe the levels of mercury in fish in 1998 
 
 According to the EPA, the maximum safe level of mercury to be consumed is around
-4 mg/kg/day. 
+4 ug/day. 
 
 Tribal fishery managers are interested in whether the mercury levels in 
 local fish belly fat exceeds this amount. They are also interested in if the 
 amount of mercury in fish is connected to fish size. 
 
-Below, we will analyze data points from the "fish" data set to try and answer 
-these questions. 
+Below, we will analyze data points from the "fish" data set to try and answer these questions. 
 
 
 **What is the mean (average) amount of mercury found in local fish? **
@@ -197,7 +208,7 @@ these questions.
 # Below, we will use "$" to select the column called "mercury" in the data
 # If we wanted the mean fish length, we;d have written mean(fish_1998$length)
 
-mean(fish$mercury)
+mean(fish_1998$mercury)
 
 ```
 The "mean" is the average level of mercury in the data.
