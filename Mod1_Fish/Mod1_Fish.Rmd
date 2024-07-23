@@ -113,11 +113,15 @@ Before loading data, let's return to the reference dose (RfD). We can use R to c
 RfD = 0.1 # ug mercury /kg body weight/day 
 
 # variable for weight, in pounds  
-weight = 165 # lbs 
+weight = 150 # lbs 
+
+# avg daily consumption rate 
+days_per_week = 3
+cr = 110*days_per_week/7 
 
 # convert to RdD amount per day
 # 1 lb = 0.45 kg 
-safe_limit = RfD*weight*0.45
+safe_limit = RfD*weight*0.45/cr
 
 # output safe limit for serving size (ug mercury /day)
 safe_limit
