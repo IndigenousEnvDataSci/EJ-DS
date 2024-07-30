@@ -1,28 +1,21 @@
 ---
-title: "SKC_fish_1"
+title: "Fish vignette"
 output: html_document
-date: "2023-10-24"
+date: "updated 2024-7-29"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# DRAFT: Background of the vignette for fish
+# Introduction
 
-Members of the K’avi have fished the waters on their land for many years
-to provide food for their community. To manage these waters, K'avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community. 
+Members of the K’avi have fished the waters on their land for many years to provide food for their community. To manage these waters, K'avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community. 
 
-However, many members of the community have begun to experience 
-health problems associated with heavy metal poisoning. 
-Historically, a factory used to be located upstream of the riverways fished by 
-the K’avi, and waste from this factory was dumped into the nearby waters. 
-Tribal fishery managers are now concerned that members of the community 
-are being exposed to heavy metals through the fish that have been caught in these
-waters. As a result, they now want to start recording the concentrations of methyl
-mercury in the belly fat of fish in the area.The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined a Reference Dose (RfD) of methylmercury based on body weight at 0.1ug per kg of body weight. Additionally, the Food and Drug Administration recommends eating no more than 0.46ug methylmercury/g of fish for one serving per week. Health hazards depend on how much a person consumes as well as their size, the RfD could range between 0.3ug per day for nursing mothers to 6.8ug for someone weighing 150 lbs. These values will be explored more in the code below. 
-**NOTE TO SKC/ND DEVELOPERS: WE NEED TO CHECK THIS NUMBER.**
+However, many members of the community have begun to experience health problems associated with heavy metal poisoning. 
+Historically, a factory used to be located upstream of the riverways fished by the K’avi, and waste from this factory was dumped into the nearby waters. Tribal fishery managers are now concerned that members of the community 
+are being exposed to heavy metals through the fish that have been caught in these waters. As a result, they now want to start recording the concentrations of methylmercury in the belly fat of fish in the area. Health hazards depend on how much a person consumes as well as their size. The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined a Reference Dose (RfD) of methylmercury at 0.1ug per kg of body weight. Additionally, the Food and Drug Administration recommends eating no more than 0.46ug methylmercury/g of fish for one serving per week ([FDA](https://www.fda.gov/food/environmental-contaminants-food/technical-information-development-fdaepa-advice-about-eating-fish-those-who-might-become-or-are)).  These values will be explored more in the code below. 
 
-Back in 1998, the tribal fisheries managers caught fish and measured their length and also the concentration of mercury in the fish. The goals of these managers was to learn how common it was for concentrations of mercury to be above the safety level of 4 mg/kg.
+Back in 1998, the tribal fisheries managers caught fish and measured their length and also the concentration of mercury in the fish. The goals of these managers was to learn how common it was for concentrations of mercury to be above the safety level of 0.46ug/g.
 
 Once they collect these data, the tribal fishery managers will need to present 
 their findings to members of the community so they can better understand the
@@ -35,38 +28,42 @@ In this module, there are three main goals:
 3. Connect these datasets and produce a graph that could be used 
 to communicate the fishery managers' findings to their community. 
 
-**NOTES TO SKC/ND DEVELOPERS:** 
+**NOTES TO SKC/ND DEVELOPERS AND INSTRUCTORS:** 
 
 Learning goals for this module:
 
-1. Students become more comfortable opening R and loading in data from an 
+1. Students learn how R can be used as a calculator, and how values can be stored 
+
+2. Students become more comfortable opening R and loading in data from an 
 external data file. 
   
-2. Students gain exposure to basic commands to explore their data before 
+3. Students gain exposure to basic commands to explore their data before 
 they begin to analyze it. 
 
-3. Students gain experience loading in packages (tidyverse and ggplot). 
+4. Students gain experience loading in packages (tidyverse and ggplot). 
 
-4. Students gain exposure to working with different data types(numeric, characters)
+5. Students gain exposure to working with different data types(numeric, characters)
 
-5. Students gain exposure to basic summary statistic arguments in R to pull the 
+6. Students gain exposure to basic summary statistic arguments in R to pull the 
 mean, median, max, and min values for different variables in the dataset. 
 
-6. Students become equipped with how to make a graph in R (tidyverse, ggplot) 
+7. Students become equipped with how to make a graph in R (tidyverse, ggplot) 
 using variables pulled from a larger dataset. Can open a discussion point: 
 how do we present data in a way that can help us understand the problem at hand?
 (i.e. in this case, it may be plotting mercury concentrations found in fish 
 along different sites, and showing it next to a graph of mercury found in people
 across different sites)
 
-**END NOTE TO DEVELOPERS**
+**END NOTE TO DEVELOPERS AND INSTRUCTORS**
 
-# PART 1: Loading in and exploring the data
+# DAY 1: Getting started with fish mercury concentration data
+
+## PART 1: Setting up R Studio 
 
 Before we begin to analyze the data, we first need to upload our raw data into R. 
 Once we do that, we can then explore...
 
-**Clearing Environment**
+### Clearing Environment
 
 The first thing we do anytime we start working in R is cleaning our environment. Your environment is where R stores all of the objects it is working with since the last time you cleared your environment. We clear the environment each time we open R so that there isn't anything still open from the list time you were using R that will mess up what we are trying to do this session. You can clear your environment with the following code or by clicking the broom icon that can normally be found on the top right section of RStudio. 
 
@@ -78,23 +75,23 @@ rm(list = ls())
 ```
 
 
-## Setting the Working Directory
+### Setting the Working Directory
 
 Note: if you are working out of a project, you do not need to run this section. You can check if you are in a project by looking in the top right corner of Rstudio for the project name, and in the bottom right panel you should see the files, including this one, listed. 
 
 In the following code we will tell the computer where we want it to look for files on our computer. This is called a working directory. We will discuss this more in depth later. 
   
-```{r set wd}
+```{r set wd, eval=FALSE}
 current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
 
 
-## Load in packages 
+### Load in packages 
 
 "Packages" are computer code that someone wrote to do a particular thing. By loading a package, R downloads that code, so that you can do that thing yourself. Think of packages as tools for you to use in R that aren't automatically part of R when you first installed it. The package below allows you to do  more things in R, and makes coding much easier! 
 
-Below, we install the package "tidyverse" which we'll use to organize data and to make pretty graphs.
+Below, we install the package "tidyverse" which we'll use to organize data and to make pretty graphs. You only need to install a package once, but every time you use R you will have to load from the library using `library()`
  
 ```{r load packages}
 # This line of code helps you install a package. 
@@ -105,18 +102,31 @@ if(!require("tidyverse")) install.packages("tidyverse")
 library(tidyverse)
 ```
 
-Before loading data, let's return to the reference dose (RfD). We can use R to calculate how much methylmercury can safely be consumed per day based on a person's weight. Run the code below, and then change the `weight` variable to see how the safe amount of consumption changes. 
+## PART 2: Calculating screening values for mercury in fish 
+
+Before loading data, let's think about the reference dose (RfD) of methylmercury. We can use R to calculate how much methylmercury can safely be consumed per day based on a person's weight and fish consumption. Run the code below, and then change the `weight` and `days_per_week` variable to see how the safe amount of consumption changes. 
 
 ```{r rfd}
+#----------------------------------------------------------------
+# change either of the variables for weight or consumption below! 
+#----------------------------------------------------------------
+
+# variable for weight, in pounds  
+weight = 160 # lbs 
+
+# avg daily consumption rate 
+days_per_week = 1
+
+
+
+#---------------------------------------------------------------
+# Do not change anything below this line
+#---------------------------------------------------------------
 
 # variable for RfD 
 RfD = 0.1 # ug mercury /kg body weight/day 
 
-# variable for weight, in pounds  
-weight = 150 # lbs 
-
-# avg daily consumption rate 
-days_per_week = 3
+# consumption rate based on days per week (110g is serving size)
 cr = 110*days_per_week/7 
 
 # convert to RdD amount per day
@@ -128,7 +138,75 @@ safe_limit
 
 ```
 
+The output above is the screening value (ug/g) for fish serving. The highest allowable amount, if eating only 1 serving per week, is 0.46 ug/g, and anything greater than this should be avoided. 
 
+### example data frames 
+
+optional opportunity here to add in data frame example by creating your own i.e. https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2.html
+
+- vectors of weight, consumption
+- list to add a row 
+- do math to add another vector that shows the safe limit 
+
+```{r how_to_dataframe}
+
+# run these lines one at a time or walk through together 
+
+# vector of different weight
+weight = c(140, 175, 200)
+
+# vector of serving sizes per week 
+serving = c(1, 6, 3)
+
+# combine to data frame to get screening value
+sv_df <- data.frame(weight, serving)
+sv_df
+
+# add another row 
+newrow = list(weight=160, serving=2)
+
+sv_df <- rbind(sv_df, newrow)
+sv_df
+
+# new column for screening value, taking equation from above
+sv_df$screen_val = RfD*sv_df$weight*0.45/(110*sv_df$serving/7)
+sv_df
+
+# plot to see how servings per week and screening value are related (will practice more ggplot later)
+ggplot(sv_df) + geom_point(aes(x=serving, y=screen_val, col=weight))
+
+```
+
+```{r how_to_dataframe2}
+# run the following lines to get a better idea of the relationship between weight, servings per week, and screening value 
+weight = rep(c(120, 160, 180, 200, 220), 7)
+serving = rep(seq(1:7), 5)
+sv_df_long = data.frame(weight, serving)
+sv_df_long$screen_val = RfD*sv_df_long$weight*0.45/(110*sv_df_long$serving/7)
+ggplot(sv_df_long) + geom_point(aes(x=serving, y=screen_val, col=weight))
+
+```
+
+How would you describe this graph and the relationship between screening value, consumption rate, and weight? What happens to the distribution in screening values as consumption rate gets larger? 
+
+With this information in mind, consider how to make decisions with the data on mercury content in fish -- what level should be considered dangerous? How do we know if there is a problem? 
+
+### example of function 
+
+The above code for calculating the screening value of mercury in fish is something that we might want to repeat several times with different inputs. This can be done using a function, and is one of the reasons that makes programming so useful!
+```{r example_function}
+# load function
+source("get_screening_value.R")
+
+# run function to get the screening value as output 
+get_screening_value(weight=160, days_per_week = 1)
+
+# similar to above, we can change the weight and frequency of consumption to get different screening values
+
+```
+
+
+## PART 3: Loading in and exploring the data
 
 **Now we will load in the dataset for the physical fish data**
 
@@ -136,20 +214,21 @@ These data are the length and methyl mercury content of fish caught on the K'Avi
 
 * Each row is data from one fish. 
 * The first column "length" is the length of the fish in cm. 
-* The second column "mercury" is the concentration of methylmercury (a poison) in the fish, in units of milligrams of methylmercury per kilogram of fish (mg/kg). 
+* The second column "mercury" is the concentration of methylmercury (a poison) in the fish, in units of micrograms (ug) of methylmercury per gram of fish (g). 
 
 ```{r fish_1998}
 fish_1998 <- read.csv("fish_1998.csv", header = TRUE, sep = ',')
 ```
 
 Let's break down the different parts of what just happened:
-1) We told R to read the data (a .csv file) using the command read.csv()
-2) Within the (""), we identify the data file from our working directory that we want to load into R
-3) header = TRUE just tells R that the first row of data is the column names. The alternative is header = FALSE
-4) sep is short for the word "separate", and it tells R that each column in the csv is separated by a comma ','
-3) "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
-4) <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
-5) This command turns a file on your computer (fish_1998.csv) into a dataframe (fish_1998) that you can examine in RStudio. A 'dataframe' is the way R can see data that has rows and columns. When you run line of code above, R looks for the .csv file called "fish_1998.csv" and imports it into this RStudio session in a format (a database) that you can use for coding. The new dataframe (fish_1998) should appear in the RStudio "Environment" window in the upper right.
+
+1. We told R to read the data (a .csv file) using the command read.csv()
+2. Within the (""), we identify the data file from our working directory that we want to load into R
+3. header = TRUE just tells R that the first row of data is the column names. The alternative is header = FALSE
+4. sep is short for the word "separate", and it tells R that each column in the csv is separated by a comma ','
+3. "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
+4. <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
+5. This command turns a file on your computer (fish_1998.csv) into a dataframe (fish_1998) that you can examine in RStudio. A 'dataframe' is the way R can see data that has rows and columns. When you run line of code above, R looks for the .csv file called "fish_1998.csv" and imports it into this RStudio session in a format (a database) that you can use for coding. The new dataframe (fish_1998) should appear in the RStudio "Environment" window in the upper right.
 
 **Viewing the data**
 
@@ -194,14 +273,11 @@ come in handy any time you use R in the future.
 
 We now know what sort of questions we can ask with this data. Next we'll learn how can we use R to answer those questions?
 
-# PART 2: Calculating statistics that describe the levels of mercury in fish in 1998 
+## PART 4: Calculating statistics that describe the levels of mercury in fish in 1998 
 
-According to the EPA, the maximum safe level of mercury to be consumed is around
-4 ug/day. 
+Recall the maximum safe level of mercury to consume depends on how often fish are being consumed, and weight of person. According to the EPA, the maximum safe level of mercury to be consumed is around 0.46 ug/g/day if not frequently consuming fish. 
 
-Tribal fishery managers are interested in whether the mercury levels in 
-local fish belly fat exceeds this amount. They are also interested in if the 
-amount of mercury in fish is connected to fish size. 
+Tribal fishery managers are interested in whether the mercury levels in local fish belly fat exceeds this amount. They are also interested in if the amount of mercury in fish is connected to fish size. 
 
 Below, we will analyze data points from the "fish" data set to try and answer these questions. 
 
@@ -281,11 +357,11 @@ of helpful information for tribal fishery managers. However, summary stats can't
 answer every question, and as a list of numbers they would be very difficult to 
 communicate to the K'avi community. It would be much more helpful to visualize the data in a graph. 
 
-# PART 3: Working with ggplot to generate a graph of mercury concentrations
+## PART 5: Working with ggplot to generate a graph of mercury concentrations
 
 **First we want to visualize the amount of mercury in *all* the fish**
 
-We can do this my creating graphs!
+We can do this by creating graphs!
 
 **NOTE TO GEORGIA: Should we provide a commented out example for Georgia to walk through (ggplot(data, aes(x,y) etc.)) ?** 
 
@@ -293,33 +369,35 @@ If you run the code chunk below, it will make a graph of all the 1998 mercury da
 
 This code has a lot of details that we will work through later. For now, you can either just run the code chunk (by clicking the small green arrow in the upper right corner of the grey area), or you can explore the code line by line. We've provided some comments to help you out. [This cheatsheet](https://images.datacamp.com/image/upload/v1666806657/Marketing/Blog/ggplot2_cheat_sheet.pdf) will also give you some tips. 
 
+### Plot distribution of 1 variable 
 
 ```{r ggplot, Ribbon Plot, mercury}
 #For this plot, we want to see the distributions of mercury in the fish and how many of them are above the EPA's recommended levels
 #ggplot is the function that we are using to create a plot. aes() is used to tell ggplot what we want to see on each axis, in this case x= 'fish' and y= mercury. x="fish" indicates that the x axis doesn't have a variable and is titled fish. This allows us to look at the variation in lengths of fish independent of another variable.
 ggplot (fish_1998, aes(x= 'fish', y= mercury))+
-#Since ggplot is just a function to create plots, we need to further specify what kind of plot it should create. We can do this by using the geom_jitter function, which will create the Ribbon plot seen below. We can also add a few more parameters to the graph, such as changing the width of the points (width = 0.1).
-#The jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above the unsafe mercury level. To see the difference, try geom_point () and then geom_jitter ()!
+#Since ggplot is just a function to create plots, we need to further specify what kind of plot it should create. We can do this by using the geom_jitter function, which will create the jitter plot seen below. We can also add a few more parameters to the graph, such as changing the width of the points (width = 0.1).
+#The jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above the unsafe mercury level. To see the difference, try geom_point() and then geom_jitter()
   geom_jitter(width = 0.1)+
-#We can also add shapes to the plot. Here we added a line to show where  the EPA's guideline for unsafe levels of mercury in fish would fall. To create  this we used the geom_hline function which simply creates a horizontal line at a y-intercept that you set. We can also adjust the color and appearance of the line with color = 'red'.  
-  geom_hline(yintercept = 4, color= "red")+
+#We can also add shapes to the plot. Here we added a line to show where  the EPA's guideline for unsafe levels of mercury in fish would fall. To create  this we used the geom_hline() function which simply creates a horizontal line at a y-intercept that you set. We can also adjust the color and appearance of the line with color = 'red'.  
+  geom_hline(yintercept = 0.46, linetype= "dashed", color= "red", size=1)+
 #This allows us to relabel the x-axis
   xlab("fish")+
 #This allows us to relabel the y-axis
-  ylab("mercury (mu/g)")+
+  ylab("mercury (ug/g)")+
 #This allows us to title the graph
   ggtitle("1998 Mercury Distribution")+
 #This adjusts the non-data components of the plot, so the titles, labels, background, and legends among other aspects. 
   theme_minimal()
 
 ```
+
 **Class question:**
 
 * What does this distribution tell us about the mercury levels in the fish? 
 
 Next, Look back at the min, max, median, and mean values that were calculated above. Where would these values fall on this graph? Are the mean and median values above or below the level suggested by the EPA?
 
-We can overlay a "boxplot" on the previous ribbon plot. Boxplots are a way to show the mean, quartiles, minimum and maximum of a distribution. You can google "boxplot" to learn more.
+We can overlay a "boxplot" on the previous scatter plot. Boxplots are a way to show the mean, quartiles, minimum and maximum of a distribution. You can google "boxplot" to learn more.
 
 Like last time, you can just run this code if you want. We want to focus on the results. However, we've provided comments to help you understand each line of the code, if you want.
 ```{r, Ribbon and Box Plot}
@@ -330,13 +408,13 @@ geom_jitter(width = 0.1)+
 # We will overlay a boxplot on the jitter plot. 
 # We can adjust its color as we did above,
 # We use alpha, to adjust the opacity of the boxplot.
-# This lets us see the ribbon plot beneath it.
-geom_boxplot(alpha = 0.4, color="dodgerblue2")+
+# This lets us see the jitter plot beneath it.
+geom_boxplot(alpha=0.5, color="dodgerblue2")+
 # As before, we add a line to represent the EPA's recommended safe mercury ingestion level
-geom_hline(yintercept = 4, linetype= "dashed", color= "red", size=1)+
+geom_hline(yintercept = 0.46, linetype= "dashed", color= "red", size=1)+
 # The rest of the code is the same as the last code chunk:
   xlab("fish")+
-  ylab("mercury (mg/kg)")+
+  ylab("mercury (ug/g)")+
   ggtitle("1998 Mercury Distribution + Box Plot")+
 theme_minimal()
 ```
@@ -346,19 +424,21 @@ You have now seen what the mercury distribution in local fish looks like and con
 **Class Questions:**
 
 * From looking at this graph, are there unsafe levels of mercury in local fish? 
-  If so, is it in most fish, or only some? Did this graph tell you anything different than the summary       statistics, or did it just tell you the same information in a different way?
+  If so, is it in most fish, or only some? Did this graph tell you anything different than the summary statistics, or did it just tell you the same information in a different way?
 
 * In 1998, was it safe for members of the K'avi community to eat fish from these waters?
 * How comfortable would you have been in 1998 about eating a fish that you caught?
 
+### Plot relationship between 2 variables 
+
 Methylmercury is known to build up in fish as they age: The oldest fish tend to have the highest levels of mercury. Older fish also tend to be bigger, so maybe if we know the relationship between fish size and fish mercury levels, that could give us useful guidance for which fish were safe to eat back in 1998.  
 
-We'll make another graph of the same dataset. This time we'll make a scatterplot of both the mercury level and the length of each fish. A scatterplot shows the data as points in two dimensions (length and mercury, here. 
+We'll make another graph of the same dataset. This time we'll make a scatterplot of both the mercury level and the length of each fish. A scatterplot shows the data as points in two dimensions (fish length and mercury content, here). 
 
 Again, you can just run the code (with the green arrow), but we've also provided comments to help you learn how it works. Our goal here is to let you see the kings of graphs you can make in R and to help interpret the safety of the fish from 1998.
 ```{r ggplot, Day1 1998 Scatter Plot}
-# This line defines a plot 'p1' as a ggplot(). 
-# The ggplot() code is a little different from the ribbon plot.
+# This line defines a plot, called 'LengthMercury1998', as a ggplot(). 
+# The ggplot() code is a little different from the single variable boxplot.
 # Now, we are plotting two columns of the dataset: 
 # length will be on the (horizontal) x-axis
 # mercury will be on the (vertical) y-axis
@@ -369,16 +449,19 @@ LengthMercury1998 <- ggplot(fish_1998, aes(x = length, y = mercury)) +
   geom_point(color = 'blue', size = 2) +
 # Now we're going to write labels for the two axes, and give the graph a title
   xlab("length (cm)")+
-  ylab("mercury (mg/kg)")+
-  ggtitle("Mercury (mg/kg) vs. Length (cm) (1998)")+
+  ylab("mercury (ug/g)")+
+  ggtitle("Mercury (ug/g) vs. Length (cm) (1998)")+
 # As before, we will add a line to represent the EPA's recommended mercury level
 # This time, we'll make a red dashed line.
-  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+  geom_hline(yintercept = 0.46, linetype= "dashed", color = 'red')+
 # We'll use the same theme as last time.
   theme_minimal()
+
+
 #Because we assigned the graph a label, we have to call that label
 LengthMercury1998
 ```
+
 **Class Questions:**
 
 * What does this tell us about the relationship between fish length and mercury levels? 
@@ -397,9 +480,9 @@ We will now download and analyze data collected from this second survey (fish_20
 Our goal is to see how successful the sediment removal efforts by the tribe were in reducing the amount of mercury present in the fish. We will do this
 by comparing our findings from the 1998 dataset to our current findings in the 2023 dataset. 
 
-Today's exercise allows you to apply rhe lessons you learned about coding in R from Day 1 to a new dataset. 
+Today's exercise allows you to apply the lessons you learned about coding in R from Day 1 to a new dataset. 
 
-**PART 1: Loading in and exploring the data**
+## PART 6: Loading in and exploring the data
 
 Like we did on Day 1 of the fish module, we first need to load in our datasets 
 before we can explore them!
@@ -407,7 +490,7 @@ before we can explore them!
 **NOTE TO SKC/ND DEVELOPERS:**
 When Day 2 starts, the class might need to take some preliminary steps before they get coding. We should consider:
 
-* Setting the working directory (If we keep the data files in the same directory as this .Rmd file, they can skip this step.)
+* Setting the working directory (If we keep the data files in the same directory as this .Rmd file, they can skip this step. Or if you started a project, be sure to check the upper right corner of Rstudio to see that it is open.)
 * Clearing the working directory
 * These steps are described in the "Module 0" code.
 
@@ -419,15 +502,15 @@ Here is a commented out code chunk, to remind us to address this later...
 ```
 **END NOTE TO SKC/ND DEVELOPERS**
 
-**Load in packages** 
+### Load in packages 
 
-We will be using the 'tiyverse' packages as we used on Day 1. Since we've already installed this package, you just need to activate it for today using the library() command (see below)
+We will be using the `tidyverse` packages as we used on Day 1. Since we've already installed this package, you just need to activate it for today using the library() command (see below)
 
-Today, we're also using a new package called "patchwork" This package allows you to plot graphs side-by-side. This will be useful later today, because we want to compare the mercury levels from 1998 side-by-side with those from 2023. 
+Today, we're also using a new package called `patchwork` This package allows you to plot graphs side-by-side. This will be useful later today, because we want to compare the mercury levels from 1998 side-by-side with those from 2023. 
 
-If you want to learn more about "patchwork" click this link: (https://patchwork.data-imaginist.com/)
+If you want to learn more about `patchwork` click this link: (https://patchwork.data-imaginist.com/)
 
-Since we haven't installed "patchwork" yet, the code below installs it, then loads the library.
+Since we haven't installed `patchwork` yet, the code below installs it, then loads the library.
 
 ```{r load packages2}
 # This loads the "tidyverse" package that you've already installed.
@@ -440,7 +523,7 @@ if(!require("patchwork")) install.packages("patchwork")
 library(patchwork)
 ```
 
-**Load the 2023 fish dataset**
+### Load the 2023 fish dataset 
 
 The dataset "fish_2023.csv" should be in the same working directory (folder) on your computer as this .Rmd file.
 
@@ -450,11 +533,9 @@ If that's true, you can import these data into R using the same command that you
 # This code brings the 2023 dataset into RStudio as a dataframe. 
 fish_2023 <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
 
-## Note to SKC/ND developers: Probably delete the lines below #JMc
-# load("fish_2023.RData") The alternate version if no .csv
-# fish_2023 <- fish_2023
 ```
-**Investigate the 2023 fish data** 
+
+### Investigate the 2023 fish data 
 
 We will repeat several of the steps we took to investigate the 1998 data with the new 2023, fish data. These steps are important because they allow you to check to see if the data loaded properly; to check to see if they make sense; and to start thinking about their implications for our scientific question, "Did the sediment cleanup efforts help the health of the fish and the community?"
 
@@ -467,9 +548,10 @@ View(fish_2023)
 **Class Question:**
 
 * What would go in the parentheses of head() in order to get the output you want?
-``` {r View data pt. 2 - take 2}
+``` {r View data pt. 2 - take 2, eval=FALSE}
 #Fill in the parentheses:
 head()  
+
 ```
 
 **Class Questions**
@@ -478,25 +560,24 @@ head()
 
 * In the code below, what would go in the parentheses of dim() in order to learn how many rows and columns the 2023 dataset has? 
 
-```{r explore data dimensions 2}
+```{r explore data dimensions 2, eval=FALSE}
 #Fill in the parentheses with the name of the dataframe for the 2023 fish data
-dim() 
-```
+dim()
 
-**Recap**
+```
 
 Now that we have successfully loaded in our data and explored its basic 
 properties, we can now start to explore our data to learn how 
 mercury levels in fish belly fat have changed from 1998 to 2023. 
 
-# PART 2: Learning the basic statistics of the 2023 dataset. 
+## PART 7: Learning the basic statistics of the 2023 dataset. 
 
 According to the EPA, the maximum safe level of mercury to be consumed is around
-0.4 mg/kg/day. Tribal fishery managers are interested in how mercury levels in 
+0.46 ug/g/day. Tribal fishery managers are interested in how mercury levels in 
 fish belly fat have changed since 1998 to 2023, now that the rivers have been 
 cleaned. 
 
-Below, we will analyze data points from the "fish_2023" dataframe to  answer 
+Below, we will analyze data points from the `fish_2023` dataframe to  answer 
 these questions. We will start to do this by running some basic summary statistics 
 on the mercury data from 2023. 
 
@@ -506,17 +587,18 @@ on the mercury data from 2023.
 * Work together to write code that tells you the descriptive statistics (median, mean, minimum, meximum, etc) for the mercury in the fish collected in 2023.
 
 ```{r mean amount of mercury 2}
-## NOTE TO SKC/ND DEVELOPERS:
-# Remove the next line, as an exercise for the class #JMc
+# write code for summary statistics here 
 
-# summary(fish_2023$mercury)
+
 ```
+
 **Question for class:**
 
 * How do the mean and median values of mercury in 2023 compare to the EPA's standard? 
 * Do the descriptive statistics suggest that the mercury levels in fish have improved since 1998? 
  
 **Recap: How could we communicate these values?** 
+
 By running these summary statistics, we can see that mercury levels in fish caught 
 in 2023 are lower than they were in fish that were caught in 1998, which is 
 good news! 
@@ -529,8 +611,7 @@ In the next section, we will make graphs that will show us if the length of fish
 (2) Making these graphs will help us learn whether the sediment cleanup resulted in safer fish in 2023. The graphs let us look at *all* the data (not just the descriptive statistics).
 (3) You can use the graphs to decide what length of fish is safe for the community to eat. Then you can think about how to convey this information to the community.
 
-# PART 3: Making graphs to learn if the size of safe fish has changed 
-
+## PART 8: Making graphs to learn if the size of safe fish has changed 
 
 **NOTE TO SKC/ND DEVELOPERS: I REMOVED THE RIBBON PLOT FOR TIME. WE COULD ADD IT BACK, IF THAT SEEMS USEFUL.**
 
@@ -548,13 +629,13 @@ Look more carefully at the code this time. You will see things that look similar
   xlab("length (cm)")+
   ylab("mercury (mg/kg)")+
   ggtitle("Mercury (mg/kg) vs. Length (cm) (1998)")+
-  geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red')+
+  geom_hline(yintercept = 0.46, linetype= "dashed", color = 'red')+
 # This is the only NEW line of code.
 # We use the command ylim() to set the range of the y-axis
 # The y-axis in this plot will start at 2 mg/kg mercury and end at 6 mg/kg
 # We'll use the same range for the scatter plot of the 2023 data.
 # That will make it easier to compare the fish across the two years.
-  ylim(2,6) +
+  ylim(0,1) +
 # We will specify the same "minimal" theme we used before.
   theme_minimal()
 
@@ -579,9 +660,9 @@ plot2023 <- ggplot(fish_2023, aes(x = length, y = mercury)) +
   xlab("length (cm)") +
   ylab("mercury (mg/kg)") +
   ggtitle("Mercury (mg/kg) vs. Length (cm) (2023)") +
-geom_hline(yintercept = 4.5, linetype= "dashed", color = 'red') +
+  geom_hline(yintercept = 0.46, linetype= "dashed", color = 'red') +
 # We use ylim() to match the y-axis here to that of plot1998
-  ylim(2,6) +
+  ylim(0, 1) +
   theme_minimal()
 
 plot2023
@@ -589,15 +670,39 @@ plot2023
 
 The plot for the 2023 data looks pretty good. A side-by-side comparison with the 1998 data would help us see how much the healthiness of the fish has improved over the intervening 25 years.
 
-Since we defined the two graphs as objects in R (plot1998 and plot 2023), and since we've loaded the package "patchwork" we can use the simple line of code below to plot the data from the two years side-by-side.
+Since we defined the two graphs as objects in R (`plot1998` and `plot2023`), and since we've loaded the package `patchwork` we can use the simple line of code below to plot the data from the two years side-by-side.
 
 ```{r putting plots side by side}
 #plot from 1998 next to plot from 2023
 plot1998 + plot2023  
 ```
+
 **Class Questions:**
 
 * What is the safest large size fish to eat based on the 2023 dataset? How does this compare
 to the safest largest size fish that could be eaten based on the 1998 dataset? 
 * Based on these plots, do you think the efforts since 1998 to clean mercury from the sediments were successful? 
 * Work with a group to describe the evidence from these graphs for the success of the clean-up effort in a way that would be useful for the K'avi community. 
+
+### other optional plots to compare years 
+
+```{r example_plots}
+
+# 1. boxplots
+ggplot() + 
+  geom_boxplot(data=fish_1998, aes(x="1998", y=mercury, fill="1998")) +
+  geom_boxplot(data=fish_2023, aes(x="2023", y=mercury, fill="2023")) +
+  geom_hline(aes(yintercept=0.46), color="red", linetype="dashed") + 
+  labs(x="year", y="mercury (ug/g)") + 
+  theme_minimal() 
+
+# 2. scatter plot with color = year 
+
+ggplot() + 
+  geom_point(data=fish_1998, aes(x=length, y=mercury, color="1998")) +
+  geom_point(data=fish_2023, aes(x=length, y=mercury, color="2023")) +
+  geom_hline(aes(yintercept=0.46), color="red", linetype="dashed") + 
+  labs(color ="year", y="mercury (ug/g)", x="length (cm)")
+
+```
+
