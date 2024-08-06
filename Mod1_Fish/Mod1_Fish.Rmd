@@ -1,5 +1,5 @@
 ---
-title: "Fish vignette"
+title: "Module 1: Fish"
 output: html_document
 date: "updated 2024-7-29"
 ---
@@ -7,7 +7,7 @@ date: "updated 2024-7-29"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction
+# Introduction: fisheries and heavy metal contaminants
 
 Members of the K’avi have fished the waters on their land for many years to provide food for their community. To manage these waters, K'avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community. 
 
@@ -115,7 +115,7 @@ Before loading data, let's think about the reference dose (RfD) of methylmercury
 weight = 160 # lbs 
 
 # avg daily consumption rate 
-days_per_week = 1
+days_per_week = 7
 
 
 
@@ -140,13 +140,16 @@ safe_limit
 
 The output above is the screening value (ug/g) for fish serving. The highest allowable amount, if eating only 1 serving per week, is 0.46 ug/g, and anything greater than this should be avoided. 
 
-### example data frames 
+### optional example: create your own data frames 
 
-optional opportunity here to add in data frame example by creating your own i.e. https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2.html
+optional opportunity here to add in data frame example by creating your own, inspired by Carpentries lesson: https://swcarpentry.github.io/r-novice-gapminder/05-data-structures-part2.html
 
-- vectors of weight, consumption
-- list to add a row 
-- do math to add another vector that shows the safe limit 
+Here are the steps: 
+
+1. create vectors of weight, consumption
+2. combine vectors into data frame where they are columns 
+3. create a list to add a row 
+4. add another column that shows the screening value safety limit 
 
 ```{r how_to_dataframe}
 
@@ -191,11 +194,13 @@ How would you describe this graph and the relationship between screening value, 
 
 With this information in mind, consider how to make decisions with the data on mercury content in fish -- what level should be considered dangerous? How do we know if there is a problem? 
 
-### example of function 
+### optional example: using a function 
 
 The above code for calculating the screening value of mercury in fish is something that we might want to repeat several times with different inputs. This can be done using a function, and is one of the reasons that makes programming so useful!
 ```{r example_function}
 # load function
+# note this function was created for this lesson and is loaded from a local file
+# most functions we use come from packages, which we loaded at the beginning 
 source("get_screening_value.R")
 
 # run function to get the screening value as output 
@@ -291,6 +296,7 @@ Below, we will analyze data points from the "fish" data set to try and answer th
 mean(fish_1998$mercury)
 
 ```
+
 The "mean" is the average level of mercury in the data.
 
 **Class Questions:**

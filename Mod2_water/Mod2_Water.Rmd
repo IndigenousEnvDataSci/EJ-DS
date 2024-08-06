@@ -1,15 +1,14 @@
 ---
-title: "Water Quality"
+title: "Module 2: Water Quality"
 output:
-  pdf_document: default
   html_document: default
-date: "2023-11-14"
+date: "updated 2024-8-5"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Background for Module 2: Water Quality
+# Introduction: Water Quality for bull trout reintroduction
 
 Water is a valuable resource that is important for maintaining many aspects of a community's well being. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
 
@@ -17,29 +16,20 @@ Bull trout are a culturally important, but threatened species of fish native to 
 
 It is also important to note that water temperature and levels of dissolved oxygen are related. As water temperature increases, dissolved oxygen levels decrease in water. This is concerning as climate warming has the power to increase water temperature, causing dissolved oxygen to dip to unhealthy levels for aquatic life. 
 
-[#JMc note: We need to check these threshold values for T and DO.]
-
 In this module, we will use data about water quality trends to help K'avi Fish and Wildlife managers decide which of two streams would be best for a reintroduction of bull trout on tribal land. The tribe only has funding to bring the bull trout back to one stream. They have narrowed the choice of possible locations for the reintroduction to two streams, where temperature and D.O. have been monitored for about 15 years. Neither site is perfect, but they are both pretty good options. Your job is to analyze the temperature and D.O. data to help the tribe decide which is the best site. 
 
-The upstream source of Stream A is a groundwater spring. Water in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature.
-
-The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial melt-water is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
+The upstream source of Stream A is a groundwater spring. Water in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature. The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial melt-water is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
 
 
-**In this module, there are four main coding goals:** 
+**In this module, there are four main goals:** 
+
 1. We will review skills you learned in Module 1, such as calculating summary statistics and making scatter plots.
 
-2. We will learn how to rearrange data into a "tidy" format that makes graphing easier
-and we will learn how to "debug" code, in other words, we'll learn how to fix common 
-problems that we see when using real world data. 
+2. We will learn how to rearrange data into a "tidy" format that makes graphing easiermand we will learn how to "debug" code, in other words, we'll learn how to fix common problems that we see when using real world data. 
 
-3. We will learn how to make graphs of data over time. These are called 
-"time series" graphs.
+3. We will learn how to make graphs of data over time. These are called "time series" graphs.
 
-4. We will explore how water quality data can help communities make decisions 
-to protect culturally important species.
-
-
+4. We will explore how water quality data can help communities make decisions to protect culturally important species.
 
 --------------------------------------------------------------------------------
 #INSTRUCTOR'S VERSION: Learning goals and instructor resources
@@ -69,15 +59,17 @@ to protect culturally important species.
 
 7. From the scientific analysis perspective, this module highlights why it is useful to visualizing data in multiple ways. There is one question: "Which of two streams has water quality most appropriate to maintain a healthy bull trout population?" But we ask it three times, after seeing summary statistics, then a scatter plot, then time series plots. The summary statistics and the scatter plot show that Stream B generally has better water quality than Stream A, but the time-series graph shows that both temperature and dissolved oxygen are getting worse for bull trout. The question of which stream is a better choice (the one with better values or the one without a dangerous trend) is for the class to discuss.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-#**DAY 1: Loading, merging, and tidying data** 
+# DAY 1: Loading, merging, and tidying data
 
-**Preliminary steps**
-Like we did in Module 1, before we being to analyze our data, we need to do a few
-steps first.
+## PART 1: Get set up and load and view data
 
-*Clearing the Environment* 
+### Preliminary steps
+
+Like we did in Module 1, before we being to analyze our data, we need to do a few steps first.
+
+**Clearing the Environment**
 
 Before we start to do anything in R, we should clear our environment. As a reminder,
 your environment is where R stores all the objects and data you were working with
@@ -88,24 +80,18 @@ your environment.
 rm(list = ls())
 ```
 
-*Setting the Working Directory* 
+**Setting the Working Directory** 
 
-We will now set our working directory. As you may remember, setting our working 
-directory tells R where to find the files we want to work with on our computer. 
+We will now set our working directory. As you may remember, setting our working directory tells R where to find the files we want to work with on our computer. 
 
-[JMc comment: We should decide as a class whether we want to set working directories this way, 
-or just put the data files in the same directory as this .Rmd file. 
-When you knit an R Markdown it looks for the data in that directory.
-See this link, too: https://github.com/yihui/knitr/issues/277#issuecomment-6528846
-]
-
+*NOTE:* if using an R project, can skip this step because this markdown file should be in the project with the data. 
 
 ```{r}
 current_path = rstudioapi::getActiveDocumentContext()$path
 setwd(dirname(current_path))
 ```
 
-*Load in packages* 
+**Load in packages**
 
 Next, we will load in packages, to get the extra tools we need for this module 
 loaded in R. For this module, we will load in the tidyverse package. 
@@ -114,7 +100,7 @@ loaded in R. For this module, we will load in the tidyverse package.
 library(tidyverse)
 ```
 
-*Load in our data* 
+### Load in our data
 
 Now it's time to load in our data! In this scenario, water temperature data 
 and dissolved oxygen data were collected and stored in two separate files. 
@@ -124,16 +110,21 @@ As a note, the units for temperature are Celsius (C) and the units for dissolved
 
 ```{r}
 stream_temp <- read.csv("streams_temperature.csv", header = TRUE, sep =",")
-```
 
-```{r}
 stream_DO <- read.csv("streams_DissolvedOxygen.csv", header = TRUE, sep =",")
 ```
 
-*Viewing the data* 
+**Viewing the data**
 
 Now that our data is loaded into R, we can explore the data using the view and 
 head commands. Our goal is to make sure things loaded correctly and to get a first look to see if the data make sense. 
+```{r}
+View(stream_temp)
+```
+
+```{r}
+head(stream_temp)
+```
 
 ```{r}
 View(stream_DO)
@@ -145,20 +136,21 @@ head(stream_DO)
 
 **Class Question:**
 
-*What do you notice is different between using the command "View" and the command "head"? Which one do you think is more useful?
+* What do you notice is different between using the command "View" and the command "head"? Which one do you think is more useful?
 
-*It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
+* It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
 
 ```{r}
 dim(stream_temp)
+
 dim(stream_DO)
 ```
 
 **Class Questions:**
 
-*How many data entries are in this dataset for water temperature? 
+* How many data entries are in this dataset for water temperature? 
 
-*How many data entries are in this dataset for dissolved oxygen? 
+* How many data entries are in this dataset for dissolved oxygen? 
 
 
 *RECAP:*
@@ -168,7 +160,7 @@ this module.
 
 
 --------------------------------------------------------------------------------
-**Tidying datasets for more reliable analysis**
+## PART 2: Tidying datasets for more reliable analysis
 
 As of now, our data for water temperature for Stream A and B exists in a separate data frame from the dissolved oxygen concentrations for Stream A and B. For K'avi Fish and Wildlife managers to truly understand what's going on, they need to analyze water temperature and dissolved oxygen together. To do this, we need to change how our data is set up in each data frame and then merge these data frames together. 
 
@@ -176,7 +168,7 @@ Manipulating data so that it is formatted in a way that we can easily and reliab
 
 HOWEVER, if we put all the temperature values in the same column, how will we know which stream the measurements came from? Take a moment to think about this, and see the answer below!
 
-ANSWER (click the arrow next to 180 to see the answer)
+ANSWER (click the down arrow on the next line to see the answer)
 ```{r}
 #We would want to make a column called "site" so when we read a row of data, we can see whether the water temperature or dissolved oxygen data was collected in Stream A or Stream B!
 
@@ -185,17 +177,20 @@ ANSWER (click the arrow next to 180 to see the answer)
 
 If you want to learn more about tidy data, [here's a useful website](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
-*But how do we make our data tidy?*
+### Tidying data
 
-First, we will use the pivot_longer() command to reorganize the columns from the temperature dataset, so that there is one column for "site" and one column for "temperature_C" The goal is to make only one column for each variable.
+First, we will use the `pivot_longer()` command to reorganize the columns from the temperature dataset, so that there is one column for "site" and one column for "temperature_C" The goal is to make only one column for each variable.
 
 **Class Question**
 
-*Look back at the current "messy" version of stream_temp. Can you see that there is more than one column with the same variable? 
+* Look back at the current "messy" version of stream_temp. Can you see that there is more than one column with the same variable? 
 
-The pivot_longer() command allows us to combine columns, which transforms our dataset into a form with more rows (longer), and fewer columns (less wide). Long form data makes it easier to summarize data and look at trends over time, which allows the tidyverse package to work better. 
+The `pivot_longer()` command allows us to combine columns, which transforms our dataset into a form with more rows (longer), and fewer columns (less wide). Long form data makes it easier to summarize data and look at trends over time, which allows the tidyverse package to work better. 
 
-In the code chunk below, we use pivot_longer() to transform the temperature data. The green #comments describe what each line of code does.
+Here is a visual example:
+![A dataframe with with three variables labelled a1, a2, a3 and one ID column is shown as being split into the three columns and aligning their values into a single column called 'value', with the column 'key' identifying the original column name. Source: https://r-crash-course.github.io/14-tidyr/](08-tidyr-fig3_pivot_longer_visual.png)
+
+In the code chunk below, we use `pivot_longer()` to transform the temperature data. The #comments describe what each line of code does.
 
 ```{r}
 # The first line of code tells R that we want to re-define 
@@ -226,13 +221,12 @@ print(stream_temp)
 ```
 
 
-Great! Our code worked. Now let's do the same for the dissolved oxygen data set.
-We want to change it in the same way we changed the temperature data set above.
+Great! Our code worked. Now let's do the same for the dissolved oxygen data set.We want to change it in the same way we changed the temperature data set above.
 
 HOWEVER, this time some chunks of code have been left blank. See if you can 
 fill them in based on what you saw in the example above! 
 
-*NOTE* This is filled in for the instructor's version, but will be left blank for students to work together to construct on their own. 
+*NOTE:* This is filled in for the instructor's version, but will be left blank for students to work together to construct on their own. 
 ```{r}
 stream_DO <- stream_DO %>%  
   pivot_longer( 
@@ -242,9 +236,7 @@ stream_DO <- stream_DO %>%
   )
 ```
 
-Again, we should check our work to make sure that our data looks the way we want
-it to. We want there to be three columns, one for the year the sample was collected,
-one for the site name, and one for the dissolved oxygen values (mg/L). 
+Again, we should check our work to make sure that our data looks the way we want it to. We want there to be three columns, one for the year the sample was collected, one for the site name, and one for the dissolved oxygen values (mg/L). 
 
 ```{r}
 print(stream_DO)
@@ -252,20 +244,17 @@ print(stream_DO)
 
 Good work! This data frame looks the way we want it to now as well. 
 
-*Merging datasets*
+### Merging dataframes
 
-So far, we have separate datasets for temperature and DO. We want to combine them into one tidy dataset, so we can analyze 
-trends in temperature and dissolved oxygen at the same time for both streams. 
+So far, we have separate dataframes for temperature and DO. We want to combine them into one tidy dataframe, so we can analyze trends in temperature and dissolved oxygen at the same time for both streams. 
 
-To do this, we will use a command in tidyverse called "left_join". 
-Left join means we want to put one data frame next to the the other. In other words, 
-we want to match up the rows in the data frame, so it becomes wider, not longer. This is 
-because we want to preserve the columns from the two data frames we are combining. 
+To do this, we will use a command in tidyverse called `full_join()`, from the join commands. Full join means we want to combine two data frames. We want to match up the rows in the first data frame with the second data frame based on a matching key that the two have in common - in our case the year and site. See more on the join commands [here](https://dplyr.tidyverse.org/reference/mutate-joins.html#inner-join).
+
+The format for joining is: `left_join(dataframe1, dataframe2, by=c(columns they have in common))`
 
 ```{r}
-# Here, we are using left_join to put the streams_temp data frame 
-# next to the streams_D data frame.
-streams <- left_join(stream_temp,stream_DO)
+# Here, we are using full_join to put the streams_temp data frame next to the streams_DO data frame.
+streams <- full_join(stream_temp, stream_DO, by=c("year","site"))
 
 ```
 
@@ -276,12 +265,11 @@ Great! Now let's check to make sure that we successfully merged our two data fra
 print(streams)
 ```
 
+Great job data wrangling! We now have a single tidy dataframe that we can use to analyze water quality and determine which stream is best for introducing bull trout to tribal land.
 
-Great job data wrangling! We now have a single tidy dataset that we can use to analyze water quality and determine which stream is best for introducing bull trout to tribal land.
+### Summary statistics 
 
-**Summary statistics**
-
-We know that bull trout prefer cold clean water. Temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L tend to be bad for bull trout, though these are only general approoximations and the healthiness of stream water for bull trout depends on many factors. 
+We know that bull trout prefer cold clean water. Temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L tend to be bad for bull trout, though these are only general approximations and the healthiness of stream water for bull trout depends on many factors. 
 
 We'll start our analysis of water quality by using the statistical summary commands that will be familiar from Module 1. First, we'll calculate the mean (or average) water temperature
 
@@ -330,6 +318,7 @@ median(na.omit(streams$temperature_C))
 ```
 
 **Class question:**
+
 What is the median amount of dissolved oxygen across all samples? Try and fill 
 in the code chunk below:
 
@@ -339,7 +328,8 @@ in the code chunk below:
 
 Since our goal is to compare the water quality of Stream A and Stream B, let's temporarily create separate dataframes for each stream using a new command called subset(). We explain the code and the commands we will use in the code chunk below. 
 
-*NOTE* In the student's version, students will make the StreamB_WQ dataset on their own based on what they saw for Stream A. 
+*NOTE:* In the student's version, students will make the StreamB_WQ dataset on their own based on what they saw for Stream A. 
+
 ```{r}
 # Below, we define a new dataframe "StreamA_WQ" as the subset of "streams" that have "StreamA" in the column "site". Here, we use the "<-" to tell R that we want to make a new dataframe, from a dataframe that already exists (streams).
 StreamA_WQ <- subset(streams, site == "StreamA")
@@ -375,38 +365,51 @@ For now, let's use the information in the summary tables above to get a prelimin
 
 **Class Questions**
 
-From what we've learned about the streams so far, which one do you think would be better to re-introduce bull trout into?  
+* From what we've learned about the streams so far, which one do you think would be better to re-introduce bull trout into?  
 
-Which of the summary statistics do you think is most useful? 
+* Which of the summary statistics do you think is most useful? 
 
-Is there any other information you'd like to know in order to make the best recommendation to the tribe?    
+* Is there any other information you'd like to know in order to make the best recommendation to the tribe?    
 
 *RECAP:*
 In this section, we reviewed ways to combine datasets in a "tidy" way, remove NAs, reviewed how to run summary statistics, and introduced a 
 technique to subset data so that we can look at data in different groups that may be useful for analysis. 
 
 
-# Day 2: Detailed exploration of the water quality data with graphs.
+# DAY 2: Detailed exploration of the water quality data with graphs.
 
 The summary statistics we generated using the summary() command gave us an overview of how water temperature and dissolved oxygen differ between the two sites. Summary statistics are useful, and tribes are often asked to generate such statistics for reports (for instance the water quality reports tribes for the U.S. Environmental Protection Agency). 
 
 However, it is always a good idea to look at your data in many ways, including charts and graphs. Today, we will look at two different graphs of the water quality data, then revisit the question of which stream would be best for the bull trout reintroduction.
 
-**Scatter plot of water temperature and dissolved oxygen**
+## PART 3: Plotting water temperature and dissolved oxygen
+
+
+### Scatter plots 
 
 Bull trout prefer water below 14 deg C and above 6.2 mg/L dissolved oxygen, but these thresholds are only part of the story. We can use a scatter plot to look at all the data for both streams to see patterns in the overall temperature and DO values are. 
 
-We'll use code that is similar to the scatter plot code in Module 1:
+We'll use code that is similar to the scatter plot code in Module 1.  
 
 ```{r}
 # The first line says we're making a plot using the streams dataframe.
 # We're going to plot temperature_C against dissolved_oxygen.
 # And we're going to color the symbols by site, distinguishing StreamA and StreamB.
-ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site)) +
+# 'size' adjusts the size of the points to be larger 
+# we are saving it as an object called 'scatter_plot' 
+scatter_plot <- ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site), size=2) +
   # Then we specify a scatter plot (points)
-  geom_point() +
-  # Then we'll add red lines depicting the levels of temperature and DO 
-  # that are dangerous for bull trout.  
+  geom_point() 
+
+# see output 
+scatter_plot
+```
+
+```{r}
+
+# for reference we can add red lines depicting the levels of temperature and DO that are dangerous for bull trout. 
+# because we saved it as an object, we can add to the object directly 
+scatter_plot +
   geom_hline(yintercept = 6.2, col = "red") +
   geom_vline(xintercept = 14, col = "red") +
     # We'll use the same simple "theme" we used in module 1.
@@ -416,27 +419,27 @@ ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site)) +
 
 **Class Questions:**
 
-Where are the best values of water quality for bull trout? Where are the worst values?
+* Where are the best values of water quality for bull trout? Where are the worst values?
 
-When you ran the code chunk, you might have gotten a warning message that says, "Warning: Removed 5 rows containing missing values (`geom_point()`)." What does that mean? How does this affect your interpretation of the graph?
+* When you ran the code chunk, you might have gotten a warning message that says, "Warning: Removed 5 rows containing missing values (`geom_point()`)." What does that mean? How does this affect your interpretation of the graph?
 
-Does looking at this graph change your opinion about whether Stream A or Stream B will be healthier for bull trout? What other information would help the tribe make this decision?
+* Does looking at this graph change your opinion about whether Stream A or Stream B will be healthier for bull trout? What other information would help the tribe make this decision?
 
 
-**Time series graphs of water quality**
+### Time series plots
 
 The scatter plot shows more detail than the summary statistics, but there is still more useful information in our data set. K'avi Fish and Wildlife managers have measured temperature and DO for 15 years, which is a long time. Since we know that temperatures are rising, it would be useful to see if these values change over time (we're looking for a trend). 
 
 To recap, Stream A is fed by a groundwater spring, and Stream B is fed by an alpine lake that is fed by a glacier. Because there sources of water are different, we can hypothesize that these streams may react differently to climate change. 
 
 **Class Question:**
-Based on what we know about Stream A and Stream B, what would your hypothesis be on how the water quality for each stream may change as global temperatures increase with climate change? 
 
-We can assess our hypotheses by plotting water temperature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
+* Based on what we know about Stream A and Stream B, what would your hypothesis be on how the water quality for each stream may change as global temperatures increase with climate change? 
 
-First, we'll plot temperatures from both sites across the 15 years that the tribe has been monitoring water temperatures.
+* We can assess our hypotheses by plotting water temperature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
 
 
+Here we will use `geom_line()` to plot temperatures from both sites across the 15 years that the tribe has been monitoring water temperatures. Similar to the scatter plot, we can assign the site column to color. 
 
 ```{r}
 # The first line says we're making a plot using the streams dataframe.
@@ -458,31 +461,35 @@ ggplot(streams, aes(year, temperature_C, color = site)) +
 
 **Class Questions:**
 
-What do the two colored lines represent? 
+* What do the two colored lines represent? 
 
-Why are there breaks in the blue line?
+* Why are there breaks in the blue line?
 
-Do the trends over time support your hypothesis about the stability of the temperature of the streams? Why or why not?
+* Do the trends over time support your hypothesis about the stability of the temperature of the streams? Why or why not?
 
-Using the code above as an example, see if you can make a similar time-series plot showing changes in dissolved oxygen for both streams over time:
+* Using the code above as an example, see if you can make a similar time-series plot showing changes in dissolved oxygen for both streams over time:
 
 ```{r}
 # Write your code here:
+# hint: you'll need to change two variables - one for the line and points, and one for the horizontal line representing the threshold 
+
 ```
 
+
 *INSTUCTORS VERSION - this line of writing outline our intent with the plots*
+
 Although Stream B tends to have had better water quality in the past, it seems that the data support our the hypothesis that the water quality of Stream B is getting worse, while the water quality of Stream A is fairly constant.
 
 *STUDENT VERSION*
 
 **Class Questions:**
 
-Why do you think the water quality in Stream B is getting worse?
+* Why do you think the water quality in Stream B is getting worse?
 
-Which stream do you think will be healthier for bull trout in the future?
+* Which stream do you think will be healthier for bull trout in the future?
 
-If you were using this analysis to make a recommendation to K'avi Fish and Wildlife managers, what would you suggest they consider as they decide which stream should be the site for bull trout reintroductions?
+* If you were using this analysis to make a recommendation to K'avi Fish and Wildlife managers, what would you suggest they consider as they decide which stream should be the site for bull trout reintroductions?
 
-Beyond the case of bull trout reintroductions, what other water quality issues are important to tribes? 
+* Beyond the case of bull trout reintroductions, what other water quality issues are important to tribes? 
 
-How can coding in R help inform tribal decisions about water quality? 
+* How can coding in R help inform tribal decisions about water quality? 
