@@ -1,0 +1,223 @@
+---
+title: "visitor data explainer"
+output: html_document
+date: "2024-08-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=F, message=F)
+
+library(tidyverse)
+library(viridis)
+library(readxl)
+```
+
+# Notes on updating water quality module with cultural values 
+
+We want to add a component that brings in the community and cultural values as part of considering the two sites for stream restoration. 
+
+Two options discussed with G: 
+
+1. add categorical value to sites, i.e. one site includes language camp and fishing and the other is fishing 
+
+2. Add visitor data to each site, setting it up so that one sight has more visitors to create discussion on how you might consider this in decision making. To do this, I used patterns from actual State and National Park visitor data, which is explained here.
+
+First I found visitation numbers for state parks in Montana from 2020-2022, using the first table under the Region 1 section. I selected sites close to the Flathead reservation with lower visitation numbers that included a body of water: Lake Mary Ronan and Thompson Falls  
+
+Link to source: https://fwp.mt.gov/binaries/content/assets/fwp/stateparks/2022-montana-state-parks-annual-visitation-estimates-final-report-5.1.2023.pdf
+
+Given those values, I multiplie by the ratio of the population on the Flathead reservation to the population of the state of Montana. Population values were taken from the census for [Montana](https://data.census.gov/profile/Montana?g=040XX00US30) and [Flathead reservation](https://data.census.gov/profile/Flathead_Reservation,_MT?g=2500000US1110)
+
+
+```{r visitors}
+
+# population of Montana 
+pop_MT = 1123000
+
+# population of Flathead reservation
+pop_FR = 28304 
+
+# percent of population on flathead reservation 
+percent_res = pop_FR/pop_MT 
+
+
+years = c(2020, 2021, 2022)
+
+# Stream A / Lake Mary Ronan 
+visitsA = c(34645, 31055, 31674)*percent_res
+# Stream B /  Thompson Falls
+visitsB = c(19240, 17236, 18129)*percent_res
+
+stream_visits = data.frame(years, visitsA, visitsB)
+
+# quick visualizer 
+stream_visits %>% pivot_longer(cols=c(visitsA, visitsB), names_to="site", values_to="visits") %>% 
+  ggplot(aes(x=years, y=visits, fill=site)) + geom_col(position='dodge')
+```
+
+
+This data was only for years 2020-2022, but the stream temp and DO data goes from 2007-2022. To create visitor data from 2007-2019, I used percent changes in visitation for national sites. This data can be explored more [here](https://irma.nps.gov/Stats/SSRSReports/National%20Reports/Query%20Builder%20for%20Public%20Use%20Statistics%20(1979%20-%20Last%20Calendar%20Year).
+
+I used two locations in Montana to get percent changes, and they ended up having similar trends. 
+
+Two locations:
+
+1. Stream A / 2020-2022 visits from Lake Mary Ronan / percent change from Glacier NP
+2. Stream B / 2020-2022 visits from Thompson Falls / percent change from Grant Kohrs Ranch NHS
+
+I did this part calculating percent change in excel. Here is a visual: 
+
+```{r perchng}
+national_visits <- read_excel("Query Builder for Public Use Statistics (1979 - Last Calendar Year)-Percent_Changes_NP.xlsx", skip = 2)
+
+## plot percent change of the different parks  
+
+# Stream A / Lake Mary Ronan / Glacier NP 
+# Stream B / Thompsn Falls / Grant Kohrs Ranch NHS 
+national_visits %>% 
+  na.omit() %>% 
+  ggplot() + geom_line(aes(x=Year, y=recreation_visits, col=Park)) 
+
+national_visits %>% 
+  na.omit() %>% 
+  ggplot() + geom_line(aes(x=Year, y=percent_change, col=Park)) 
+```
+
+Despite having more visitors to Glacier National Park, the percent changes are not so different. 
+Percent changes were applied to the starting values of our 'sites' in 2020, moving backwards. I did this in excel, and then added another column to identify the 'main activity' at each site. 
+
+1. Stream A: language camp and fishing 
+2. Stream B: fishing 
+
+The resulting data frame looks like this: 
+```{r preview}
+# resulting data frame 
+streams_data_visitors <- read.csv("streams_data_visitors.csv")
+
+head(streams_data_visitors)
+
+```
+
+---
+
+## the rest of the document is plots for exploring the data with the additional variables
+
+### visualize options for considering cultural values 
+
+```{r new_vars}
+# plot new variables 
+ggplot(streams_data_visitors) + geom_line(aes(x=year, y=visitors, col=main_activities))
+```
+
+### Original plots 
+
+Re-do plots from activity but with color showing category not just site label but instead the main activity 
+
+```{r redo}
+ggplot(streams_data_visitors,
+       aes(x=year, y=temperature_C, col=main_activities)) + 
+  geom_line() + geom_point() +
+  theme_minimal()
+
+DO_threshold = 6.2
+temp_threshold = 14
+
+ggplot(streams_data_visitors) + geom_point(aes(y=DO, x=temperature_C, col=main_activities)) + 
+  geom_hline(aes(yintercept=DO_threshold), col="red") + 
+  geom_vline(aes(xintercept=temp_threshold), col="red")
+
+# re-do scattrer plot with visitors data as color to show that points with higher visitors also have lower DO/higher temps - relate to fishing 
+
+ggplot(streams_data_visitors) + geom_point(aes(y=DO, x=temperature_C, col=visitors)) +
+  scale_color_viridis_c() +
+  geom_hline(aes(yintercept=DO_threshold), col="red") + 
+  geom_vline(aes(xintercept=temp_threshold), col="red")
+```
+
+### Visualizing distribution of two variables 
+
+We can create a cross plot that will show visitors on the y-axis and stream qual variable on the x axis, the point is the average of two variables and the lines can show variability.  
+
+This requires more complicated steps to get this type of cross plot because it includes summary values 
+
+The first plot has visitors on y-axis, the second plot replicates the above scatter plot with temp v. DO but as a summary 
+
+```{r cross}
+streams_data_visitors %>% 
+  group_by(site) %>% # first grouping by each stream site 
+  summarise_at(vars(temperature_C, visitors),  # we are taking the two vars temp and visitors 
+               list(min=min,max=max,mean=mean), na.rm=T ) %>% # and getting the min, max, and mean  
+  ggplot() + 
+  geom_pointrange(aes(x=temperature_C_mean, # then use point range to plot 
+                      xmax=temperature_C_max, 
+                      xmin=temperature_C_min,
+                      y=visitors_mean, 
+                      col=site)) + 
+  geom_pointrange(aes(y=visitors_mean, 
+                      ymax=visitors_max, 
+                      ymin=visitors_min, 
+                      x=temperature_C_mean, 
+                      col=site)) + 
+  theme_minimal()
+
+# can repeat this plot to be summary of scatter plot with temp on x axis and DO on y axis 
+streams_data_visitors %>% group_by(site) %>% 
+  summarise_at(vars(temperature_C, visitors, DO), 
+               list(sd=sd, mean=mean), na.rm=T ) %>% 
+  ggplot() + 
+  geom_pointrange(aes(x=temperature_C_mean, 
+                      xmax=temperature_C_mean+temperature_C_sd, 
+                      xmin=temperature_C_mean-temperature_C_sd,
+                      y=DO_mean, 
+                      col=site)) + 
+  geom_pointrange(aes(y=DO_mean, 
+                      ymax=DO_mean+DO_sd, 
+                      ymin=DO_mean-DO_sd, 
+                      x=temperature_C_mean, 
+                      col=site)) + 
+  theme_minimal()
+```
+
+### Facet wrap 
+
+We can introduce facet wrap for dealing with many variables 
+
+Here I'm going to repeat the same time series plot but instead of color being site, facet by site and color will be visitors 
+
+```{r ts_facet}
+# temperature 
+ggplot(streams_data_visitors, 
+       aes(x=year, y=temperature_C, col=visitors)) + 
+  geom_hline(aes(yintercept = temp_threshold), col="red", linetype="dashed") + 
+     geom_point(size=4) + geom_line() + 
+     theme_bw() + facet_wrap('main_activities') + 
+  scale_color_viridis_c()
+
+# DO 
+ggplot(streams_data_visitors, 
+       aes(x=year, y=DO, col=visitors)) + 
+  geom_hline(aes(yintercept = DO_threshold), col="red", linetype="dashed") + 
+  geom_point(size=4) + geom_line() + 
+  theme_bw() + facet_wrap('main_activities') + 
+  scale_color_viridis_c()
+```
+
+### Trend lines 
+
+Finally if we want to include the trend lines of any of the variables we can plot that to aid in discussion of decision making 
+
+```{r trend}
+# if you want to use trend lines 
+ggplot(streams_data_visitors, 
+       aes(x=year, y=visitors, col=main_activities)) +
+  geom_point(size=2) + 
+  geom_smooth(method='lm')
+
+ggplot(streams_data_visitors, 
+       aes(x=year, y=temperature_C, col=main_activities)) +
+  geom_point(size=2) + 
+  geom_smooth(method='lm')
+
+```
+
+
