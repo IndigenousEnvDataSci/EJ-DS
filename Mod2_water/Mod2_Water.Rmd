@@ -1,5 +1,5 @@
 ---
-title: "Module 2: Water Quality"
+title: "Module 2: Water Quality for bull trout reintroduction"
 output:
   html_document: default
 date: "updated 2024-8-5"
@@ -8,7 +8,7 @@ date: "updated 2024-8-5"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction: Water Quality for bull trout reintroduction
+# Introduction
 
 Water is a valuable resource that is important for maintaining many aspects of a community's well being. "Water quality" captures many components of the chemistry, biology, and physics of fresh water. In this module, we will study data about two of these components, water temperature (T) and dissolved oxygen (DO). 
 
@@ -31,8 +31,9 @@ The upstream source of Stream A is a groundwater spring. Water in this stream is
 
 4. We will explore how water quality data can help communities make decisions to protect culturally important species.
 
---------------------------------------------------------------------------------
-#INSTRUCTOR'S VERSION: Learning goals and instructor resources
+----------------------------------------------
+
+## INSTRUCTOR'S VERSION: Learning goals and instructor resources
 
 **We will reach these goals in six steps**
 
@@ -138,7 +139,7 @@ head(stream_DO)
 
 * What do you notice is different between using the command "View" and the command "head"? Which one do you think is more useful?
 
-* It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
+It may also be helpful for us to understand how big our dataset is. We can get this number, called the "dimensions" of the data by using the command "dim".
 
 ```{r}
 dim(stream_temp)
@@ -216,6 +217,7 @@ stream_temp <- stream_temp %>%
 ```
 
 To make sure this long command worked the way we intended, we should now view streams_temp: 
+
 ```{r}
 print(stream_temp)
 ```
@@ -226,11 +228,14 @@ Great! Our code worked. Now let's do the same for the dissolved oxygen data set.
 HOWEVER, this time some chunks of code have been left blank. See if you can 
 fill them in based on what you saw in the example above! 
 
-*NOTE:* This is filled in for the instructor's version, but will be left blank for students to work together to construct on their own. 
 ```{r}
 stream_DO <- stream_DO %>%  
+# We use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
-    cols = c(StreamA, StreamB), 
+    # [FILL THIS IN]
+    cols = c('StreamA', 'StreamB'), 
+    # names_to tells R that we want the names of the columns we specified 
+    # above to be entries in a new column we're creating called "site". 
     names_to = "site", 
     values_to = "dissolved_oxygen" 
   )
@@ -242,7 +247,7 @@ Again, we should check our work to make sure that our data looks the way we want
 print(stream_DO)
 ```
 
-Good work! This data frame looks the way we want it to now as well. 
+Good work! This data frame should have a single column of dissolved_oxygen and a single column of site to look the way we want it to.
 
 ### Merging dataframes
 
@@ -304,8 +309,8 @@ mean(na.omit(streams$temperature_C))
 Our code worked! Now you've learned how to handle NAs in a dataset in R. Let's
 carry on with our summary statistics.
 
-*Your turn! How would you figure out what the mean amount of dissolved oxygen 
-is in the water across Stream A and Stream B? 
+*Your turn!* How would you figure out what the mean amount of dissolved oxygen 
+is in the water for both Stream A and Stream B? 
 
 ```{r}
 #Write your code here!
@@ -436,8 +441,8 @@ To recap, Stream A is fed by a groundwater spring, and Stream B is fed by an alp
 
 * Based on what we know about Stream A and Stream B, what would your hypothesis be on how the water quality for each stream may change as global temperatures increase with climate change? 
 
-* We can assess our hypotheses by plotting water temperature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
 
+We can assess our hypotheses by plotting water temperature and dissolved oxygen over time. We'll make a small change to our typical ggplot() code to make a "time series" plot, which shows trends across time.
 
 Here we will use `geom_line()` to plot temperatures from both sites across the 15 years that the tribe has been monitoring water temperatures. Similar to the scatter plot, we can assign the site column to color. 
 
@@ -467,7 +472,8 @@ ggplot(streams, aes(year, temperature_C, color = site)) +
 
 * Do the trends over time support your hypothesis about the stability of the temperature of the streams? Why or why not?
 
-* Using the code above as an example, see if you can make a similar time-series plot showing changes in dissolved oxygen for both streams over time:
+
+Using the code above as an example, see if you can make a similar time-series plot showing changes in dissolved oxygen for both streams over time:
 
 ```{r}
 # Write your code here:

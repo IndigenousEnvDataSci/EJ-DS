@@ -1,5 +1,5 @@
 ---
-title: "Module 1: Fish"
+title: "Module 1: Fish and heavy metal contaminants"
 output: html_document
 date: "updated 2024-7-29"
 ---
@@ -7,7 +7,7 @@ date: "updated 2024-7-29"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction: fisheries and heavy metal contaminants
+# Introduction
 
 Members of the K’avi have fished the waters on their land for many years to provide food for their community. To manage these waters, K'avi tribal fishery managers have been monitoring fish growth rates across the local water bodies in their community. 
 

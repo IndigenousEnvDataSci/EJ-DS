@@ -1,38 +1,11 @@
 ---
-title: "Bison"
-date: "2023-11-15"
+title: "Module 3: Bison reintroduction and plant biomass"
+date: "updated 2024-08-05"
 output: html_document
 ---
 
-**In this module, there are five main coding goals:** 
-1. We will review skills you learned in previous modules, such as summary statistics and merging datasets.
+# Introduction 
 
-2. We will learn how to group data together in a new way, using a different function than before. 
-
-3. We will learn how to convert units in R and add them to the dataset to make a more concise representation of the data.
-
-4. We will challenge you to visualize the data using your previously knowledge and creativity!
-
-5. We will explore the importance of considering multiple variables when making management decisions and the value of reintroducing native species to their habitats.
-
-# Day 1
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-### Set your working directory and load in tidyverse
-```{r set wd}
-current_path = rstudioapi::getActiveDocumentContext()$path #For editing purposes! Students would have to do this step on their own
-setwd(dirname(current_path))
-```
-
-### Load in tidyverse
-```{r tidy}
-library(tidyverse)
-```
-
-## Background
 For many years, the K'Avi tribe has had cattle grazing pastures throughout their land.
 Cattle have been a useful agricultural resource, but they are not native to the K'Avi's
 region. In the past year, tribal agriculture managers have noticed a decreased vitality 
@@ -42,8 +15,7 @@ species. Tribal agriculture managers are considering reintroducing bison to the 
 both ecological and cultural reasons. Bison are native to this region and have been observed
 to increase native grass species richness by 103% in comparison to cattle! Reintroducing bison will 
 also re-establish the K'Avi's cultural and historical connections to the land, and can reaffirm food 
-sovereignty and provide additional economic benefits. The managers are hoping to repurpose the cattle 
-grazing lands to become bison grazing lands to foster a more sustainable agricultural 
+sovereignty and provide additional economic benefits. The managers are hoping to repurpose the cattle grazing lands to become bison grazing lands to foster a more sustainable agricultural 
 practice for the region and to ensure the preservation of the native grasslands.
 
 In collaborations with numerous tribal governments, K'Avi agriculture managers are hoping 
@@ -52,27 +24,67 @@ within the herd and opportunities for sustainable hunting.
 
 To reintroduce bison, the land must have enough available sustenance for the bison to graze
 and maintain a healthy lifestyle. The tribal agriculture managers are considering
-three sites for reintroduction and have produced a dataset (biomass.csv) with the annual plant biomass 
-(i.e., the amount of food available) at each site. They also used GIS to calculate the 
+three sites for reintroduction and have produced a dataset (biomass.csv) with the annual plant biomass (i.e., the amount of food available) at each site. They also used GIS to calculate the 
 area of each site in hectares (one hectare is roughly equivalent to two football fields), 
 producing the dataset "bison_sites.csv". These data will help determine which sites are 
 viable for bison reintroduction! While the hope is to eventually reintroduce bison herds to 
 all of these sites, K'Avi agricultural managers must currently choose a single site 
 to place this first herd of 200 bison. 
 
+**In this module, there are five main coding goals:** 
+
+1. We will review skills you learned in previous modules, such as summary statistics and merging datasets.
+
+2. We will learn how to group data together in a new way, using `group_by()` and `summarise()` 
+
+3. We will learn how to convert units in R and add new columns to the dataset to make a more concise representation of the data.
+
+4. We will challenge you to visualize the data using your previously knowledge and creativity!
+
+5. We will explore the importance of considering multiple variables when making management decisions and the value of reintroducing native species to their habitats.
+
+# DAY 1
+
+## PART 1: Setting up  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Set your working directory**
+
+```{r set wd}
+current_path = rstudioapi::getActiveDocumentContext()$path #For editing purposes! Students would have to do this step on their own
+setwd(dirname(current_path))
+```
+
+**Load in tidyverse**
+```{r tidy}
+library(tidyverse)
+```
+
+
+
 ### Load in Biomass Data and Site Datasets
+
 ```{r load in datasets}
 biomass <- read.csv("biomass.csv", header = TRUE, sep = ',') #this is for our purposes, this would not be written for students in this module
 sites <- read.csv("bison_sites.csv", header = TRUE, sep = ',')
 #Delete this code at the end!!! Maybe just keep the names "biomass <-" and "sites <-", for consistency sake later on in the module!
 ```
 
-## Look at all of the data
 Previously, we learned to work with data across multiple sites by having each site as a separate column. This approach allowed us to easily graph data from multiple sites over time. Here, since we will not be looking at data over time, we will be comparing data between multiple sites in a different way, with all of the sites in a single column. View the "biomass" dataset to see this structure.
 
-With the data for all of the sites in the same columns, if we took the summary statistics for a column, it would take the summary statistics for all of the sites together, rather than the summary statistics for each site. In order to run code for each site, we can use the "group_by" function, which is part of the tidyverse. The group_by function tells R to group rows of data by their shared values in a given column. A sample of this code can be seen below:
+```{r}
+# preview your data frames using View() or head() or str() 
+
+```
 
 ### Group_by in dplyr
+
+With the data for all of the sites in the same columns, if we took the summary statistics for a column, it would take the summary statistics for all of the sites together, rather than the summary statistics for each site. In order to run code for each site, we can use the `group_by()` function, which is part of the tidyverse. The `group_by()` function tells R to group rows of data by their shared values in a given column. A sample of this code can be seen below:
+
+
 ```{r group by}
 dplyr::group_by(biomass, Site) 
 #A breakdown of the components of this code: group_by(name of the dataset, column with values to group by)
@@ -80,6 +92,7 @@ dplyr::group_by(biomass, Site)
 ```
 
 **A Note about tibbles**
+
 We can see that this code chunk also just visualized the first section of our data as a table. These tables we produce are called "tibbles" in tidyverse. They are another, simpler way to view the data, and are basically the same as a data frame. If you want more information, check out: https://tibble.tidyverse.org/
 
 Now, let's look again at the data that we have: we want to figure out which sites have enough food (plant biomass) to support a herd of 200 reintroduced bison. To figure this out, the first step is to calculate the total amount of plant biomass at each site. However, as the "sites" dataset shows us, these sites are far too large to manually count up the plant biomass for the entire site. Fortunately, this is not necessary. Instead, tribal researchers collected annual plant biomass from fifty 0.25 square meter quadrats (small squares within which data is sampled) at each site, which can be used to estimate the total biomass at each site. 
@@ -87,14 +100,16 @@ Now, let's look again at the data that we have: we want to figure out which site
 While this collection method is actually feasible, this dataset doesn't quite yet give the information the tribal agriculture managers are looking for, which is the total biomass at each site. 
 
 **A Note About dplyr**
-The dplyr package, which is part of the tidyverse, provides numerous unique tools to easily create, edit, and manipulate data, which is often necessary when your raw data is not perfectly set up to answer the questions you are asking. Mastering these tools will give you data management skills relevant and desirable in both academic and professional settings. In this module, we will only discuss a few of the potential data management functions available, but you are encouraged to explore all of the tools and make decisions for the appropriate ones to use as you see fit! A "cheat sheet" explaining all of these functions can be found here: 
-###dplyr cheat sheet###
-https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 
-## The Big Question
+The dplyr package, which is part of the tidyverse, provides numerous unique tools to easily create, edit, and manipulate data, which is often necessary when your raw data is not perfectly set up to answer the questions you are asking. Mastering these tools will give you data management skills relevant and desirable in both academic and professional settings. In this module, we will only discuss a few of the potential data management functions available, but you are encouraged to explore all of the tools and make decisions for the appropriate ones to use as you see fit! A "cheat sheet" explaining all of these functions can be found here: 
+[dplyr cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+## PART 2: How do we calculate total biomass for each site?
+
 What we have right now is the annual biomass in fifty 0.25 square meter quadrats at each site. How can we turn these fifty values into an estimate of the total biomass at each site?
 
-### Using group_by and summary to get the average biomass/quadrat at each site
+### Using group_by and summarise 
+
 ```{r group and summary}
 biomass %>% 
   group_by(Site) %>% 
@@ -103,242 +118,271 @@ biomass %>%
 *Side note: Even though this code chunk produced a 3 x 2 tibble showing us average biomass at each site, this did not change the "biomass" dataset, and we can see that this tibble is not in our Global Environment, and does not actually have a name. This is because we did not give this tibble a name and assign it to a new dataset (using the <-).*
 
 **Class Question**
-What site has the highest average plant biomass in its quadrats? What might this tell us about the viability of these sites for bison reintroduction?
+
+* What site has the highest average plant biomass in its quadrats? What might this tell us about the viability of these sites for bison reintroduction?
 
 
 
 We take the average quadrat biomass at each site because due to the large size of the sites, it would be extremely time consuming and expensive to get an actual total biomass of each site. This average gives us an idea of the average biomass in each of the 50 quadrats where data was taken. This data is currently in g/m^2, but the site area data has been given in different units-- hectares. Bison also consume a lot of plants, with a single bison needing about 21,900 kg (1 kg = 1000g) of biomass a year to live a healthy life. So, we have data in different units from one another. Fortunately, we can easily do math in R to create new variables with updated units. 
 
 **Class Question**
-What's the problem with having data in two different units? What should we change the units to?
+
+* What's the problem with having data in two different units? What should we change the units to?
 
 
-## Converting the units
-All of the unit conversions that need to happen: 
-  currently in g/0.25 m2 and want to get to kg/ha 
-  Conversion of g/0.25 m2 to kg/ha is to multiply by 40
+### Converting the units
 
-To do this conversion and add it to our data, we need to make a new column with the converted units. To make a new column in a dataset, we can use the mutate() function in tidyverse. mutate() creates new columns that are functions of existing variables. It can also modify and delete columns, but we won't do either of those today. To make sure that this does not alter the original data, we will make a copy of the biomass dataset with the new column and assign it to a new dataset (using <-) called "biomass2". Since this is just adding a new column to the original data, you can also apply these changes to "biomass" and not make a new dataset by doing "biomass <-" instead. Just make sure to be careful when making changes to any dataset!
+Here are all of the unit conversions that need to happen: 
+  
+1. currently in g/0.25 m2 and want to get to kg/ha 
+2. Conversion of g/0.25 m2 to kg/ha is to multiply by 40
+
+To do this conversion and add it to our data, we need to make a new column with the converted units. To make a new column in a dataset, we can use the `mutate()` function in tidyverse. `mutate()` creates new columns that are functions of existing variables. It can also modify and delete columns, but we won't do either of those today. To make sure that this does not alter the original data, we will make a copy of the biomass dataset with the new column and assign it to a new dataset (using <-) called "biomass_kgha". Since this is just adding a new column to the original data, you can also apply these changes to "biomass" and not make a new dataset by doing "biomass <-" instead. Just make sure to be careful when making changes to any dataset!
 
 ### Converting units to kg/ha
+
 ```{r converting units}
-  biomass2<- mutate(biomass, kg_ha = Biomass * 40) 
+biomass_kgha <- mutate(biomass, kg_ha = Biomass * 40) 
 #the various parts of the mutate() function: mutate(name of dataset, new column = function of existing column)
-biomass2 #this is optional code that you can also add for this chunk to produce a table where we can view the data from automatically. 
+
+head(biomass_kgha) #preview the dataframe with the new column  
+
 ```
-This new dataset--biomass2-- now has a new column that converts the biomass in g/m^2 into kg/ha. The column "kg_ha" will be the new column we will call when we are looking at the biomass data because its now in the correct units!
+This new dataset `biomass_kgha` now has a new column that converts the biomass in g/m^2 into kg/ha. The column "kg_ha" will be the new column we will call when we are looking at the biomass data because its now in the correct units!
 
 We should take the average biomass per quadrat again, but this time with the converted units.
 
 ### Find the new average biomass
+
 ```{r new average with right units}
+
+biomass_avg <- biomass_kgha %>% 
+  group_by(Site) %>% 
+  summarise(avg_biomass=mean(kg_ha))
+biomass_avg
+
 
 ```
 
-We have just used two different ways of manipulating and creating data in R: the summarise() and mutate() functions. 
+We have just used two different ways of manipulating and creating data in R: the `summarise()` and `mutate()` functions. 
 They are very similar to each other, but have some key differences from one another. One of the main 
-differences between them is that summarise() will only produce a single value per group,
-while mutate() produces the same number of rows as the input. 
+differences between them is that `summarise()` will only produce a single value per group,
+while `mutate()` produces the same number of rows as the input. 
 
-If you'd like, play around with both mutate() and group_by() %>% summarise() later on in this module to get a clearer idea of how they differ from one another
+If you'd like, play around with both `mutate()` and `group_by() %>% summarise()` later on in this module to get a clearer idea of how they differ from one another
 
+### Join datasets
 
-There is another dataset the tribal agriculture managers have with the sizes of each site in hectares, called "sites", which we loaded in with biomass data at the beginning of class. We are going to merge this "sites" dataset with our "biomass_avg" dataset, which has the average biomass at each site (kg per hectare), into one dataset using the function left_join(), which we learned in the Water Module. We can do this because both datasets have matching columns (Site). 
+There is another dataset the tribal agriculture managers have with the sizes of each site in hectares, called "sites", which we loaded in with biomass data at the beginning of class. We are going to merge this "sites" dataset with our `biomass_avg` dataset, which has the average biomass at each site (kg per hectare), into one dataset using the function left_join(), which we learned in the Water Module. We can do this because both datasets have matching columns called Site we can use as the key. 
 
-### Join the datasets
 ```{r combine datasets}
-Site_biomass <- left_join(sites, , by = "Site") #left_join(dataset 1, dataset 2, by = "shared column"); Join matching rows from dataset 2 to dataset 1 using their shared column "Site".
-Site_biomass
+site_biomass <- left_join(sites, biomass_avg, by = "Site") #left_join(dataset 1, dataset 2, by = "shared column"); Join matching rows from dataset 2 to dataset 1 using their shared column "Site".
+site_biomass
 ```
 
 **Class Questions**
-How does merging the datasets help us see the data?
 
-What can this new tibble tell us about the quantity of biomass in each site?
+* How does merging the datasets help us see the data?
 
-Just from viewing this dataset, do you have a hypothesis of which site might be most suitable to reintroduce bison?
+* What can this new tibble tell us about the quantity of biomass in each site?
+
+* Just from viewing this dataset, do you have a hypothesis of which site might be most suitable to reintroduce bison?
 
 
 To get a rough estimate of the total available biomass in each site we should multiply the average biomass per quadrat (kg/ha) by the hectares of each site (ha). This will give us a total kg of biomass at each site. This should be added as a new column to the site_biomass tibble.
 
 ### Estimate total available biomass
 ```{r total biomass}
-total_available <- mutate(Site_biomass, total_biomass = Hectares * avg_biomass)
+total_available <- mutate(site_biomass, total_biomass = Hectares * avg_biomass)
 total_available
 ```
 
 **Class Questions**
-What can these totals tell us about each site? Which site do you think is best suited for bison reintroduction? Why?
 
+* What can these totals tell us about each site? Which site do you think is best suited for bison reintroduction? Why?
 
-Bison eat a lot of plants! One bison needs about 21,900 kg of biomass a year to live a healthy life. Since we
-have the total kg of biomass for each site now, we have an idea of which site might be best to introduce the
-bison. Bison are social animals and live in herds. It is important to the tribal agriculture managers to
-ensure that they can sustain a full herd population of at least 200 bison. Using mutate(), how many bison can
-each of these sites maintain?
+## PART 3: How many bison can estimated biomass sustain? 
+
+Bison eat a lot of plants! One bison needs about 21,900 kg of biomass a year to live a healthy life. Since we have the total kg of biomass for each site now, we have an idea of which site might be best to introduce the bison. Bison are social animals and live in herds. It is important to the tribal agriculture managers to ensure that they can sustain a full herd population of at least 200 bison. 
+
+Using `mutate()`, how many bison can each of these sites maintain?
 
 ### Finding maximum bison
 ```{r maximum bison}
-max_bison<-mutate(total_available, max_bison=total_biomass/21900) #code not given beyond ~maybe~ max_bison <-mutate()
+# fill in the mutate function to create a new column of number of bison 
+max_bison<-mutate(total_available, max_bison=total_biomass/21900) 
 max_bison
 ```
 
 **Class Questions**
-Which site(s) would be able to maintain a healthy bison population (around 200 Bison)? 
 
+* Which site(s) would be able to maintain a healthy bison population (around 200 Bison)? 
 
-If you were to share these results with the local community and to other agriculture managers, 
-how might you visualize this data to show which site might be best?
+* If you were to share these results with the local community and to other agriculture managers, how might you visualize this data to show which site might be best?
 
-### Data visualization of sites
+### Data visualization of max bison per site
 ```{r graph bison }
 #Write code here to make a graph that visualizes the maximum viable bison population at each site!
+
+ggplot(max_bison) + geom_col(aes(x=Site, y=max_bison, fill=total_biomass))
 ```
 
-# Day 2
+# DAY 2
 
-**Overview**
 From last class, we have identified multiple sites that have enough biomass to sustain a healthy herd of 200 bison for reintroduction! This is great, but upon further investigation, tribal agriculture managers realize that the total biomass at each site is not the sole determinant of how many bison each site can support. 
 
 Today, you will be tasked with using the code from yesterday to investigate other properties of each site: the amount of available nitrogen for bison to consume and/or the amount of biomass available for bison after accounting for each sites' existing elk populations, and how they each may effect the total number of bison that each site can support. 
 
 You are encouraged to first work with whichever dataset (Nitrogen or Elk) you find more interesting, and if you have enough time to then work on the other dataset. The code we used from last class, where we learned how to manipulate and create data, can be directly applied to address these additional factors. 
 
-Here are some important unit conversions:
+## PART 4: Nitrogen data
 
- 
-
-## **Nitrogen**
 While the physical amount of biomass might be enough at multiple sites to support a herd of 200 bison, the quality of the available forage is also important to consider. Since bison are generalist foragers, they'll eat almost anything, but they need to make sure that they consume 73,000 grams of nitrogen (or "N") a year. Luckily, the tribal agriculture managers have another dataset that has the nitrogen content per quadrat at each site, following the same data structure as the "biomass" dataset from last class. All nitrogen values are in g/0.25 m2, while the site data is in hectares, so you will want to convert your units so that they match. 
 
 If you want your units of N to be in kg/ha, the conversion is to multiply your nitrogen data by 40. 
 
-### import N dataset 
+### Import and summarise N data 
 ```{r import N dataset}
 nitrogen <- read.csv("Nitrogen.csv", header = TRUE, sep = ',')
 ```
 
 Since the data is given in quadrats again, how would we find the total amount of nitrogen available at each site for the bison? Look at the code from last class for reference!
 
-```{r average N}
+First, create a new column in `nitrogen` that converts the units in `Nitrogen` column to kg/ha, and call this column `N_kg_ha`. 
 
-```
 ```{r convert to kg/ha}
 
 ```
 
+Then summarise the average N_kg_ha per site.
+```{r summarise N_kg_ha}
 
+```
+
+Join with the `sites` dataframe. 
 ```{r join}
 
 ```
 
-
+Calculate the total N per site.
 ```{r total N}
 
 ```
 
 **Class Question**  
-Does this change your decision for which site would be best for reintroduction? Why or why not?
+
+* Does this change your decision for which site would be best for reintroduction? Why or why not?
 
 
-## Visualising data
-Now that we have the amount of bison that each site's nitrogen can support, tribal agriculture managers want a visual
-representation of this data to share with the K'Avi community. This can be a tibble, graph, etc, but they want
-something that clearly communicates the data with understandable units and a title. Make it pretty! The
-most effective communication is clear and concise!
+### Visualising N data
+
+Now that we have the amount of bison that each site's nitrogen can support, tribal agriculture managers want a visual representation of this data to share with the K'Avi community. This can be a tibble, graph, etc, but they want
+something that clearly communicates the data with understandable units and a title. Make it pretty! The most effective communication is clear and concise!
 ```{r visualizing N data}
 
 ```
 
 **Class Questions**
-Why do you believe this is the best way to present the data?
 
+* Why do you believe this is the best way to present the data?
 
-Does this change which sites we should introduce the bison to?
+* Does this change which sites we should introduce the bison to?
 
+* Why is it important to consider outside factors when working with data?
 
-Why is important to consider outside factors when working with data?
-
-
-Are there any other factors you would consider when looking to reintroduce a species into its native
+* Are there any other factors you would consider when looking to reintroduce a species into its native
 habitat?
 
+## PART 5: Elk data
 
-## **Elk**
-Even though there might be multiple sites with enough biomass to support a large herd of
-bison, it is not plausible that the bison will eat 100% of the forage available. There are
-elk populations present in the prairies that must be accounted for to ensure that both
-groups have enough biomass to sustain their populations.The present elk population must be
-able to coexist with the reintroduced bison population. Elk require 2,158 kg/year of plant
-biomass. As a reminder, bison require 21,900 kg/year of biomass. 
+Even though there might be multiple sites with enough biomass to support a large herd of bison, it is not plausible that the bison will eat 100% of the forage available. There are elk populations present in the prairies that must be accounted for to ensure that both groups have enough biomass to sustain their populations.The present elk population must be able to coexist with the reintroduced bison population. Elk require 2,158 kg/year of plant
+biomass. As a reminder, bison require 21,900 kg/year of plant biomass. 
 
-### import elk dataset
+### Import elk dataset
 ```{r import elk data}
 elk <- read.csv("elk.csv", header = TRUE, sep = ',')
+
+# add line here to preview elk data 
+
+
 ```
 
 **Class Questions**
-How many elk are there at each site?
 
-Considering the elk populations and the total biomass (from last class) at each site, do you expect the suitable sites for bison reintroduction to change? Why or why not? 
+* How many elk are there at each site?
+
+* Considering the elk populations and the total biomass (from last class) at each site, do you expect the suitable sites for bison reintroduction to change? Why or why not? 
 
 
 If each elk requires 2,158 kg/year of plant biomass, how much biomass are the elk consuming at each site? What code would you use to figure this out?
 ```{r kg biomass for elk}
+# hint: if we know how many elk there are, we can convert to how much plant biomass is consumed 
+
+# name the new column 'plant_biomass' 
+
 
 ```
 
 **Class Questions**
-Are these herds of elk consuming more or less biomass than the herd of 200 bison would? 
 
+* Are these herds of elk consuming more or less biomass than the herd of 200 bison would? 
 
-What does this tell us about the effect they'll have on the site we reintroduce bison to?
+* What does this tell us about the effect they'll have on the site we reintroduce bison to?
 
+* How would we go about determining the total biomass available at each site when the elk consumption is taken into consideration?
 
-How would we go about determining the total biomass available at each site when the elk consumption is
-taken into consideration?
+### Find new total biomass with Elk 
+```{r subtract from total biomass, eval=F}
+# first join the dataframe of max_bison, which includes a column for total biomass, with the elk dataframe 
+bison_and_elk = inner_join(max_bison, elk) %>% 
+  # then create a new column with the new total biomass available with elk consumption 
+  mutate(total_w_elk = total_biomass - plant_biomass) 
 
-### subtract from total biomass of site
-```{r subtract from total biomass}
+# preview the new dataframe 
+head(bison_and_elk)
+
 
 ```
+
+Next, use ggplot and `geom_col()` to compare the new total biomass with elk across sites. 
 
 ```{r Biomass available for Bison after Accounting for Elk}
 
+
 ```
 
 **Class Questions**
-Which site has the most biomass available to bison, after accounting for biomass consumed by elk? Does considering biomass consumption by elk change the site with the most available biomass? 
 
+* Which site has the most biomass available to bison, after accounting for biomass consumed by elk? Does considering biomass consumption by elk change the site with the most available biomass? 
 
+### Max sustainable bison amount after elk consumption
 
-## Max Bison after elk consumption
-It's great to have an understanding of just how much biomass is available for the bison with the elk in
-consideration. As tribal agriculture managers begin the process of reintroduction, they once again would like to know the maximum number of bison they can introduce to each site, after considering the biomass already being consumed by elk populations. Ideally, they would be able to introduce a herd of at least 200 bison to ensure a healthy and stable population.
+It's great to have an understanding of just how much biomass is available for the bison with the elk in consideration. As tribal agriculture managers begin the process of reintroduction, they once again would like to know the maximum number of bison they can introduce to each site, after considering the biomass already being consumed by elk populations. Ideally, they would be able to introduce a herd of at least 200 bison to ensure a healthy and stable population.
 
-### Divide post-elk biomass by bison biomass requirements to get new max viable bison population
+Divide post-elk biomass by bison biomass requirements to get new max viable bison population. Recall that one bison needs about 21,900 kg of biomass.
+
 ```{r max bison with elk}
+
 
 ```
 
-Graph this data in a fashion that would communicate well to the K'Avi community. This can be a tibble, graph, etc, but they want something that clearly communicates which sites have the biomass to support the reintroduction of 200 bison, with understandable units and a title. Make it pretty! The most effective communication is clear and concise!
+
+Communicate this data in a fashion that would communicate well to the K'Avi community. This can be a table, graph, etc, but they want something that clearly communicates which sites have the biomass to support the reintroduction of 200 bison, with understandable units and a title. Make it pretty! The most effective communication is clear and concise!
 ```{r post elk viable bison pop graph}
 
 ```
 
 **Class Questions**
-Why do you believe this is the best way to present the data?
 
+* Why do you believe this is the best way to present the data?
 
-Does this change which sites we should introduce the bison to?
+* Does this change which sites we should introduce the bison to?
 
+* Why is it important to consider outside factors when working with data?
 
-Why is important to consider outside factors when working with data?
-
-
-Are there any other factors you would consider when looking to reintroduce a species into its native
+* Are there any other factors you would consider when looking to reintroduce a species into its native
 habitat?
 
 
 
-#Optional: If you have worked through both the nitrogen and elk datasets, and are looking for more to do, you can see whether there is enough nitrogen at each site to support 200 bison and the existing elk populations. For reference, an elk needs 13.4 kg of N each year. After considering existing elk populations, is there enough nitrogen at each site to support the reintroduction of 200 bison?
+*Optional:* If you have worked through both the nitrogen and elk datasets, and are looking for more to do, you can see whether there is enough nitrogen at each site to support 200 bison and the existing elk populations. For reference, an elk needs 13.4 kg of N each year. After considering existing elk populations, is there enough nitrogen at each site to support the reintroduction of 200 bison?

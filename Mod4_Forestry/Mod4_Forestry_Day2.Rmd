@@ -1,10 +1,12 @@
 ---
-output:
-  pdf_document: default
+title: "Module 4: Forest Management | DAY 2"
+output: 
   html_document: default
+date: "updated 2024-8-5"
 ---
+
 # Table of Contents
-* Vignette
+
 * Part 1: Outlining your presentation
 * Part 2: Refining your graphs
 * Part 3: Informative labels
@@ -14,7 +16,7 @@ output:
 * Part 7: Reviewing your plots
 * If you have extra time: Additional Resources/Future Directions
 
-# Vignette
+# Introduction
 
 In the first part of this module, you explored data collected by K'avi tribal forestry managers on the total number of board feet for all Douglas Firs within a one acre area for four different sites. Based on data analysis and other qualitative factors, you decided which site would be the best for a timber harvest.
 
@@ -23,14 +25,15 @@ Based on your exploration of this timber data set in the first part of this modu
 The goal of this lesson is to work on refining the graphs that you have been making throughout the course so that they are an effective tool for sharing what you have learned through your data analysis with the broader community. We will demonstrate each new graphing tool using a graph of the density of trees which is defined here as the number of trees within a one acre plot versus the age of the one acre plot and then we will let you explore ways to use each technique on the plot of board feet versus age that you created at the end of day 1 of this module. 
 
 --------------------------------------------------------------------------------
-# WORKSHOP: Learning goals (More for us as a team, rather than for SKC students)
+
+## INSTRUCTOR'S VERSION: Learning goals and instructor resources
 
 The goal of the second day of the forestry module is to have the students focus on recommendations for management based on data science with a strong emphasis on how to best make and present graphs that are accessible and helpful for a specific audience. 
 
 Our second goal for this module is to show the students some online resources for improving their graphs to show these resources as a tool for expanding their comfort with R in the future. 
 
 
-# Additional notes about the lesson
+**Additional notes about the lesson**
 
 In keeping with earlier modules we tried to include answers to the more data-science focused questions but many of the questions in this module are intentionally open ended so we did not provide potential answers to those questions. 
 
@@ -40,35 +43,36 @@ Our graphing theory information was mainly inspired by these resources:
 * Article about data visualization in environmental science for general audiences: https://www.sciencedirect.com/science/article/pii/S1364815216305990
 * Paper about the science of data visualization: https://journals-sagepub-com.proxy.library.nd.edu/doi/10.1177/15291006211051956
 * Conference presentation about illustrating science for a non-specialist audience: https://www.youtube.com/watch?v=tE1ZefOJRLQ
+
 --------------------------------------------------------------------------------
 
-# PART 1: Outlining your presentation
+## PART 1: Outlining your presentation
 
-**Class Questions**
+**Class Questions:**
 
-**What do you want to present?**
+- **What do you want to present?**
 
-* What are the variables that you have been working with? Why are these variables relevant to the goal of choosing a site to start a timber harvest site on? 
+    * What are the variables that you have been working with? Why are these variables relevant to the goal of choosing a site to start a timber harvest site on? 
   
-* How do those variables change between sites? How are the sites related? What relationship do you want to show between the different sites? 
+    * How do those variables change between sites? How are the sites related? What relationship do you want to show between the different sites? 
 
-* In an effort to keep things simple, we have only been working with the yield of a specific site over time but in reality yield is far from the only variable that is relevant when picking out a site for a new timber harvest site. What other things would you want to consider when picking a new site for timber harvest? 
+    * In an effort to keep things simple, we have only been working with the yield of a specific site over time but in reality yield is far from the only variable that is relevant when picking out a site for a new timber harvest site. What other things would you want to consider when picking a new site for timber harvest? 
 
-**Who do you want to present it to?**
+- **Who do you want to present it to?**
 
-* Who might you be presenting this information to? What type of background do they have in picking a site for timber harvest? 
+    * Who might you be presenting this information to? What type of background do they have in picking a site for timber harvest? 
   
-* Why would this audience be interested in hearing about the productivity of different sites? 
+    * Why would this audience be interested in hearing about the productivity of different sites? 
   
-**Setting goals for your plot**
+- **Setting goals for your plot**
 
-* Based on the other factors that are important for picking a timber harvest site that you identified in the first part of this question and the audience you identified in the second part of the question, what role do you think information on board feet versus the age of a forest stand would play in this presentation? 
+    * Based on the other factors that are important for picking a timber harvest site that you identified in the first part of this question and the audience you identified in the second part of the question, what role do you think information on board feet versus the age of a forest stand would play in this presentation? 
   
-* How would a graph of board feet versus stand age help to achieve that role? What important characteristics should this graph have so that it fills the role you want it to have? 
+    * How would a graph of board feet versus stand age help to achieve that role? What important characteristics should this graph have so that it fills the role you want it to have? 
   
 Now that you have an idea of what your goals are for this graph, we will present a couple different tools in ggplot to give you more control over your graphs. With each tool, we will show show one way you can use that tool on a graph of tree density versus stand age and then we will point you towards resources you can use to explore how to implement that tool with your own graphs. 
 
-# PART 2: Refining your graphs
+## PART 2: Refining your graphs
 
 ```{r}
 # Cleaning environment and setting working directory
@@ -89,7 +93,9 @@ site_3 <- read.csv("site_3.csv") %>%
   mutate(site_ID = 3)
 site_4 <- read.csv("site_4.csv") %>% 
   mutate(site_ID = 4)
-forest<- rbind(site_1, site_2, site_3, site_4)
+
+forest <- rbind(site_1, site_2, site_3, site_4)
+
 ```
 
 The first part of making an effective graph is picking what kind of graph you want to make. We have generally been using scatter plots, boxplots, and line plots throughout this course but ggplot offers a wide variety of different plot types for you to play with. Generally the first step for picking a plot type is determining how many variables you are trying to represent and what your goal for the plot is. 
@@ -110,11 +116,11 @@ ggplot(site_1, aes(x = age, y = tree_density))+
 
 These graphs are based on the same information but they portray slightly different messages. The scatterplot focuses on the specific number of trees in each age stand while the line plot focus more on the overall trend in density of trees as the age of the stand increases. 
 
-**Class Questions**
+**Class Questions:**
 
 * Which of these messages fits the goals you identified for this graph in part 1 better? 
+
 * What tradeoffs are you making when you choose one of these plots over the other? 
-  Potential answer: In the scatterplot the different points are more disconnected from one another so it is harder to see the trend. We don't actually have data from all ages in the line plot so the path between different points is assumed to be linear but we don't really know. 
 
 You can make whichever graph you decided on here:
 
@@ -137,20 +143,23 @@ Try it out with your plot here:
 
 ```
 
-**Class Questions**
+**Class Questions:**
 
 Now that you have created a basic plot that technically has all of the information in it, lets thinks about how we would refine the graph to best fill the role you want it to fill. Here are a couple of questions that may help get the conversations started.
 
 * What context would someone need to understand the graph that is not already included in the graph? 
-  * How might you include this context? 
+
+    * How might you include this context? 
+
 * What parts of the graph that you have right now are the most confusing? How could they be made less confusing? 
+
 * Are there any parts of the graph that are not vital? How could you simplify the graph?
 
 
-# PART 3: Informative Labels
+## PART 3: Informative Labels
 
 One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. 
-We can do this using the labs() layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can type ?labs in the console to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc. 
+We can do this using the `labs()` layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can type `?labs` in the console to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc.
 
 In our example plot of tree density and age below, we have changed the axis labels and added a title:
 
@@ -170,12 +179,8 @@ While you add labels to your graph below, think about the data that you are tryi
 
 * How much background information/context will be useful to include on the graph that you are presenting to them? Will they know the units of the axes?
 
-```{r}
+* Take a look at the graph below. What are the differences between it and the one above?
 
-```
-
-
-Take a look at the graph below. What are the differences between it and the one above?
 ```{r, adding labels}
 #Calls the function ggplot (we have seen this before), adds which data frame
 #the graph is taking information from, and assigns a variable to the x and y axes
@@ -191,8 +196,14 @@ ggplot(forest, aes(x = age, y = board_feet))+
        x="Age (Years)", y="Board Feet", title="Board Feet vs. Age per Site", 
        subtitle="Subtitle for this graph")
 ```
+In the next code chunk, create your own graph and use `labs()` to add context. 
 
-# PART 4: Adding more sites
+```{r}
+
+```
+
+
+## PART 4: Adding more sites
 
 Now that we have a plot that describes the trends at one site we can add in the information from the other sites. There are two main ways to do this, either by creating a different plot for each site and then arranging the plots next to one another, or adding all the sites to one plot. 
 
@@ -230,7 +241,7 @@ site_4_plot <- ggplot(data = site_4, aes(x = age, y = tree_density))+
   labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 4")
 ```
 
-Then, to arrange the the graphs you can use + and / with the plots you saved above. There are a couple of examples below but you can see all the different ways to use this package to arrange graphs here: https://patchwork.data-imaginist.com/
+Then, to arrange the the graphs you can use `+` and `/` with the plots you saved above. There are a couple of examples below but you can see all the different ways to use this package to arrange graphs here: https://patchwork.data-imaginist.com/
 
 ```{r, combining the plots}
 # + puts the two graphs next to one another
@@ -250,7 +261,8 @@ Experiment with patchwork with your own graphs below until you find an arrangeme
 
 ```
 
-The second way to show data from multiple sites is to put all of the sites on one graph. We can do this in the aes() portion of the ggplot function by telling R to represent which site a point is from with another aspect of the graph. In our example we will use the color of the points and lines.
+The second way to show data from multiple sites is to put all of the sites on one graph. We can do this in the `aes()` portion of the ggplot function by telling R to represent which site a point is from with another aspect of the graph. In our example we will use the color of the points and lines.
+
 
 ```{r}
 ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
@@ -277,11 +289,9 @@ In the previous two graphs you can also see that R uses different default colors
 
 * How do the different color palettes that R uses relate to the relationships between the different sites? 
 
-  Potential answer: The color palettes with a gradient of blues assumes a relationship between the different sites where you assume similar colors will mean similar sites whereas the more "random" colors in the other palatte show that the sites are distinct. 
   
 * Based on relationships between the different sites, what color palette would be the most appropriate here? (Note: we will talk more about changing the color palettes soon if you would like to)
 
-  Potential answer: Since we don't really have any data on how the sites are related to one another it would probably make the most sense to use distinct colors for each site. 
 
 Try adding all the sites onto your graph here:
 
@@ -301,13 +311,14 @@ Both of these methods, arranging multiple graphs and adding colors, will show in
 
 For the example plots in the next couple of sections we will be using the combined plot with different colors because some of the other ggplot techniques we want to highlight are easier to show with that plot. 
 
-# PART 5: Legends
+## PART 5: Legends
 
 You may have noticed in the previous section that when you added color categories for different sites, ggplot automatically created a legend. This legend on the right hand side of the plot describes what each color means. However, like many things ggplot automatically generates, the legend is not particularly reader-friendly. 
 
 **Class Questions:**
 
 * How would changing your legend provide more context to your graph? 
+
 * What would you like to change about your legend to tailor it to your specific audience?
 
 So far the goal of this course has been to help walk you through the foundations of the R coding language and the data science, however, we have only touched on a small fraction of the things that both ggplot and R can do. Many of the applications that you might use R for in the future will be outside the scope of the course so one of our goals for the rest of this lesson is pointing you towards other resources you can use to build on your current knowledge of R. There are a wide variety of books about R that you are welcome to use but often the best way to find the solution to a specific problem you are having in R is just to look it up online. There are a huge variety of resources online about R that go through every possible question you have in a variety of different formats and because R is a free and open source programing language the vast majority of those resources are also free and open to anyone who is interested. Using solutions that you find online for coding problems is widely accepted and standard for people of every skill level and for pretty much any application. Even people who have been working with R for their whole career still look things up online and use them in their code. 
@@ -331,7 +342,7 @@ Using one of the resources provided above or another resource that you prefer, c
 ```
 
 
-# PART 6: Adding visual elements
+## PART 6: Adding visual elements
 
 Now that you have a plot with multiple site, different colors, and a legend it's time to give you more control over what those colors are and other ways to show groupings. 
 
@@ -363,6 +374,7 @@ There is a package in R that specifically has color-blind friendly palettes that
 
 ```{r}
 # Uncomment this and run it to initially install the package
+
 #install.packages("viridis")
 
 # Loading the package into this session of R. 
@@ -413,10 +425,13 @@ ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype =
   labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
   scale_color_viridis(discrete = TRUE)
 ```
-Which of these options do you think is best for your audience?
+
+**Class Question:**
+
+* Which of these options do you think is best for your audience?
 
 
-# PART 7: Reviewing your plots
+## PART 7: Reviewing your plots
 
 Go back to the beginning of this document and look back at what you identified as the key takeaways from the data analysis. Take this as a chance to reflect on if your choice of graph is the best for summarizing this information
 

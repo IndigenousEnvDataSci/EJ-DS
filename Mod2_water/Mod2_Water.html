@@ -11,7 +11,7 @@
 
 
 
-<title>Module 2: Water Quality</title>
+<title>Module 2: Water Quality for bull trout reintroduction</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,14 +348,15 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Module 2: Water Quality</h1>
+<h1 class="title toc-ignore">Module 2: Water Quality for bull trout
+reintroduction</h1>
 <h4 class="date">updated 2024-8-5</h4>
 
 </div>
 
 
-<div id="introduction-water-quality-for-bull-trout-reintroduction" class="section level1">
-<h1>Introduction: Water Quality for bull trout reintroduction</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <p>Water is a valuable resource that is important for maintaining many
 aspects of a community’s well being. “Water quality” captures many
 components of the chemistry, biology, and physics of fresh water. In
@@ -401,93 +402,68 @@ called “time series” graphs.</p></li>
 <li><p>We will explore how water quality data can help communities make
 decisions to protect culturally important species.</p></li>
 </ol>
-<table>
-<colgroup>
-<col width="100%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">#INSTRUCTOR’S VERSION: Learning goals and instructor
-resources</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>We will reach these goals in six
-steps</strong></td>
-</tr>
-<tr class="odd">
-<td align="left">1. On day 1 of this module, we’ll start by reviewing
-the usual steps for getting started: setting the working directory,
-bringing a dataset into RStudio, etc.</td>
-</tr>
-<tr class="even">
-<td align="left">2. Next, we’ll “wrangle” the dataset into a format that
-will make it easier to analyze in R. This includes organizing columns of
-data in a “tidy” way, merging two datasets, changing the names of
-variables, etc. Data wrangling is an important component of data
-science. It’s a way of making sure the data you analyze is in a format
-that is reliable and complete. Students will use new commands, like
-pivot_longer() and left_join() to make the data “tidy”, so it can be
-more easily reliable. There are many websites that can help you and your
-students learn these new tools and approaches. Here are a few to get you
-started: <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidying
+<hr />
+<div id="instructors-version-learning-goals-and-instructor-resources" class="section level2">
+<h2>INSTRUCTOR’S VERSION: Learning goals and instructor resources</h2>
+<p><strong>We will reach these goals in six steps</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>On day 1 of this module, we’ll start by reviewing the usual steps
+for getting started: setting the working directory, bringing a dataset
+into RStudio, etc.</p></li>
+<li><p>Next, we’ll “wrangle” the dataset into a format that will make it
+easier to analyze in R. This includes organizing columns of data in a
+“tidy” way, merging two datasets, changing the names of variables, etc.
+Data wrangling is an important component of data science. It’s a way of
+making sure the data you analyze is in a format that is reliable and
+complete. Students will use new commands, like pivot_longer() and
+left_join() to make the data “tidy”, so it can be more easily reliable.
+There are many websites that can help you and your students learn these
+new tools and approaches. Here are a few to get you started: <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidying
 data</a>; <a href="https://tidyr.tidyverse.org/articles/pivot.html">pivoting
 data</a>; <a href="https://r4ds.hadley.nz/joins.html">joining
-data</a>.</td>
-</tr>
-<tr class="odd">
-<td align="left">3. NEW SKILL: students will learn how to handle common
-code bugs, such as NAs.</td>
-</tr>
-<tr class="even">
-<td align="left">4. After step 2, we will have the data in tidy form,
-and we can use familiar code to learn the summary statistics: means,
-minima, maxima, etc. We’ll end Day 1 of the module using these
-statistics to make a preliminary assessment of whether Stream A or
-Stream B would be a better choice for reintroducing bull trout to K’avi
-land.</td>
-</tr>
-<tr class="odd">
-<td align="left">4. We will spend Day 2 analyzing patterns in the
-temperature and DO data from the two streams in more detail. First,
-we’ll use familiar code to make a scatter plot of temperature and DO.
-This will help us visualize all of the data from both streams, which
-might give us insights we didn’t see from the summary statistics. We can
-use this scatterplot to learn which stream had more years in the “danger
-zone” for bull trout, where temperatures were above 14 degrees C or
-dissolved oxygen was below 6.2 mg/L.</td>
-</tr>
-<tr class="even">
-<td align="left">5. Next, we’ll learn how to adapt our plotting code to
-show trends in temperature and dissolved oxygen over the 15 years that
-the K’avi have been collecting data from these streams. These “time
-series graphs” tell us whether water quality in the two streams is
-getting better, getting worse, or staying the same. This shows the
-adaptability of ggplot, and the ability to add graphical features. <a href="https://ggplot2.tidyverse.org/">Here’s a link with more
-information</a></td>
-</tr>
-<tr class="odd">
-<td align="left">6. Finally, you can use all the analyses you have
-conducted (summary statistics, scatter plots, and time series plots) to
-make recommendations to the K’avi fisheries managers about which stream
-is a better bet for supporting healthy bull trout populations on tribal
-land. How does each analysis help you understand patterns in water
-quality? Which analysis was most useful?</td>
-</tr>
-<tr class="even">
-<td align="left">7. From the scientific analysis perspective, this
-module highlights why it is useful to visualizing data in multiple ways.
-There is one question: “Which of two streams has water quality most
-appropriate to maintain a healthy bull trout population?” But we ask it
-three times, after seeing summary statistics, then a scatter plot, then
-time series plots. The summary statistics and the scatter plot show that
-Stream B generally has better water quality than Stream A, but the
-time-series graph shows that both temperature and dissolved oxygen are
-getting worse for bull trout. The question of which stream is a better
-choice (the one with better values or the one without a dangerous trend)
-is for the class to discuss.</td>
-</tr>
-</tbody>
-</table>
+data</a>.</p></li>
+<li><p>NEW SKILL: students will learn how to handle common code bugs,
+such as NAs.</p></li>
+<li><p>After step 2, we will have the data in tidy form, and we can use
+familiar code to learn the summary statistics: means, minima, maxima,
+etc. We’ll end Day 1 of the module using these statistics to make a
+preliminary assessment of whether Stream A or Stream B would be a better
+choice for reintroducing bull trout to K’avi land.</p></li>
+<li><p>We will spend Day 2 analyzing patterns in the temperature and DO
+data from the two streams in more detail. First, we’ll use familiar code
+to make a scatter plot of temperature and DO. This will help us
+visualize all of the data from both streams, which might give us
+insights we didn’t see from the summary statistics. We can use this
+scatterplot to learn which stream had more years in the “danger zone”
+for bull trout, where temperatures were above 14 degrees C or dissolved
+oxygen was below 6.2 mg/L.</p></li>
+<li><p>Next, we’ll learn how to adapt our plotting code to show trends
+in temperature and dissolved oxygen over the 15 years that the K’avi
+have been collecting data from these streams. These “time series graphs”
+tell us whether water quality in the two streams is getting better,
+getting worse, or staying the same. This shows the adaptability of
+ggplot, and the ability to add graphical features. <a href="https://ggplot2.tidyverse.org/">Here’s a link with more
+information</a></p></li>
+<li><p>Finally, you can use all the analyses you have conducted (summary
+statistics, scatter plots, and time series plots) to make
+recommendations to the K’avi fisheries managers about which stream is a
+better bet for supporting healthy bull trout populations on tribal land.
+How does each analysis help you understand patterns in water quality?
+Which analysis was most useful?</p></li>
+<li><p>From the scientific analysis perspective, this module highlights
+why it is useful to visualizing data in multiple ways. There is one
+question: “Which of two streams has water quality most appropriate to
+maintain a healthy bull trout population?” But we ask it three times,
+after seeing summary statistics, then a scatter plot, then time series
+plots. The summary statistics and the scatter plot show that Stream B
+generally has better water quality than Stream A, but the time-series
+graph shows that both temperature and dissolved oxygen are getting worse
+for bull trout. The question of which stream is a better choice (the one
+with better values or the one without a dangerous trend) is for the
+class to discuss.</p></li>
+</ol>
+<hr />
+</div>
 </div>
 <div id="day-1-loading-merging-and-tidying-data" class="section level1">
 <h1>DAY 1: Loading, merging, and tidying data</h1>
@@ -562,12 +538,12 @@ and to get a first look to see if the data make sense.</p>
 ## 6 2012    7.50    9.50</code></pre>
 <p><strong>Class Question:</strong></p>
 <ul>
-<li><p>What do you notice is different between using the command “View”
-and the command “head”? Which one do you think is more useful?</p></li>
-<li><p>It may also be helpful for us to understand how big our dataset
-is. We can get this number, called the “dimensions” of the data by using
-the command “dim”.</p></li>
+<li>What do you notice is different between using the command “View” and
+the command “head”? Which one do you think is more useful?</li>
 </ul>
+<p>It may also be helpful for us to understand how big our dataset is.
+We can get this number, called the “dimensions” of the data by using the
+command “dim”.</p>
 <pre class="r"><code>dim(stream_temp)</code></pre>
 <pre><code>## [1] 16  3</code></pre>
 <pre class="r"><code>dim(stream_DO)</code></pre>
@@ -670,12 +646,13 @@ oxygen data set.We want to change it in the same way we changed the
 temperature data set above.</p>
 <p>HOWEVER, this time some chunks of code have been left blank. See if
 you can fill them in based on what you saw in the example above!</p>
-<p><em>NOTE:</em> This is filled in for the instructor’s version, but
-will be left blank for students to work together to construct on their
-own.</p>
 <pre class="r"><code>stream_DO &lt;- stream_DO %&gt;%  
+# We use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
-    cols = c(StreamA, StreamB), 
+    # [FILL THIS IN]
+    cols = c(&#39;StreamA&#39;, &#39;StreamB&#39;), 
+    # names_to tells R that we want the names of the columns we specified 
+    # above to be entries in a new column we&#39;re creating called &quot;site&quot;. 
     names_to = &quot;site&quot;, 
     values_to = &quot;dissolved_oxygen&quot; 
   )</code></pre>
@@ -698,8 +675,9 @@ dissolved oxygen values (mg/L).</p>
 ##  9  2011 StreamA             6.53
 ## 10  2011 StreamB            NA   
 ## # ℹ 22 more rows</code></pre>
-<p>Good work! This data frame looks the way we want it to now as
-well.</p>
+<p>Good work! This data frame should have a single column of
+dissolved_oxygen and a single column of site to look the way we want it
+to.</p>
 </div>
 <div id="merging-dataframes" class="section level3">
 <h3>Merging dataframes</h3>
@@ -793,8 +771,8 @@ both streams,</p>
 <pre><code>## [1] 12.63276</code></pre>
 <p>Our code worked! Now you’ve learned how to handle NAs in a dataset in
 R. Let’s carry on with our summary statistics.</p>
-<p>*Your turn! How would you figure out what the mean amount of
-dissolved oxygen is in the water across Stream A and Stream B?</p>
+<p><em>Your turn!</em> How would you figure out what the mean amount of
+dissolved oxygen is in the water for both Stream A and Stream B?</p>
 <pre class="r"><code>#Write your code here!</code></pre>
 <p>Now lets use another familiar command to show the MEDIAN of
 temperature measured across all streams and years?</p>
@@ -948,14 +926,14 @@ water are different, we can hypothesize that these streams may react
 differently to climate change.</p>
 <p><strong>Class Question:</strong></p>
 <ul>
-<li><p>Based on what we know about Stream A and Stream B, what would
-your hypothesis be on how the water quality for each stream may change
-as global temperatures increase with climate change?</p></li>
-<li><p>We can assess our hypotheses by plotting water temperature and
+<li>Based on what we know about Stream A and Stream B, what would your
+hypothesis be on how the water quality for each stream may change as
+global temperatures increase with climate change?</li>
+</ul>
+<p>We can assess our hypotheses by plotting water temperature and
 dissolved oxygen over time. We’ll make a small change to our typical
 ggplot() code to make a “time series” plot, which shows trends across
-time.</p></li>
-</ul>
+time.</p>
 <p>Here we will use <code>geom_line()</code> to plot temperatures from
 both sites across the 15 years that the tribe has been monitoring water
 temperatures. Similar to the scatter plot, we can assign the site column
@@ -982,10 +960,10 @@ ggplot(streams, aes(year, temperature_C, color = site)) +
 <li><p>Why are there breaks in the blue line?</p></li>
 <li><p>Do the trends over time support your hypothesis about the
 stability of the temperature of the streams? Why or why not?</p></li>
-<li><p>Using the code above as an example, see if you can make a similar
-time-series plot showing changes in dissolved oxygen for both streams
-over time:</p></li>
 </ul>
+<p>Using the code above as an example, see if you can make a similar
+time-series plot showing changes in dissolved oxygen for both streams
+over time:</p>
 <pre class="r"><code># Write your code here:
 # hint: you&#39;ll need to change two variables - one for the line and points, and one for the horizontal line representing the threshold </code></pre>
 <p><em>INSTUCTORS VERSION - this line of writing outline our intent with
