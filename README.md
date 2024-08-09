@@ -16,10 +16,5 @@ Content is being updated for Winter 2025.
 -   Rmarkdown file that includes all instruction, discussion questions, and code
 -   knitted Rmarkdown as html for example of completed code 
 -   dataset (dummy dataset, but based on real data)
--   supporting files such as .R script for dummy data, journal articles, and figures
--   code used to create dataset and any other supporting R files 
+-   R script with code used to create dataset and any other supporting R files 
 -   any relevant literature 
-  
-
-## Other useful files
--   code to create simulated data
