@@ -2,7 +2,7 @@
 title: "Module 4: Forest Management | DAY 1"
 output: 
   html_document: default
-date: "updated 2024-8-5"
+date: "updated 1-6-2025"
 ---
 
 # Introduction
@@ -164,7 +164,7 @@ Now calculate the mean board feet at each site from the new combined data. Simil
 #Use this chunk to calculate the mean board_feet from the combined data
 forest %>% 
   group_by(site_ID) %>% 
-  summarize(mean_age = mean(board_feet))
+  summarize(mean_bf = mean(board_feet))
 
 ```
 
@@ -195,7 +195,7 @@ Create a boxplot with the `forest` dataframe showing `site_ID` on the x-axis, an
 
 ### Scatter plot 
 
-Create a scatter plot with the `forst` dataframe of `board_feet` v. `age`, with `site_ID` as color or shape,  using `geom_point()` 
+Create a scatter plot with the `forest` dataframe of `board_feet` v. `age`, with `site_ID` as color or shape,  using `geom_point()` 
 
 ```{r, graph}
 
