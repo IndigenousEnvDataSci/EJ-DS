@@ -679,7 +679,13 @@ The plot for the 2023 data looks pretty good. A side-by-side comparison with the
 Since we defined the two graphs as objects in R (`plot1998` and `plot2023`), and since we've loaded the package `patchwork` we can use the simple line of code below to plot the data from the two years side-by-side.
 
 ```{r putting plots side by side}
-#plot from 1998 next to plot from 2023
+# plot from 1998 next to plot from 2023
+
+# get scales to be the same 
+plot1998 = plot1998 + scale_x_continuous(limits=c(0,90))
+plot2023 = plot2023 + scale_x_continuous(limits=c(0,90))
+
+# we can use the patchwork package to be able to add plots 
 plot1998 + plot2023  
 ```
 
@@ -690,8 +696,9 @@ to the safest largest size fish that could be eaten based on the 1998 dataset?
 * Based on these plots, do you think the efforts since 1998 to clean mercury from the sediments were successful? 
 * Work with a group to describe the evidence from these graphs for the success of the clean-up effort in a way that would be useful for the K'avi community. 
 
-### other optional plots to compare years 
+### Comparing groups in the same plot 
 
+Using `ggplot()`, we can adjust the settings inside geoms to include both groups (in our case years) inside the same plot. Below are two different examples, a bozplot and a scatter plot with the year set to color. Look at the code below to see what is different. 
 ```{r example_plots}
 
 # 1. boxplots
@@ -711,4 +718,7 @@ ggplot() +
   labs(color ="year", y="mercury (ug/g)", x="length (cm)")
 
 ```
+**Class Questions:**
 
+* How does the different ways of visualizing the data, as two separate plots and as different groups on the same plot, affect how we are able to interpret the data?
+* Can you think of scenarios when it would be more useful to use one or the other? 
