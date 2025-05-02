@@ -104,7 +104,7 @@ library(tidyverse)
 
 ## PART 2: Calculating screening values for mercury in fish 
 
-Before loading data, let's think about the reference dose (RfD) of methylmercury. We can use R to calculate how much methylmercury can safely be consumed per day based on a person's weight and fish consumption. Run the code below, and then change the `weight` and `days_per_week` variable to see how the safe amount of consumption changes. 
+Before loading data, let's think about the reference dose (RfD) of mercury. We can use R to calculate how much mercury can safely be consumed per day based on a person's weight and fish consumption. Run the code below, and then change the `weight` and `days_per_week` variable to see how the safe amount of consumption changes. 
 
 ```{r rfd}
 #----------------------------------------------------------------
@@ -131,10 +131,10 @@ cr = 110*days_per_week/7
 
 # convert to RdD amount per day
 # 1 lb = 0.45 kg 
-safe_limit = RfD*weight*0.45/cr
+screening_value = RfD*weight*0.45/cr
 
-# output safe limit for serving size (ug mercury /day)
-safe_limit
+# output screnning value for serving size (ug mercury /day)
+screening_value 
 
 ```
 
@@ -190,9 +190,9 @@ ggplot(sv_df_long) + geom_point(aes(x=serving, y=screen_val, col=weight))
 
 ```
 
-How would you describe this graph and the relationship between screening value, consumption rate, and weight? What happens to the distribution in screening values as consumption rate gets larger? 
+How would you describe this graph and the relationship between screening value, consumption rate, and weight? What happens to the distribution in screening values as servings per week increase? 
 
-With this information in mind, consider how to make decisions with the data on mercury content in fish -- what level should be considered dangerous? How do we know if there is a problem? 
+With this information in mind, consider how to make decisions with the data on mercury content in fish -- how should we consider the screening value for different ages? For example, what amount of servings would be safer for children, who weigh less than the average adult?
 
 ### optional example: using a function 
 
@@ -633,8 +633,8 @@ Look more carefully at the code this time. You will see things that look similar
   plot1998<- ggplot(fish_1998, aes(x = length, y = mercury)) +
   geom_point(color = 'blue', size = 2) +
   xlab("length (cm)")+
-  ylab("mercury (mg/kg)")+
-  ggtitle("Mercury (mg/kg) vs. Length (cm) (1998)")+
+  ylab("mercury (ug/g)")+
+  ggtitle("Mercury vs. Length", subtitle="1998")+
   geom_hline(yintercept = 0.46, linetype= "dashed", color = 'red')+
 # This is the only NEW line of code.
 # We use the command ylim() to set the range of the y-axis
@@ -664,8 +664,8 @@ Here, we'll make our scatter plot  for the 2023 fish length and mercury data:
 plot2023 <- ggplot(fish_2023, aes(x = length, y = mercury)) +
   geom_point(color = 'green', size = 2) +
   xlab("length (cm)") +
-  ylab("mercury (mg/kg)") +
-  ggtitle("Mercury (mg/kg) vs. Length (cm) (2023)") +
+  ylab("mercury (ug/g)") +
+  ggtitle("Mercury vs. Length", subtitle="2023") +
   geom_hline(yintercept = 0.46, linetype= "dashed", color = 'red') +
 # We use ylim() to match the y-axis here to that of plot1998
   ylim(0, 1) +
