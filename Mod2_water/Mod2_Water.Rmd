@@ -272,7 +272,7 @@ print(streams)
 
 Great job data wrangling! We now have a single tidy dataframe that we can use to analyze water quality and determine which stream is best for introducing bull trout to tribal land.
 
-### Summary statistics 
+### Dealing with NAs 
 
 We know that bull trout prefer cold clean water. Temperatures above 14 degrees C and dissolved oxygen levels below 6.2 mg/L tend to be bad for bull trout, though these are only general approximations and the healthiness of stream water for bull trout depends on many factors. 
 
@@ -331,34 +331,31 @@ in the code chunk below:
 #Write your code here! 
 ```
 
-Since our goal is to compare the water quality of Stream A and Stream B, let's temporarily create separate dataframes for each stream using a new command called subset(). We explain the code and the commands we will use in the code chunk below. 
+### Summarizing by group
 
-*NOTE:* In the student's version, students will make the StreamB_WQ dataset on their own based on what they saw for Stream A. 
+We previously used `summary()` to get the descriptive statistics of a column or data frame, but this groups all the rows together. Since our goal is to compare the water quality of Stream A and Stream B, we want to get descriptive statistics for them separately. We can do this using `group_by()` and `summarize()`. We explain the code and the commands we will use in the code chunk below.
+
+[Read more about the summarize function from the dplyr package in R here.](https://dplyr.tidyverse.org/reference/summarise.html)
 
 ```{r}
-# Below, we define a new dataframe "StreamA_WQ" as the subset of "streams" that have "StreamA" in the column "site". Here, we use the "<-" to tell R that we want to make a new dataframe, from a dataframe that already exists (streams).
-StreamA_WQ <- subset(streams, site == "StreamA")
 
-# PRACTICE YOUR OWN CODE:
-# See if you can make a new dataframe called "StreamB_WQ" 
-# that is the subset of "streams" that have "StreamB" in the column "site"
-# WRITE YOUR OWN CODE BELOW:
-StreamB_WQ <- subset(streams, site == "StreamB")
+streams %>%
+    # the column that includes our categorical group, site, is input to 'group_by()'
+    group_by(site) %>%
+    # we then use summarize() and input any function to apply to a column. In these examples, all the same statistics from the 'summary()' function are applied to temperature_C
+    summarize(min_temp = min(temperature_C, na.rm=T),
+              first_q_temp = quantile(temperature_C, c(0.25), na.rm=T),
+              median_temp = median(temperature_C, na.rm=T),
+              mean_temp = mean(temperature_C, na.rm=T),
+              third_q_temp = quantile(temperature_C, c(0.75), na.rm=T),
+              max_temp = max(temperature_C, na.rm=T)) 
 
 ```
 
-We created "StreamA_WQ" and StreamB_WQ" so that we could use the summarise() command that you saw in Module 1 to compare all the summary statistics for water temperature and dissolved oxygen between the two streams.
+💻 Your turn! You can add columns to show descriptive statistics of dissolved oxygen, or redo the above code with dissolved_oxygen instead of temperature_C inside the descriptive statistic functions.
 
 ```{r}
-# print() just prints a line with whatever is inside the parentheses (). 
-# Here, we just want to separate Stream A statistics from Stream B statistics.
-print("StreamA")
-# The summary() command is the same one you used in Module 1.
-summary(StreamA_WQ)
-
-# Now we do the same thing for Stream B
-print("StreamB")
-summary(StreamB_WQ)
+# get descriptive statistics of dissolved oxygen for both sites 
 
 ```
 
