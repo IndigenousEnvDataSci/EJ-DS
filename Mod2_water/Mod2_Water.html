@@ -467,8 +467,8 @@ class to discuss.</p></li>
 </div>
 <div id="day-1-loading-merging-and-tidying-data" class="section level1">
 <h1>DAY 1: Loading, merging, and tidying data</h1>
-<div id="part-1-get-set-up-and-load-and-view-data" class="section level2">
-<h2>PART 1: Get set up and load and view data</h2>
+<div id="lesson-2.1-review-loading-and-previewing-data" class="section level2">
+<h2>Lesson 2.1: Review loading and previewing data</h2>
 <div id="preliminary-steps" class="section level3">
 <h3>Preliminary steps</h3>
 <p>Like we did in Module 1, before we being to analyze our data, we need
@@ -491,7 +491,9 @@ setwd(dirname(current_path))</code></pre>
 <p>Next, we will load in packages, to get the extra tools we need for
 this module loaded in R. For this module, we will load in the tidyverse
 package.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
+<pre class="r"><code># install package if required 
+if(!require(&quot;tidyverse&quot;)) install.packages(&quot;tidyverse&quot;)</code></pre>
+<pre><code>## Loading required package: tidyverse</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -502,6 +504,8 @@ package.</p>
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code># load package 
+library(tidyverse)</code></pre>
 </div>
 <div id="load-in-our-data" class="section level3">
 <h3>Load in our data</h3>
@@ -538,12 +542,11 @@ and to get a first look to see if the data make sense.</p>
 ## 6 2012    7.50    9.50</code></pre>
 <p><strong>Class Question:</strong></p>
 <ul>
-<li>What do you notice is different between using the command “View” and
-the command “head”? Which one do you think is more useful?</li>
+<li><p>What do you notice is different between using the command “View”
+and the command “head”? Which one do you think is more useful?</p></li>
+<li><p>Recalling the previous module, what does the dim() function tell
+us about a data frame?</p></li>
 </ul>
-<p>It may also be helpful for us to understand how big our dataset is.
-We can get this number, called the “dimensions” of the data by using the
-command “dim”.</p>
 <pre class="r"><code>dim(stream_temp)</code></pre>
 <pre><code>## [1] 16  3</code></pre>
 <pre class="r"><code>dim(stream_DO)</code></pre>
@@ -555,14 +558,23 @@ temperature?</p></li>
 <li><p>How many data entries are in this dataset for dissolved
 oxygen?</p></li>
 </ul>
-<p><em>RECAP:</em> You now reviewed ways to set up your R environment,
-read in data, and explore your data. These steps are all important for
-when we analyze our data later in this module.</p>
+</div>
+<div id="lesson-2.1-recap" class="section level3">
+<h3>Lesson 2.1 Recap:</h3>
+<p>You now reviewed ways to set up your R environment, read in data, and
+explore your data. These steps are all important for when we analyze our
+data later in this module.</p>
+<ul>
+<li><p>loading a package using <code>library()</code></p></li>
+<li><p>loading a CSV data file</p></li>
+<li><p>previewing the data frame using <code>View()</code>,
+<code>head()</code>, and <code>dim()</code></p></li>
+</ul>
 <hr />
 </div>
 </div>
-<div id="part-2-tidying-datasets-for-more-reliable-analysis" class="section level2">
-<h2>PART 2: Tidying datasets for more reliable analysis</h2>
+<div id="lesson-2.2-tidying-and-joining-data" class="section level2">
+<h2>Lesson 2.2: Tidying and joining data</h2>
 <p>As of now, our data for water temperature for Stream A and B exists
 in a separate data frame from the dissolved oxygen concentrations for
 Stream A and B. For K’avi Fish and Wildlife managers to truly understand
@@ -577,11 +589,6 @@ for temperature, because we have a column for the water temperature of
 Stream A and the water temperature of Stream B. In a “tidy” version of
 thus dataset, we want all the temperature values to be in the same
 column.</p>
-<p>HOWEVER, if we put all the temperature values in the same column, how
-will we know which stream the measurements came from? Take a moment to
-think about this, and see the answer below!</p>
-<p>ANSWER (click the down arrow on the next line to see the answer)</p>
-<pre class="r"><code>#We would want to make a column called &quot;site&quot; so when we read a row of data, we can see whether the water temperature or dissolved oxygen data was collected in Stream A or Stream B!</code></pre>
 <p>If you want to learn more about tidy data, <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">here’s
 a useful website</a>.</p>
 <div id="tidying-data" class="section level3">
@@ -644,13 +651,13 @@ now view streams_temp:</p>
 <p>Great! Our code worked. Now let’s do the same for the dissolved
 oxygen data set.We want to change it in the same way we changed the
 temperature data set above.</p>
-<p>HOWEVER, this time some chunks of code have been left blank. See if
-you can fill them in based on what you saw in the example above!</p>
+<p>💻 HOWEVER, this time some chunks of code have been left blank. See
+if you can fill them in based on what you saw in the example above!</p>
 <pre class="r"><code>stream_DO &lt;- stream_DO %&gt;%  
 # We use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
     # [FILL THIS IN]
-    cols = c(&#39;StreamA&#39;, &#39;StreamB&#39;), 
+    cols = c(&#39;StreamA&#39;,&#39;StreamB&#39;), 
     # names_to tells R that we want the names of the columns we specified 
     # above to be entries in a new column we&#39;re creating called &quot;site&quot;. 
     names_to = &quot;site&quot;, 
@@ -679,8 +686,8 @@ dissolved oxygen values (mg/L).</p>
 dissolved_oxygen and a single column of site to look the way we want it
 to.</p>
 </div>
-<div id="merging-dataframes" class="section level3">
-<h3>Merging dataframes</h3>
+<div id="joining-dataframes" class="section level3">
+<h3>Joining dataframes</h3>
 <p>So far, we have separate dataframes for temperature and DO. We want
 to combine them into one tidy dataframe, so we can analyze trends in
 temperature and dissolved oxygen at the same time for both streams.</p>
@@ -693,10 +700,10 @@ join commands <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html#i
 <p>The format for joining is:
 <code>left_join(dataframe1, dataframe2, by=c(columns they have in common))</code></p>
 <pre class="r"><code># Here, we are using full_join to put the streams_temp data frame next to the streams_DO data frame.
-streams &lt;- full_join(stream_temp, stream_DO, by=c(&quot;year&quot;,&quot;site&quot;))</code></pre>
+streams_joined &lt;- full_join(stream_temp, stream_DO, by=c(&quot;year&quot;,&quot;site&quot;))</code></pre>
 <p>Great! Now let’s check to make sure that we successfully merged our
 two data frames.</p>
-<pre class="r"><code>print(streams)</code></pre>
+<pre class="r"><code>print(streams_joined)</code></pre>
 <pre><code>## # A tibble: 32 × 4
 ##     year site    temperature_C dissolved_oxygen
 ##    &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;
@@ -714,7 +721,32 @@ two data frames.</p>
 <p>Great job data wrangling! We now have a single tidy dataframe that we
 can use to analyze water quality and determine which stream is best for
 introducing bull trout to tribal land.</p>
+<p>Now that we have a data frame in the format we want, it’s good
+practice to save the dataframe so that you don’t need to repeat the
+steps from above. We will do this using the write.csv() function, which
+takes two main inputs: the data frame we are saving, and the file name
+with location.</p>
+<pre class="r"><code># save our tidy data frame for later 
+write.csv(streams_joined, &quot;streams_data.csv&quot;)</code></pre>
 </div>
+<div id="lesson-2.2-recap" class="section level3">
+<h3>Lesson 2.2 Recap:</h3>
+<p>In this lesson we have learned the following:</p>
+<ul>
+<li><p>wrangling data into a tidy format, with one observation per
+row</p></li>
+<li><p>using <code>pivot_longer()</code> to reduce multiple columns into
+two columns with a key and a value. In our case, the stream ID was the
+key, and the observation was the temperature or DO value</p></li>
+<li><p>joining two data frames using <code>full_join()</code>, which
+combines dataframes using identifying columns that both data frames have
+in common - in our case, year and site</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="lesson-2.3-descriptive-statistics-and-summarizing-by-group" class="section level2">
+<h2>Lesson 2.3 Descriptive statistics and summarizing by group</h2>
 <div id="dealing-with-nas" class="section level3">
 <h3>Dealing with NAs</h3>
 <p>We know that bull trout prefer cold clean water. Temperatures above
@@ -724,7 +756,10 @@ healthiness of stream water for bull trout depends on many factors.</p>
 <p>We’ll start our analysis of water quality by using the statistical
 summary commands that will be familiar from Module 1. First, we’ll
 calculate the mean (or average) water temperature</p>
-<pre class="r"><code>mean(streams$temperature_C)</code></pre>
+<pre class="r"><code># load in csv if needed 
+streams = read.csv(&quot;streams_data.csv&quot;)
+
+mean(streams$temperature_C)</code></pre>
 <pre><code>## [1] NA</code></pre>
 <p>Ah! Our code didn’t work. R gave us an error message. Error messages
 are a normal part of programming. Although they might seem surprising or
@@ -748,20 +783,34 @@ in our “streams” data set by telling R to ignore the NAs.</p>
 below doesn’t change the streams dataset, it just prints streams without
 any rows that have NAs.</p>
 <pre class="r"><code>na.omit(streams)</code></pre>
-<pre><code>## # A tibble: 27 × 4
-##     year site    temperature_C dissolved_oxygen
-##    &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;
-##  1  2007 StreamA          13.2             7.18
-##  2  2008 StreamA          12.5             7.27
-##  3  2009 StreamA          13.9             7.46
-##  4  2010 StreamA          11.4             7   
-##  5  2011 StreamA          13.0             6.53
-##  6  2012 StreamA          13.1             7.5 
-##  7  2012 StreamB          11.1             9.5 
-##  8  2013 StreamA          14.5             6.16
-##  9  2013 StreamB          11.4             8.78
-## 10  2014 StreamA          13.4             7.05
-## # ℹ 17 more rows</code></pre>
+<pre><code>##     X year    site temperature_C dissolved_oxygen
+## 1   1 2007 StreamA         13.20             7.18
+## 3   3 2008 StreamA         12.50             7.27
+## 5   5 2009 StreamA         13.90             7.46
+## 7   7 2010 StreamA         11.36             7.00
+## 9   9 2011 StreamA         12.97             6.53
+## 11 11 2012 StreamA         13.10             7.50
+## 12 12 2012 StreamB         11.10             9.50
+## 13 13 2013 StreamA         14.47             6.16
+## 14 14 2013 StreamB         11.42             8.78
+## 15 15 2014 StreamA         13.37             7.05
+## 16 16 2014 StreamB         11.37             8.35
+## 17 17 2015 StreamA         12.48             7.34
+## 18 18 2015 StreamB         12.18             8.44
+## 19 19 2016 StreamA         12.63             6.15
+## 20 20 2016 StreamB         12.03             8.23
+## 21 21 2017 StreamA         13.16             6.89
+## 22 22 2017 StreamB         11.96             8.28
+## 23 23 2018 StreamA         12.94             6.03
+## 24 24 2018 StreamB         12.56             7.83
+## 25 25 2019 StreamA         14.10             7.26
+## 26 26 2019 StreamB         13.00             7.01
+## 27 27 2020 StreamA         12.07             7.53
+## 28 28 2020 StreamB         12.87             7.30
+## 29 29 2021 StreamA         13.43             7.02
+## 30 30 2021 StreamB         13.25             7.42
+## 31 31 2022 StreamA         13.28             6.32
+## 32 32 2022 StreamB         13.78             6.63</code></pre>
 <p>Great! Now let’s try to run our command to get the mean for
 temperature again. We don’t want to remove these rows from the streams
 data permanently, so we’ll nest the na.omit() command within the mean()
@@ -771,16 +820,16 @@ both streams,</p>
 <pre><code>## [1] 12.63276</code></pre>
 <p>Our code worked! Now you’ve learned how to handle NAs in a dataset in
 R. Let’s carry on with our summary statistics.</p>
-<p><em>Your turn!</em> How would you figure out what the mean amount of
-dissolved oxygen is in the water for both Stream A and Stream B?</p>
+<p>💻 <em>Your turn!</em> How would you figure out what the mean amount
+of dissolved oxygen is in the water for both Stream A and Stream B?</p>
 <pre class="r"><code>#Write your code here!</code></pre>
 <p>Now lets use another familiar command to show the MEDIAN of
 temperature measured across all streams and years?</p>
 <pre class="r"><code>median(na.omit(streams$temperature_C))</code></pre>
 <pre><code>## [1] 12.87</code></pre>
 <p><strong>Class question:</strong></p>
-<p>What is the median amount of dissolved oxygen across all samples? Try
-and fill in the code chunk below:</p>
+<p>What is the median amount of dissolved oxygen across all samples? 💻
+Try and fill in the code chunk below:</p>
 <pre class="r"><code>#Write your code here! </code></pre>
 </div>
 <div id="summarizing-by-group" class="section level3">
@@ -811,8 +860,9 @@ here.</a></p>
 ## 1 StreamA     11.4         12.6        13.1      13.1         13.4     14.5
 ## 2 StreamB     10.2         11.4        12.0      12.1         12.9     13.8</code></pre>
 <p>💻 Your turn! You can add columns to show descriptive statistics of
-dissolved oxygen, or redo the above code with dissolved_oxygen instead
-of temperature_C inside the descriptive statistic functions.</p>
+dissolved oxygen, or redo the above code with
+<code>dissolved_oxygen</code> instead of <code>temperature_C</code>
+inside the descriptive statistic functions.</p>
 <pre class="r"><code># get descriptive statistics of dissolved oxygen for both sites </code></pre>
 <p><strong>Preliminary analysis of water quality data from Stream A and
 Stream B</strong></p>
@@ -834,28 +884,30 @@ useful?</p></li>
 <li><p>Is there any other information you’d like to know in order to
 make the best recommendation to the tribe?</p></li>
 </ul>
-<p><em>RECAP:</em> In this section, we reviewed ways to combine datasets
-in a “tidy” way, remove NAs, reviewed how to run summary statistics, and
-introduced a technique to subset data so that we can look at data in
-different groups that may be useful for analysis.</p>
+</div>
+<div id="lesson-2.3-recap" class="section level3">
+<h3>Lesson 2.3 Recap:</h3>
+<p>In this section, we reviewed - how to remove NAs - how to run summary
+statistics by group, using <code>group_by()</code> and
+<code>summarize()</code></p>
+<hr />
 </div>
 </div>
 </div>
 <div id="day-2-detailed-exploration-of-the-water-quality-data-with-graphs." class="section level1">
 <h1>DAY 2: Detailed exploration of the water quality data with
 graphs.</h1>
-<p>The summary statistics we generated using the summary() command gave
-us an overview of how water temperature and dissolved oxygen differ
+<p>The descriptive statistics we generated using the summary() command
+gave us an overview of how water temperature and dissolved oxygen differ
 between the two sites. Summary statistics are useful, and tribes are
 often asked to generate such statistics for reports (for instance the
 water quality reports tribes for the U.S. Environmental Protection
-Agency).</p>
-<p>However, it is always a good idea to look at your data in many ways,
-including charts and graphs. Today, we will look at two different graphs
-of the water quality data, then revisit the question of which stream
-would be best for the bull trout reintroduction.</p>
-<div id="part-3-plotting-water-temperature-and-dissolved-oxygen" class="section level2">
-<h2>PART 3: Plotting water temperature and dissolved oxygen</h2>
+Agency). However, it is always a good idea to look at your data in many
+ways, including charts and graphs. Today, we will look at two different
+graphs of the water quality data, then revisit the question of which
+stream would be best for the bull trout reintroduction.</p>
+<div id="lesson-2.4-exploring-water-quality-data-with-graphs" class="section level2">
+<h2>Lesson 2.4: Exploring water quality data with graphs</h2>
 <div id="scatter-plots" class="section level3">
 <h3>Scatter plots</h3>
 <p>Bull trout prefer water below 14 deg C and above 6.2 mg/L dissolved
@@ -878,6 +930,15 @@ scatter_plot</code></pre>
 <pre><code>## Warning: Removed 5 rows containing missing values or values outside the scale range
 ## (`geom_point()`).</code></pre>
 <p><img role="img" src="data:image/png;base64,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" width="672" /></p>
+<p>We can add markers in our plot to show how many points fall outside
+our water quality thresholds for dissolved oxygen and temperature. We do
+this using the ggplot geoms:</p>
+<ul>
+<li><p><code>geom_hline(yintercept)</code></p></li>
+<li><p><code>geom_vline(xintercept)</code></p></li>
+<li><p>like any other geoms, we can also change the setting of color, in
+this case we change it to red for both lines</p></li>
+</ul>
 <pre class="r"><code># for reference we can add red lines depicting the levels of temperature and DO that are dangerous for bull trout. 
 # because we saved it as an object, we can add to the object directly 
 scatter_plot +
@@ -950,18 +1011,11 @@ ggplot(streams, aes(year, temperature_C, color = site)) +
 <li><p>Do the trends over time support your hypothesis about the
 stability of the temperature of the streams? Why or why not?</p></li>
 </ul>
-<p>Using the code above as an example, see if you can make a similar
-time-series plot showing changes in dissolved oxygen for both streams
-over time:</p>
+<p>💻 Your turn! Using the code above as an example, see if you can make
+a similar time-series plot showing changes in dissolved oxygen for both
+streams over time:</p>
 <pre class="r"><code># Write your code here:
 # hint: you&#39;ll need to change two variables - one for the line and points, and one for the horizontal line representing the threshold </code></pre>
-<p><em>INSTUCTORS VERSION - this line of writing outline our intent with
-the plots</em></p>
-<p>Although Stream B tends to have had better water quality in the past,
-it seems that the data support our the hypothesis that the water quality
-of Stream B is getting worse, while the water quality of Stream A is
-fairly constant.</p>
-<p><em>STUDENT VERSION</em></p>
 <p><strong>Class Questions:</strong></p>
 <ul>
 <li><p>Why do you think the water quality in Stream B is getting
@@ -976,6 +1030,15 @@ reintroductions?</p></li>
 quality issues are important to tribes?</p></li>
 <li><p>How can coding in R help inform tribal decisions about water
 quality?</p></li>
+</ul>
+</div>
+<div id="lesson-2.4-recap" class="section level3">
+<h3>Lesson 2.4 Recap:</h3>
+<p>In this lesson, we plotted our data using ggplot():</p>
+<ul>
+<li><p>a scatter plot of temperature and dissolved oxygen</p></li>
+<li><p>time series of both variables on separate plots</p></li>
+<li><p>for both plots, we grouped by stream using color</p></li>
 </ul>
 </div>
 </div>
