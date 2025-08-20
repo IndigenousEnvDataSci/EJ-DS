@@ -1,3 +1,23 @@
+# sources for bison and elk data
+# a mature bison needs 350-500 Kg of nitrogen per year.  There are differences in the literature based upon age, growth, seasonality, and sex of bison.  
+
+# Given those qualifiers, it is perhaps safer to say "An average male bison needs approximately 400 Kg of nitrogen per year). 
+
+# The citations for this are stepwise:  First, you have to evaluate the protein content of different forage types.  Next you have to evaluate the ability to metabolize nitrogen from protein in the forage, and finally you have to evaluate seasonality in forage types.  Here are the citations:
+
+# Van Soest, P. J. (1994). Nutritional Ecology of the Ruminant. Cornell University Press.
+  #This book discusses nitrogen requirements in ruminants and how dietary crude protein (CP) relates to nitrogen intake.
+
+# National Research Council (NRC) (2000). Nutrient Requirements of Beef Cattle. National Academies Press.
+  # While focused on cattle, the NRC guidelines provide estimates for protein requirements in large ruminants, which can be adapted for bison.
+
+# Schwartz, C. C., & Hobbs, N. T. (1985). "Forage and range evaluation for bison in Yellowstone National Park." The Journal of Wildlife Management, 49(2), 407-413.
+  # Discusses bison diet composition and forage quality, which affects nitrogen intake.
+
+# Renecker, L. A., & Hudson, R. J. (1986). "Seasonal energy expenditures and thermoregulatory responses of bison and cattle." Canadian Journal of Zoology, 64(2), 322-327.
+
+
+
 ###Making Simulated Biomass R Data for Bison!###
 getwd()
 #Does not reflect real or expected values, but rather just a dummy dataset to make sure that our code works!

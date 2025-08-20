@@ -1,0 +1,179 @@
+---
+title: "Forestry Final draft"
+output: html_document
+date: "2025-02-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Add introduction paragraph about forest 
+
+In the first part of this module, you explored data collected by K'avi tribal forestry managers on the total number of board feet for all Douglas Firs within a one acre area for four different sites. Based on data analysis and other qualitative factors, you started thinking about which site would be the best for a timber harvest.
+
+## Load Library 
+
+We will be working with the tidyverse package to tidy and plot data 
+
+```{r load lib}
+library(tidyverse)
+
+```
+
+Class Questions
+
+- Tidyverse includes functions from dplyr and ggplot2. What are some examples of functions that we have used in this course? 
+
+## Import data and preview 
+
+Bring in two .csv files: `forest.csv` and `site_characteristics.csv`
+
+Preview the data from these files 
+
+```{r import data}
+
+# read in forest 
+forest <- read.csv("forest.csv")
+
+# read in the site characteristics 
+site_chars <- read.csv("site characteristics.csv")
+
+# answer the questions below
+dim(forest)
+dim(site_chars)
+
+str(forest)
+str(site_chars)
+
+```
+
+Class Questions:
+
+- how many columns do each of these data frames have? how many rows?
+- what type of data is included in each? 
+- are there any missing values? 
+
+## Group and summarize - summary statistics
+
+- What is the max board feet for each site?
+
+- What is the average tree density? 
+
+```{r summarize}
+forest_max_bf <- forest %>% 
+  group_by(site_ID) %>% 
+  summarize(max_bf = max(board_feet))
+forest_max_bf
+
+forest_mn_tf <- forest %>% 
+  group_by(site_ID) %>% 
+  summarize(mn_td = mean(tree_density))
+forest_mn_tf 
+
+```
+
+- Based on summary statistics, which site seems to be the most productive? 
+
+## Unit conversions 
+
+*add intro text about carbon storage and sequestration*  
+
+According to a USDA General Technical Report, a thousand board feet contains 0.443 metric tonnes of carbon. 
+
+to estimate CO2 sequestration need another conversion. 
+
+convert board feet to stored carbon
+```{r carbon}
+
+forest <- forest %>% 
+  mutate(carbon_stored = board_feet*0.443/1000)
+
+# to answer question below
+forest %>% filter(age==100)
+
+
+```
+
+- How much carbon is stored at each site after 100 years? 
+
+
+## Join data frames 
+
+Combine the two data frames `forest_max_df` and `site_characteristics`
+
+```{r join}
+
+
+# check that the column names are the same 
+names(site_chars)
+names(forest_max_bf)
+
+# change the column name in site_chars to match forest 
+site_chars <- site_chars %>% 
+  rename(site_ID = site.id)
+
+# use join to bring the two data frames together 
+forest_site_chars <- left_join(forest_max_bf, site_chars, by="site_ID")
+
+```
+
+Class Questions:
+
+- What are the dimensions of the new data frame?
+- How can the site characteristics help decide which site would be best to harvest timber? 
+
+
+## Visualization with ggplot 
+
+Create a plot to visualize the max board feet, with x axis showing elevation, and color corresponding to another site characteristic
+
+```{r barplot}
+ggplot(forest_site_chars, aes(x=elevation_m, y=max_bf, fill=soil_type)) +
+  geom_col(na.rm = F) 
+
+
+
+```
+
+Describe your plot and whether new insight has been gained. 
+
+## More visualization options 
+
+- Create a box plot of board feet for each site, and include at least one site characteristic 
+
+- Create a time series of carbon stock with time, colored by site 
+
+```{r ggplot}
+
+# first, need to join the site characteristics with the full forest data frame 
+full_forest_site_char <- left_join(forest, site_chars, by="site_ID")
+
+# plot boxplot 
+ggplot(full_forest_site_char, 
+       aes(x=as.factor(elevation_m), y=board_feet)) +
+  geom_boxplot()
+
+# plot time series of carbon 
+ggplot(full_forest_site_char, 
+       aes(x=age, y=carbon_stored, col=site_ID)) +
+  geom_point()
+
+```
+
+Could also ask them to improve the plot using labels, title, and themes. 
+
+```{r nice_plt}
+
+ggplot(full_forest_site_char, 
+       aes(x=age, y=carbon_stored, col=as.factor(site_ID))) +
+  geom_point() +
+  geom_line() + 
+  labs(x="Age", y="Carbon stock (t)", title="Change in carbon stock over time by site", col="site ID") +
+  theme_bw() 
+
+```
+
+Question from Day 1:
+
+You have now explored the data in many different ways. Based on the information from the summary statistics, graph, and descriptions of the sites, which site would you recommend as the best for a lumber harvest and why?
