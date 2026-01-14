@@ -1,7 +1,7 @@
 ---
 title: "Module 1: Fish and heavy metal contaminants"
 output: html_document
-date: "updated 2024-7-29"
+date: "updated 2026-1-14"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -321,7 +321,7 @@ Let's break down the different parts of what just happened:
 
 * Look through these data to see if they make sense (any weird numbers? Any missing data?).
 * Then close that tab and come back to this window.
-```{r view data pt. 1}
+```{r view data pt. 1, include=FALSE}
 View(fish_1998) 
 ```
 
