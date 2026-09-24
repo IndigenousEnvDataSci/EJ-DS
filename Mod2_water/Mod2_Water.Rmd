@@ -2,7 +2,7 @@
 title: "Module 2: Water Quality for bull trout reintroduction"
 output:
   html_document: default
-date: "updated 2024-8-5"
+date: "`r Sys.Date()`"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -21,15 +21,13 @@ In this module, we will use data about water quality trends to help K'avi Fish a
 The upstream source of Stream A is a groundwater spring. Water in this stream is very clean and temperatures are steady because groundwater temperatures tend to match average yearly temperature. The upstream source of Stream B is an alpine lake that is fed by a glacier. The glacial melt-water is very cold and clean, but the glacier is shrinking as climate warms, so the cold-water input to the lake is growing smaller over time.
 
 
-**In this module, there are four main goals:** 
+## Learning Objectives for Module 2:
 
-1. We will review skills you learned in Module 1, such as calculating summary statistics and making scatter plots.
+1. Apply foundational exploration and plotting skills from Module 1 to a new environmental dataset, and learn why structured "tidy" data is easier to work with
+2. Practice troubleshooting errors and and dealing with missing information in real-world measurements
+3. Create "time-series" plots to track environmental changes over multiple years
+4. Explore how water quality data can help in decision making to protect culturally important species 
 
-2. We will learn how to rearrange data into a "tidy" format that makes graphing easiermand we will learn how to "debug" code, in other words, we'll learn how to fix common problems that we see when using real world data. 
-
-3. We will learn how to make graphs of data over time. These are called "time series" graphs.
-
-4. We will explore how water quality data can help communities make decisions to protect culturally important species.
 
 ----------------------------------------------
 
@@ -123,7 +121,7 @@ stream_DO <- read.csv("streams_DissolvedOxygen.csv", header = TRUE, sep =",")
 Now that our data is loaded into R, we can explore the data using the view and 
 head commands. Our goal is to make sure things loaded correctly and to get a first look to see if the data make sense. 
 ```{r}
-View(stream_temp)
+#View(stream_temp)
 ```
 
 ```{r}
@@ -131,7 +129,7 @@ head(stream_temp)
 ```
 
 ```{r}
-View(stream_DO)
+#View(stream_DO)
 ```
 
 ```{r}

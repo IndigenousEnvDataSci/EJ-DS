@@ -73,9 +73,12 @@ We are mainly working with `tidyverse` which is a collection of packages useful 
 
 Along with code and instructions as R markdown and Jupyter Notebook files, the first module also includes a print-out worksheet to guide students along. Worksheets include text, doing checks on important steps, and ask students questions about the code they are running and the environmental and community contexts. These workshops have been used in two different 1-day workshops. The worksheets can be found in the `Worksheets/` folder: 
 
-- Teachers_Guide_Setup.pdf: step by step slides for setting up an RStudio Project with GitHub repository downloaded folder, and installing packages
+- Teachers_Guide_Setup_RStudio.pdf: step by step slides for setting up an RStudio Project with GitHub repository downloaded folder, and installing packages
+- Teachers_Guide_Binder.pdf: step by step slides for setting up jupyter notebooks in mybinder.org 
+- Teachers_Guide_Mod1.pdf: step by step slides with screenshots for module 1 
 - Module 0_Download and Install R.pdf: check mark list for students to download R and RStudio, familiarize with the RStudio console, and install packages
 - Module 1_Monitoring Fisheries for Heavy Metal Contaminants.pdf: Text following all steps in Module 1, including questions and space for students to handwrite answers. 
+- Link to [Key for Module 1](https://docs.google.com/document/d/1BJuyTysceg3bvHxI8b8ZyJ7Ns6GSJpTikM3_xE1pkz0/edit?tab=t.0)
 
 # Feedback 
 

@@ -1,4 +1,4 @@
-# How to contribute
+# How to contribute or use material
 
 Thank you for your interest in our project! 
 This repository is the result of many collaborations between instructors and students on an open source education resource, and we welcome contributions. 

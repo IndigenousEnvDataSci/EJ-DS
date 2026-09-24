@@ -1,7 +1,7 @@
 ---
 title: "Module 1: Fish and heavy metal contaminants"
 output: html_document
-date: "updated 2026-1-14"
+date: "updated `r Sys.Date()`"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -13,7 +13,7 @@ Members of the K’avi have fished the waters on their land for many years to pr
 
 However, many members of the community have begun to experience health problems associated with heavy metal poisoning. 
 Historically, a factory used to be located upstream of the riverways fished by the K’avi, and waste from this factory was dumped into the nearby waters. Tribal fishery managers are now concerned that members of the community 
-are being exposed to heavy metals through the fish that have been caught in these waters. As a result, they now want to start recording the concentrations of methylmercury in the belly fat of fish in the area. Health hazards depend on how much a person consumes as well as their size. The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined a Reference Dose (RfD) of methylmercury at 0.1ug per kg of body weight. Additionally, the Food and Drug Administration recommends eating no more than 0.46ug methylmercury/g of fish for one serving per week ([FDA](https://www.fda.gov/food/environmental-contaminants-food/technical-information-development-fdaepa-advice-about-eating-fish-those-who-might-become-or-are)).  These values will be explored more in the code below. 
+are being exposed to heavy metals through the fish that have been caught in these waters. As a result, they now want to start recording the concentrations of methylmercury in the belly fat of fish in the area. Health hazards depend on how much a person consumes as well as their size. The tribe uses guidance from the Environmental Protection Administration (EPA), who have determined a Reference Dose (RfD) of methylmercury at 0.1ug per kg of body weight. The Food and Drug Administration recommends eating no more than 0.46ug methylmercury/g of fish for one serving per week ([FDA](https://www.fda.gov/food/environmental-contaminants-food/technical-information-development-fdaepa-advice-about-eating-fish-those-who-might-become-or-are)). We refer to this as the screening value, or the boundary of the highest average amount of mercury in fish that would not exceed the reference dose at a given consumption rate. Screening values will be explored more in the code below. 
 
 Back in 1998, the tribal fisheries managers caught fish and measured their length and also the concentration of mercury in the fish. The goals of these managers was to learn how common it was for concentrations of mercury to be above the safety level of 0.46ug/g.
 
@@ -21,44 +21,18 @@ Once they collect these data, the tribal fishery managers will need to present
 their findings to members of the community so they can better understand the
 public health crisis at hand. 
 
-In this module, there are three main goals: 
+## Learning Objectives for Module 1: 
 
-1. Explore data related to fish growth and heavy metal concentrations.
-2. Explore K'avi community health data.
-3. Connect these datasets and produce a graph that could be used 
-to communicate the fishery managers' findings to their community. 
-
-**NOTES TO SKC/ND DEVELOPERS AND INSTRUCTORS:** 
-
-Learning goals for this module:
-
-1. Students learn how R can be used as a calculator, and how values can be stored 
-
-2. Students become more comfortable opening R and loading in data from an 
-external data file. 
-  
-3. Students gain exposure to basic commands to explore their data before 
-they begin to analyze it. 
-
-4. Students gain experience loading in packages (tidyverse and ggplot). 
-
-5. Students gain exposure to working with different data types(numeric, characters)
-
-6. Students gain exposure to basic summary statistic arguments in R to pull the 
-mean, median, max, and min values for different variables in the dataset. 
-
-7. Students become equipped with how to make a graph in R (tidyverse, ggplot) 
-using variables pulled from a larger dataset. Can open a discussion point: 
-how do we present data in a way that can help us understand the problem at hand?
-(i.e. in this case, it may be plotting mercury concentrations found in fish 
-along different sites, and showing it next to a graph of mercury found in people
-across different sites)
-
-**END NOTE TO DEVELOPERS AND INSTRUCTORS**
+1. Understand how to interact with data in R, starting with bringing data into the computing environment to explore 
+2. Calculate and interpret the middle values (mean, median) and extreme values (min, max) of a dataset
+3. Create straightforward plots to visualize safety thresholds and communicate results with the community 
+4. Apply both statistics and visuals to determine if local fish are safe for consumption
 
 # DAY 1: Getting started with fish mercury concentration data
 
 ## Getting set up in Rstudio 
+
+*Note:* these lessons are organized with combinations of text and code chunks. Within the code chunks below you will find comments that begin with `#` - this is text that the computer will ignore, and is used to document the steps being taken in the code. 
 
 ### Clearing Environment
 
@@ -85,6 +59,18 @@ setwd(dirname(current_path))
 
 ## Lesson 1.1: R basics and calculating screening values 
 
+## Definitions
+
+There are a few new terms that come with learning to program for ths first time. 
+
+*Package*: free libraries of code that expand what you can do in R. Packages can contain code, data, and documentation. 
+
+*Function*: a function is a reusable block of code that allows you to automate specific tasks. Functions take inputs inside of parentheses. One of the first examples shown below is the library() function, which takes the name of a package as input
+
+*Object*: a fundamental data structure in R, which can contain different types of data such as a number, a word (we call them characters), lists, or data frames
+
+Read more about R terminology [here](https://librarycarpentry.github.io/lc-r/reference.html).
+
 ### Load in packages 
 
 "Packages" are computer code that someone wrote to do a particular thing. By loading a package, R downloads that code, so that you can do that thing yourself. Think of packages as tools for you to use in R that aren't automatically part of R when you first installed it. The package below allows you to do  more things in R, and makes coding much easier! 
@@ -110,6 +96,10 @@ We will work with different types of objects and data types, including numbers, 
 First, the variables `weight` and `days_per_week `are set.
 
 Once we create an object, we can use math or functions on it. Below we calculate `CR`, the mean daily consumption rate of the species of interest (g/d), based on the `days_per_week`
+
+Doing math in R requires that you use the correct symbols for the operations. For example, `*` is multiplication, `/` is division, and `^` is exponentiation.
+
+In the example below, the consumption rate is calculated as the serving size (110g) multiplied by the number of days per week, divided by 7, to end up with the consumption rate per week. 
 
 ```{r rfd}
 #----------------------------------------------------------------
@@ -321,7 +311,7 @@ Let's break down the different parts of what just happened:
 
 * Look through these data to see if they make sense (any weird numbers? Any missing data?).
 * Then close that tab and come back to this window.
-```{r view data pt. 1, include=FALSE}
+```{r view data pt. 1, include=FALSE, eval=FALSE}
 View(fish_1998) 
 ```
 
@@ -646,7 +636,7 @@ fish_2023 <- read.csv("fish_2023.csv", header = TRUE, sep = ',')
 We will repeat several of the steps we took to investigate the 1998 data with the new 2023, fish data. These steps are important because they allow you to check to see if the data loaded properly; to check to see if they make sense; and to start thinking about their implications for our scientific question, "Did the sediment cleanup efforts help the health of the fish and the community?"
 
 We'll start by viewing the data:
-```{r View data pt. 1 - take 2}
+```{r View data pt. 1 - take 2, eval=FALSE}
 View(fish_2023) 
 ```
 **Write your own code to view the top few lines of the data**

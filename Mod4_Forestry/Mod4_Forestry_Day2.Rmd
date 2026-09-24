@@ -2,7 +2,7 @@
 title: "Module 4: Forest Management | DAY 2"
 output: 
   html_document: default
-date: "updated 2024-8-5"
+date: "`r Sys.Date()`"
 ---
 
 # Table of Contents
@@ -24,14 +24,12 @@ Based on your exploration of this timber data set in the first part of this modu
 
 The goal of this lesson is to work on refining the graphs that you have been making throughout the course so that they are an effective tool for sharing what you have learned through your data analysis with the broader community. We will demonstrate each new graphing tool using a graph of the density of trees which is defined here as the number of trees within a one acre plot versus the age of the one acre plot and then we will let you explore ways to use each technique on the plot of board feet versus age that you created at the end of day 1 of this module. 
 
---------------------------------------------------------------------------------
+## Learning Objectives for Module 4:
 
-## INSTRUCTOR'S VERSION: Learning goals and instructor resources
-
-The goal of the second day of the forestry module is to have the students focus on recommendations for management based on data science with a strong emphasis on how to best make and present graphs that are accessible and helpful for a specific audience. 
-
-Our second goal for this module is to show the students some online resources for improving their graphs to show these resources as a tool for expanding their comfort with R in the future. 
-
+1. Evaluate both numeric trends and descriptive notes (quantitative and qualitative data) to form a holistic view of forest health
+2. Learn to design professional data visualizations with labels, legends, and customized colors to make ready to present to diverse audiences
+3. Apply data analysis and visualization to deliver clear, accessible recommendations to forest managers and community
+4. Discover where to find helpful online resources to continue exploring data and creating data visualizations independently in the future
 
 **Additional notes about the lesson**
 
@@ -132,7 +130,7 @@ You can make whichever graph you decided on here:
 Another cool thing that ggplot lets us do is layer different plots on top of one another. Using this we can show both the scatterplot and the line plot. 
 
 ```{r}
-ggplot(site_1, aes(x = age, y = tree_density))+
+ggplot(site_1, aes(x = age, y = tree_density)) +
   geom_line()+
   geom_point()
 ```
@@ -525,7 +523,7 @@ ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype =
   geom_line(size = 3)+ 
   labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site", color = "Site", linetype = "Site")+
   scale_color_viridis(discrete = TRUE)+
-  theme(plot.title = element_text(size= "20", color="blue"), #Changes the color of the title
+  theme(plot.title = element_text(size= 20, color="blue"), #Changes the color of the title
     plot.background = element_rect(fill="purple"), #Changes the color of the background
     panel.border = element_rect(linetype = "dashed", fill = NA), # gives the border of the plot a dashed line
     panel.grid.major = element_line(colour = "black"), #Makes the grid lines heavy 

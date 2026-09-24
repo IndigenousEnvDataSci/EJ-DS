@@ -2,7 +2,7 @@
 title: "Module 4: Forest Management | DAY 1"
 output: 
   html_document: default
-date: "updated 1-6-2025"
+date: "`r Sys.Date()`"
 ---
 
 # Introduction
@@ -28,39 +28,23 @@ Below are short descriptions of the sites the K'avi managers have been collectin
 3. Site 3: Rainfall of less than 20 inches annually, a southern aspect, and gravel soil
 4. Site 4: Sandy loam soil, an altitude of 1,600 feet and 65 inches of rainfall annually.
 
-**Overview of Module**
+**Overview of Module 4**
 
 * Exploring the data 
-
 * Summary statistics
-
 * Choosing a site
-
 * Combining the data
-
 * Calculating statistics from the combined data
-
 * Creating a table 
-
 * Graphing
-
 * Recap
 
-**Learning goals for this module:**
+## Learning Objectives for Module 4:
 
-The goal of the first day of this module is to review what you have learned from the previous 3 modules and use that knowledge to answer questions about data more independently. More specifically:
-
-1. Min, max, median, mean review
-
-2. Exploring data sets
-
-3. Combining data sets
-
-4. Creating graphs
-
-5. Using quantitative and qualitative data to make decision about which site is the most productive
-
-6. Data visualization
+1. Evaluate both numeric trends and descriptive notes (quantitative and qualitative data) to form a holistic view of forest health
+2. Learn to design professional data visualizations with labels, legends, and customized colors to make ready to present to diverse audiences
+3. Apply data analysis and visualization to deliver clear, accessible recommendations to forest managers and community
+4. Discover where to find helpful online resources to continue exploring data and creating data visualizations independently in the future
 
 ## PART 1: Setting up and introducing the data
 

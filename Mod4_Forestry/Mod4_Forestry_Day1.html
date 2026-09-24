@@ -10,6 +10,7 @@
 
 
 
+<meta name="date" content="2026-08-31" />
 
 <title>Module 4: Forest Management | DAY 1</title>
 
@@ -349,7 +350,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">Module 4: Forest Management | DAY 1</h1>
-<h4 class="date">updated 2024-8-5</h4>
+<h4 class="date">2026-08-31</h4>
 
 </div>
 
@@ -402,30 +403,32 @@ and gravel soil</li>
 <li>Site 4: Sandy loam soil, an altitude of 1,600 feet and 65 inches of
 rainfall annually.</li>
 </ol>
-<p><strong>Overview of Module</strong></p>
+<p><strong>Overview of Module 4</strong></p>
 <ul>
-<li><p>Exploring the data</p></li>
-<li><p>Summary statistics</p></li>
-<li><p>Choosing a site</p></li>
-<li><p>Combining the data</p></li>
-<li><p>Calculating statistics from the combined data</p></li>
-<li><p>Creating a table</p></li>
-<li><p>Graphing</p></li>
-<li><p>Recap</p></li>
+<li>Exploring the data</li>
+<li>Summary statistics</li>
+<li>Choosing a site</li>
+<li>Combining the data</li>
+<li>Calculating statistics from the combined data</li>
+<li>Creating a table</li>
+<li>Graphing</li>
+<li>Recap</li>
 </ul>
-<p><strong>Learning goals for this module:</strong></p>
-<p>The goal of the first day of this module is to review what you have
-learned from the previous 3 modules and use that knowledge to answer
-questions about data more independently. More specifically:</p>
+<div id="learning-objectives-for-module-4" class="section level2">
+<h2>Learning Objectives for Module 4:</h2>
 <ol style="list-style-type: decimal">
-<li><p>Min, max, median, mean review</p></li>
-<li><p>Exploring data sets</p></li>
-<li><p>Combining data sets</p></li>
-<li><p>Creating graphs</p></li>
-<li><p>Using quantitative and qualitative data to make decision about
-which site is the most productive</p></li>
-<li><p>Data visualization</p></li>
+<li>Evaluate both numeric trends and descriptive notes (quantitative and
+qualitative data) to form a holistic view of forest health</li>
+<li>Learn to design professional data visualizations with labels,
+legends, and customized colors to make ready to present to diverse
+audiences</li>
+<li>Apply data analysis and visualization to deliver clear, accessible
+recommendations to forest managers and community</li>
+<li>Discover where to find helpful online resources to continue
+exploring data and creating data visualizations independently in the
+future</li>
 </ol>
+</div>
 <div id="part-1-setting-up-and-introducing-the-data" class="section level2">
 <h2>PART 1: Setting up and introducing the data</h2>
 <div id="setting-up-the-session" class="section level3">
@@ -445,11 +448,11 @@ setwd(dirname(current_path))
 # 
 library(tidyverse)</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
+## ✔ dplyr     1.2.1     ✔ readr     2.2.0
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -573,14 +576,14 @@ data. Similar to previous modules, use <code>group_by()</code> and
 <pre class="r"><code>#Use this chunk to calculate the mean board_feet from the combined data
 forest %&gt;% 
   group_by(site_ID) %&gt;% 
-  summarize(mean_age = mean(board_feet))</code></pre>
+  summarize(mean_bf = mean(board_feet))</code></pre>
 <pre><code>## # A tibble: 4 × 2
-##   site_ID mean_age
-##     &lt;dbl&gt;    &lt;dbl&gt;
-## 1       1   65852.
-## 2       2  120153.
-## 3       3   29141.
-## 4       4  107197.</code></pre>
+##   site_ID mean_bf
+##     &lt;dbl&gt;   &lt;dbl&gt;
+## 1       1  65852.
+## 2       2 120153.
+## 3       3  29141.
+## 4       4 107197.</code></pre>
 <p>Again using <code>group_by()</code> and <code>summarize()</code>,
 create a table/tibble with the median age of the trees at each site</p>
 <pre class="r"><code>#Use this chunk to create the table</code></pre>
@@ -604,7 +607,7 @@ y-axis.</p>
 </div>
 <div id="scatter-plot" class="section level3">
 <h3>Scatter plot</h3>
-<p>Create a scatter plot with the <code>forst</code> dataframe of
+<p>Create a scatter plot with the <code>forest</code> dataframe of
 <code>board_feet</code> v. <code>age</code>, with <code>site_ID</code>
 as color or shape, using <code>geom_point()</code></p>
 <p><em>Recap:</em></p>

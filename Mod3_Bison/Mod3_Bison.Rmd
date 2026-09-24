@@ -1,6 +1,6 @@
 ---
 title: "Module 3: Bison reintroduction and plant biomass"
-date: "updated 2024-08-05"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -31,17 +31,12 @@ viable for bison reintroduction! While the hope is to eventually reintroduce bis
 all of these sites, K'Avi agricultural managers must currently choose a single site 
 to place this first herd of 200 bison. 
 
-**In this module, there are five main coding goals:** 
+## Learning Objectives for Module 3:
 
-1. We will review skills you learned in previous modules, such as summary statistics and merging datasets.
-
-2. We will learn how to group data together in a new way, using `group_by()` and `summarise()` 
-
-3. We will learn how to convert units in R and add new columns to the dataset to make a more concise representation of the data.
-
-4. We will challenge you to visualize the data using your previously knowledge and creativity!
-
-5. We will explore the importance of considering multiple variables when making management decisions and the value of reintroducing native species to their habitats.
+1. Learn to combine separate data sources into a single, cohesive dataset
+2. Group data by specific categories (in this case field sites) to summarize and explore side-by-side comparisons
+3. Standardize and convert different units of measurement to make data easier to interpret and compare
+4. Evaluate multiple environmental variables simultaneously for managing decisions on reintroducing native species to their habitats
 
 # DAY 1
 

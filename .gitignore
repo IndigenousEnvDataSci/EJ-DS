@@ -5,5 +5,6 @@
 .Rproj
 *.html
 .csv
-.DS_Store
+*.DS_Store
 *.pptx
+.DS_Store
