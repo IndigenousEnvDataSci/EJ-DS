@@ -153,19 +153,21 @@ The output above is the screening value (ug/g) for fish serving based on the inp
 
 Next we will create a vector, which is list of the same type of object, that can similarly be used in a function or equation. Below we have two vectors, `weight` and `servings`. 
 
+We create a vector using the `c()` function, which stands for "concatenate" or "combine". We input values of the same type into the `c()` function, separated by a comma.  
+
 ```{r}
 
 # run these lines one at a time or walk through together 
 
-# Create vectors 
+# Create vectors
 weight = c(140, 175, 200)
 servings = c(1, 6, 3)
 
-# can print entire vector 
+# can print entire vector
 print(weight)
 print(servings)
 
-# or a single value from a vector 
+# or a single value from a vector
 weight[1]
 
 ```
@@ -199,6 +201,15 @@ Above, we used `head()` to preview our data frame. For longer data frames this w
 
 Another way to preview and explore data frames is to visualize it. Throughout this module, we will use [ggplot2](https://ggplot2.tidyverse.org/). This package was loaded with `tidyverse`. 
 
+There are a few key terms to know when plotting with `ggplot2`:
+
+* `ggplot()`: the function that creates the plot. It requires two inputs:
+
+  1. the data frame you want to plot, labelled as `data`
+  2. the aesthetics of the plot, labelled as `mapping=aes()`. This is where you specify what variables you want to plot on the x and y axes.
+
+* `geom`: short for geometric element, this represents how you want to plot your data, such as points, lines, or polygons. You can add multiple geoms to the same plot. 
+
 We will create a plot step by step, starting with running `ggplot()` with our dataframe as the input. We then add layers to it using a plus sign. 
 
 ```{r}
@@ -213,7 +224,7 @@ ggplot(data=sv_df,
   
 ```
 
-Next we need to assign a `geom` - this could be a scatter plot, line plot, or boxplot. We will start with plotting as columns, using `geom_col()`. 
+Next we need to assign a `geom` - this could be a scatter plot, line plot, or boxplot. We will start with plotting as points, using `geom_point()`. 
 
 ```{r}
  ggplot(data=sv_df, 
@@ -285,7 +296,7 @@ In this lesson we have learned to:
 
 **Now we will load in the dataset for the physical fish data**
 
-These data are the length and methyl mercury content of fish caught on the K'Avi reservation in 1998, soon after the polluting factory was shut down. 
+These data are the length and methylmercury content of fish caught on the K'Avi reservation in 1998, soon after the polluting factory was shut down. 
 
 * Each row is data from one fish. 
 * The first column "length" is the length of the fish in cm. 
@@ -301,8 +312,8 @@ Let's break down the different parts of what just happened:
 2. Within the (""), we identify the data file from our working directory that we want to load into R
 3. header = TRUE just tells R that the first row of data is the column names. The alternative is header = FALSE
 4. sep is short for the word "separate", and it tells R that each column in the csv is separated by a comma ','
-3. "fish" is the name we are giving that file in R, and is how we will refer to this data going forward.
-4. <- is like = in a math equation, it tells R that "fish" is the same as the data "fish_1998.csv"
+3. "fish_1998" is the name we are giving that file in R, and is how we will refer to this data going forward.
+4. <- is like = in a math equation, it tells R that "fish_1998" is the same as the data "fish_1998.csv"
 5. This command turns a file on your computer (fish_1998.csv) into a dataframe (fish_1998) that you can examine in RStudio. A 'dataframe' is the way R can see data that has rows and columns. When you run line of code above, R looks for the .csv file called "fish_1998.csv" and imports it into this RStudio session in a format (a database) that you can use for coding. The new dataframe (fish_1998) should appear in the RStudio "Environment" window in the upper right.
 
 ### Previewing the data
@@ -319,10 +330,12 @@ View(fish_1998)
 
 If we don't want to look at all of the data and instead just want to see what is going on in the first couple rows we can use the following code. 
 
-The command head() shows the column names and the first few rows of the data
+The command `head()` shows the column names and the first 6 rows of the data. We can also use `str()` which shows the structure of the data, including column names, data type, ad dimensions. 
 
 ``` {r view data pt. 2}
 head(fish_1998) 
+
+str(fish_1998)
 ```
 **Class Questions:**
 
@@ -331,11 +344,11 @@ head(fish_1998)
 
 ### Exploring the dimensions of the data
 
-To answer these questions, it would be helpful to know how many fish have methyl mercury measurements.We can very quickly find that out with the following code.
+To answer these questions, it would be helpful to know how many fish have methylmercury measurements.We can very quickly find that out with the following code.
 
-The command `dim()` shows the dimension of the dataset. "Dimension" is the number of rows & number of columns.
+The command `dim()` shows the dimension of the dataframe. "Dimension" is the number of rows & number of columns.
 ```{r explore data dimensions}
-dim(fish_1998) #shows the dimensions of the dataset, which will be important later on
+dim(fish_1998) #shows the dimensions of the data
 ```
 
 **Class Question:**
@@ -355,13 +368,15 @@ come in handy any time you use R in the future.This included:
 
 ## Lesson 1.3: Calculating descriptive statistics 
 
-Recall the maximum safe level of mercury to consume depends on how often fish are being consumed, and weight of person. According to the EPA, the maximum safe level of mercury to be consumed is around 0.46 ug/g/day if not frequently consuming fish. 
+Recall the maximum screening value of methylmercury to consume depends on how often fish are being consumed, and weight of person. According to the EPA, the maximum screening value of methylmercury to be consumed is around 0.46 ug/g/day if not frequently consuming fish. 
 
-Tribal fishery managers are interested in whether the mercury levels in local fish belly fat exceeds this amount. They are also interested in if the amount of mercury in fish is connected to fish size. 
+Tribal fishery managers are interested in whether the methylmercury levels in local fish belly fat exceeds this amount. They are also interested in if the amount of methylmercury in fish is connected to fish size. 
 
-Below, we will analyze data points from the "fish" data set to try and answer these questions. 
+Below, we will analyze data points from the "fish_1998" data set to try and answer these questions. 
 
 ### Descriptive statistics: mean v. median 
+
+From Lesson 1, we learned that we can reference columns in a data frame using `$`. Next we will use functions applied to the `mercury` column, starting with the `mean()`.
 
 **What is the mean (average) amount of mercury found in local fish? **
 
@@ -404,7 +419,7 @@ Work in groups to see if you can find these values using the commands `max()` an
 For help, you can google "R min()" or you can type `?min()` in the "Console" window below, then read the help file in the "Output" window on the lower right.
 
 ``` {r max and minimum amount of mercury}
-# Type your code below to calculate the mininum and maximum values of methylemercury in the 1998 fish dataset.
+# Type your code below to calculate the mininum and maximum values of mercury in fish_1998.
 
 
 ```
@@ -455,7 +470,7 @@ If you run the code chunk below, it will make a graph of all the 1998 mercury da
 
 This code has a lot of details that we will work through later. For now, you can either just run the code chunk (by clicking the small green arrow in the upper right corner of the grey area), or you can explore the code line by line. We've provided some comments to help you out. [This cheatsheet](https://images.datacamp.com/image/upload/v1666806657/Marketing/Blog/ggplot2_cheat_sheet.pdf) will also give you some tips. 
 
-### Plot distribution of 1 variable 
+### Boxplots: Plot the distribution of 1 variable 
 
 ```{r ggplot, Ribbon Plot, mercury}
 #For this plot, we want to see the distributions of mercury in the fish and how many of them are above the EPA's recommended levels
@@ -465,7 +480,7 @@ ggplot (fish_1998, aes(x= 'fish', y= mercury))+
 #The jitter plot is a variation on the scatterplot, but it separates the data so that we can distinguish how many points are above the unsafe mercury level. To see the difference, try geom_point() and then geom_jitter()
   geom_jitter(width = 0.1)+
 #We can also add shapes to the plot. Here we added a line to show where  the EPA's guideline for unsafe levels of mercury in fish would fall. To create  this we used the geom_hline() function which simply creates a horizontal line at a y-intercept that you set. We can also adjust the color and appearance of the line with color = 'red'.  
-  geom_hline(yintercept = 0.46, linetype= "dashed", color= "red", size=1)+
+  geom_hline(yintercept = 0.46, linetype= "dashed", color= "red", linewidth=1)+
 #This allows us to relabel the x-axis
   xlab("fish")+
 #This allows us to relabel the y-axis
@@ -500,7 +515,7 @@ geom_jitter(width = 0.1)+
 # This lets us see the jitter plot beneath it.
 geom_boxplot(alpha=0.5, color="dodgerblue2")+
 # As before, we add a line to represent the EPA's recommended safe mercury ingestion level
-geom_hline(yintercept = 0.46, linetype= "dashed", color= "red", size=1)+
+geom_hline(yintercept = 0.46, linetype= "dashed", color= "red", linewidth=1)+
 # The rest of the code is the same as the last code chunk:
   xlab("fish")+
   ylab("mercury (ug/g)")+
@@ -554,7 +569,7 @@ LengthMercury1998
 **Class Questions:**
 
 * What does this tell us about the relationship between fish length and mercury levels? 
-* Are there certain lengths of fish that have a higher amount of mercury?
+* Are there certain lengths of fish that exceed the FDA screening value?
 * If you caught a fish in 1998, would this graph help you decide whether the fish was safe? 
 
 
@@ -585,7 +600,7 @@ Today's exercise allows you to apply the lessons you learned about coding in R f
 Like we did on Day 1 of the fish module, we first need to load in our datasets 
 before we can explore them!
 
-**NOTE TO SKC/ND DEVELOPERS:**
+**NOTE TO INSTRUCTORS:**
 When Day 2 starts, the class might need to take some preliminary steps before they get coding. We should consider:
 
 * Setting the working directory (If we keep the data files in the same directory as this .Rmd file, they can skip this step. Or if you started a project, be sure to check the upper right corner of Rstudio to see that it is open.)
@@ -598,7 +613,7 @@ Here is a commented out code chunk, to remind us to address this later...
 # setwd()
 # list.files()
 ```
-**END NOTE TO SKC/ND DEVELOPERS**
+**END NOTE TO INSTRUCTORS**
 
 #### Load in packages 
 
@@ -725,7 +740,7 @@ Look more carefully at the code this time. You will see things that look similar
   geom_hline(yintercept = 0.46, linetype= "dashed", color = 'red')+
 # This is the only NEW line of code.
 # We use the command ylim() to set the range of the y-axis
-# The y-axis in this plot will start at 2 mg/kg mercury and end at 6 mg/kg
+# The y-axis in this plot will start at 0ug/g and fo to 1ug/g.
 # We'll use the same range for the scatter plot of the 2023 data.
 # That will make it easier to compare the fish across the two years.
   ylim(0,1) +

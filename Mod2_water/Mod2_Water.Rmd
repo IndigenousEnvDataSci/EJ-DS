@@ -38,7 +38,7 @@ The upstream source of Stream A is a groundwater spring. Water in this stream is
 1. On day 1 of this module, we'll start by reviewing the usual steps for getting started: setting the working directory, bringing a dataset into RStudio, etc.
 
 
-2. Next, we'll "wrangle" the dataset into a format that will make it easier to analyze in R. This includes organizing columns of data in a "tidy" way, merging two datasets, changing the names of variables, etc. Data wrangling is an important component of data science. It's a way of making sure the data you analyze is in a format that is reliable and complete. Students will use new commands, like pivot_longer() and left_join() to make the data "tidy", so it can be more easily reliable. There are many websites that can help you and your students learn these new tools and approaches. Here are a few to get you started: [tidying data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html); [pivoting data](https://tidyr.tidyverse.org/articles/pivot.html); [joining data](https://r4ds.hadley.nz/joins.html).
+2. Next, we'll "wrangle" the dataset into a format that will make it easier to analyze in R. This includes organizing columns of data in a "tidy" way, merging two datasets, changing the names of variables, etc. Data wrangling is an important component of data science. It's a way of making sure the data you analyze is in a format that is reliable and complete. Students will use new commands, like `pivot_longer()` and `full_join()` to make the data "tidy", so it can be more easily reliable. There are many websites that can help you and your students learn these new tools and approaches. Here are a few to get you started: [tidying data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html); [pivoting data](https://tidyr.tidyverse.org/articles/pivot.html); [joining data](https://r4ds.hadley.nz/joins.html).
 
 
 3. NEW SKILL: students will learn how to handle common code bugs, such as NAs. 
@@ -157,9 +157,7 @@ dim(stream_DO)
 
 ### Lesson 2.1 Recap: 
 
-You now reviewed ways to set up your R environment, read in data, and explore 
-your data. These steps are all important for when we analyze our data later in 
-this module. 
+You now reviewed ways to set up your R environment, read in data, and explore your data. These steps are all important for when we analyze our data later in this module. 
 
 - loading a package using `library()`
 
@@ -190,7 +188,7 @@ The `pivot_longer()` command allows us to combine columns, which transforms our 
 Here is a visual example:
 ![A dataframe with with three variables labelled a1, a2, a3 and one ID column is shown as being split into the three columns and aligning their values into a single column called 'value', with the column 'key' identifying the original column name. Source: https://r-crash-course.github.io/14-tidyr/](08-tidyr-fig3_pivot_longer_visual.png)
 
-In the code chunk below, we use `pivot_longer()` to transform the temperature data. The #comments describe what each line of code does.
+In the code chunk below, we use `pivot_longer()` to transform the temperature data. The #comments describe what each line of code does. We rename our data frame to a new object with the suffix `_long` and then preview it with `head()`.
 
 ```{r}
 # The first line of code tells R that we want to re-define 
@@ -199,7 +197,7 @@ In the code chunk below, we use `pivot_longer()` to transform the temperature da
 # which are linked by a "+" at the end of each line,
 # will all contribute to a transfomed version of stream_temp. 
 
-stream_temp <- stream_temp %>%  
+stream_temp_long <- stream_temp %>%  
 # We use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
     #cols = tells R which columns we want to modify
@@ -218,7 +216,7 @@ stream_temp <- stream_temp %>%
 To make sure this long command worked the way we intended, we should now view streams_temp: 
 
 ```{r}
-print(stream_temp)
+print(stream_temp_long)
 ```
 
 
@@ -228,10 +226,10 @@ Great! Our code worked. Now let's do the same for the dissolved oxygen data set.
 fill them in based on what you saw in the example above! 
 
 ```{r}
-stream_DO <- stream_DO %>%  
+stream_DO_long <- stream_DO %>%  
 # We use the pivot_longer code to tell R which columns we want to change.
   pivot_longer( 
-    # [FILL THIS IN]
+    # [Fill this in by entering the columns]
     cols = c(), 
     # names_to tells R that we want the names of the columns we specified 
     # above to be entries in a new column we're creating called "site". 
@@ -243,7 +241,7 @@ stream_DO <- stream_DO %>%
 Again, we should check our work to make sure that our data looks the way we want it to. We want there to be three columns, one for the year the sample was collected, one for the site name, and one for the dissolved oxygen values (mg/L). 
 
 ```{r}
-print(stream_DO)
+print(stream_DO_long)
 ```
 
 Good work! This data frame should have a single column of dissolved_oxygen and a single column of site to look the way we want it to.
@@ -254,11 +252,11 @@ So far, we have separate dataframes for temperature and DO. We want to combine t
 
 To do this, we will use a command in tidyverse called `full_join()`, from the join commands. Full join means we want to combine two data frames. We want to match up the rows in the first data frame with the second data frame based on a matching key that the two have in common - in our case the year and site. See more on the join commands [here](https://dplyr.tidyverse.org/reference/mutate-joins.html#inner-join).
 
-The format for joining is: `left_join(dataframe1, dataframe2, by=c(columns they have in common))`
+The format for joining is: `full_join(dataframe1, dataframe2, by=c(columns they have in common))`
 
 ```{r}
 # Here, we are using full_join to put the streams_temp data frame next to the streams_DO data frame.
-streams_joined <- full_join(stream_temp, stream_DO, by=c("year","site"))
+streams_joined <- full_join(stream_temp_long, stream_DO_long, by=c("year","site"))
 
 ```
 
@@ -274,7 +272,7 @@ Great job data wrangling! We now have a single tidy dataframe that we can use to
 Now that we have a data frame in the format we want, it’s good practice to save the dataframe so that you don’t need to repeat the steps from above. We will do this using the write.csv() function, which takes two main inputs: the data frame we are saving, and the file name with location.
 ```{r}
 # save our tidy data frame for later 
-write.csv(streams_joined, "streams_data.csv")
+write.csv(streams_joined, "streams_data.csv", row.names = FALSE)
 ```
 
 ### Lesson 2.2 Recap:
@@ -304,9 +302,9 @@ streams = read.csv("streams_data.csv")
 mean(streams$temperature_C)
 ```
 
-Ah! Our code didn't work. R gave us an error message. Error messages are a normal part of programming. Although they might seem surprising or frustrating, you can think about them as a challenge for you to figure out. 
+Ah! Our code didn't work. R gave us an `<NA>` instead of an output. Not getting an expected output, or even error messages, are a normal part of programming. Although they might seem surprising or frustrating, you can think about them as a challenge for you to figure out.
 
-Here, R is telling you that the dataset has missing data, which is indicated in R by "the "NA", which means "not available". As you may have already noticed when looking at the "streams" dataset, you'll see that there are, indeed, some NA values. 
+Here, R is telling you that the dataset has missing data, which is indicated in R by the `<NA>`, which means "not available". As you may have already noticed when looking at the "streams" dataset, you'll see that there are, indeed, some NA values. 
 
 It is very common to have missing data in datasets. Sometimes the data contains NAs in them by the scientists that entered the data (as in our case), but R will also enter NA in a row if there was no data there to begin with (it was left blank when the data was collected).
 
@@ -424,9 +422,11 @@ We'll use code that is similar to the scatter plot code in Module 1.
 # And we're going to color the symbols by site, distinguishing StreamA and StreamB.
 # 'size' adjusts the size of the points to be larger 
 # we are saving it as an object called 'scatter_plot' 
-scatter_plot <- ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site), size=2) +
-  # Then we specify a scatter plot (points)
-  geom_point() 
+scatter_plot <- ggplot(streams, aes(temperature_C, dissolved_oxygen, color = site)) +
+  # Then we specify a scatter plot (points) and increase size of points
+  geom_point(size=4) +
+  # increase size of text 
+  theme(text=element_text(size=20))
 
 # see output 
 scatter_plot
@@ -448,8 +448,10 @@ We can add markers in our plot to show how many points fall outside our water qu
 scatter_plot +
   geom_hline(yintercept = 6.2, col = "red") +
   geom_vline(xintercept = 14, col = "red") +
-    # We'll use the same simple "theme" we used in module 1.
-    theme_minimal()
+  # We'll use the same simple "theme" we used in module 1.
+  theme_minimal() +
+  # We will also make the text larger so it's easier to read.
+  theme(text=element_text(size=20))
 
 ```
 
@@ -481,25 +483,27 @@ Here we will use `geom_line()` to plot temperatures from both sites across the 1
 # The first line says we're making a plot using the streams dataframe.
 # We're going to plot temperature_C over time (year).
 # And we're going to color the symbols by site, distinguishing StreamA and StreamB.
-ggplot(streams, aes(year, temperature_C, color = site)) +
+ggplot(streams, aes(x=year, y=temperature_C, color = site)) +
   # We start by plotting points (as we did in the scatter plot code)
-  geom_point() +
+  geom_point(size=4) +
   # Next, we add lines connecting adjacent points in time using geom_line()
   # Note how ggplot() allows you to add features like lines in a step by step way. 
-  geom_line() +
+  geom_line(size=2) +
   # We'll add a line indicating the "danger zone" of temperatures above 14 C.
-  geom_hline(yintercept = 14, col = "red") +
+  geom_hline(yintercept = 14, col = "red", linetype="dashed") +
   # and we'll use the same theme as always.
-  theme_minimal()
-
-
+  theme_minimal() +
+  # make text larger 
+  theme(text=element_text(size=20)) +
+  # set a title 
+  ggtitle("Stream temperature (C) over time")
 ```
 
 **Class Questions:**
 
 * What do the two colored lines represent? 
 
-* Why are there breaks in the blue line?
+* Why are there breaks in the blue line between 2008-2011?
 
 * Do the trends over time support your hypothesis about the stability of the temperature of the streams? Why or why not?
 

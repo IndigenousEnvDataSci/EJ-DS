@@ -46,23 +46,17 @@ Below are short descriptions of the sites the K'avi managers have been collectin
 3. Apply data analysis and visualization to deliver clear, accessible recommendations to forest managers and community
 4. Discover where to find helpful online resources to continue exploring data and creating data visualizations independently in the future
 
-## PART 1: Setting up and introducing the data
+## Lesson 4.1: Exploring data with ggplot
 
-### Setting up the session
+This lesson will review how we can use ggplot to explore a data frame with continuous variables and one column of a categorical variable. 
 
-**Class Question:**
-
-* What does the code below do? Add comments explaining its functions below:
+First, set up the environment. 
 
 ```{r}
 #
 rm(list = ls())
 
-# 
-current_path = rstudioapi::getActiveDocumentContext()$path
-setwd(dirname(current_path))
-
-# 
+#
 library(tidyverse)
 ```
 
@@ -76,17 +70,13 @@ site_3 <- read.csv("site_3.csv")
 site_4 <- read.csv("site_4.csv")
 ```
 
-## PART 2: Exploring the Data
+### Exploring the Data
 
 Now that you've loaded in the data from the different sites,insert a code chunk below to explore what the variables are in the data:
 
 ```{r, look at the data}
 #Use this chunk to look at the data above
 
-head(site_1)
-head(site_2)
-head(site_3)
-head(site_4)
 
 #Could also use dim, glimpse, view....
 ```
@@ -117,7 +107,7 @@ You can use the following chunk to perform whichever summary statistics you woul
 * Based on these summary statistics, which site seems like the best site so far? 
 * Is there any other information you would like to consider about these sites that was not provided in this data set?
 
-## PART 3: Combining the sites
+### Combining the sites 
 
 Now that you've loaded in and explored that data from each of the sites, it will be useful to combine it in one large data set. We will use `mutate()`, similar to the previous module, to create a new column to identify each site. 
 
@@ -140,6 +130,7 @@ forest<- rbind(site_1_new, site_2_new, site_3_new, site_4_new)
 # preview it 
 head(forest)
 ```
+
 ### Calculate site averages 
 
 Now calculate the mean board feet at each site from the new combined data. Similar to previous modules, use `group_by()` and `summarize()`
@@ -148,18 +139,19 @@ Now calculate the mean board feet at each site from the new combined data. Simil
 #Use this chunk to calculate the mean board_feet from the combined data
 forest %>% 
   group_by(site_ID) %>% 
-  summarize(mean_bf = mean(board_feet))
+  summarize(mean_board_feet = mean(board_feet))
 
 ```
 
-Again using `group_by()` and `summarize()`, create a table/tibble with the median age of the trees at each site
+Again using `group_by()` and `summarize()`, create a table/tibble with the `median()` age of the trees at each site.
+
 ```{r, table}
-#Use this chunk to create the table
+#Use this chunk to calculate the median age of trees from the combined data
 
   
 ```
 
-## PART 4: Graphing the data
+### Exploring data with plots
 
 In order to compare the different sites, we want to use the variable `site_ID` in our plots. Even though we know that it is a discrete value we are using as an ID, R recognizes this variable as a double which will cause issues when trying to plot it as a category. In order to fix this, we are going to save `site_ID` as a factor. Factors in R are categorical variables that can be stored in levels. 
 
@@ -171,6 +163,8 @@ forest$site_ID <- as.factor(forest$site_ID)
 
 ### Boxplot
 
+We are using two columns to plot a boxplot - `site_ID` is a discrete category, and the `board_feet` is a continuous variable. The boxplots will show the distribution of values and statistics for `board_feet` at each site.
+
 Create a boxplot with the `forest` dataframe showing `site_ID` on the x-axis, and `board_feet` on the y-axis.
 
 ```{r boxplot}
@@ -179,6 +173,8 @@ Create a boxplot with the `forest` dataframe showing `site_ID` on the x-axis, an
 
 ### Scatter plot 
 
+Our data frame also contains an `age` column, which represents years, and could be treated as continuous or discrete. In this case, to create a time series, we can treat it as continous, and use it in a scatter plot. Scatter plots typically show the relationship between two continuous variables.  
+
 Create a scatter plot with the `forest` dataframe of `board_feet` v. `age`, with `site_ID` as color or shape,  using `geom_point()` 
 
 ```{r, graph}
@@ -186,6 +182,6 @@ Create a scatter plot with the `forest` dataframe of `board_feet` v. `age`, with
 
 ```
 
-*Recap:*
+## Lesson 4.1 Recap:
 
 You have now explored the data in many different ways. Based on the information from the summary statistics, graph, and descriptions of the sites, which site would you recommend as the best for a lumber harvest and why?

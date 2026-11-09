@@ -5,17 +5,6 @@ output:
 date: "`r Sys.Date()`"
 ---
 
-# Table of Contents
-
-* Part 1: Outlining your presentation
-* Part 2: Refining your graphs
-* Part 3: Informative labels
-* Part 4: Adding more sites
-* Part 5: Legends
-* Part 6: Adding visual elements
-* Part 7: Reviewing your plots
-* If you have extra time: Additional Resources/Future Directions
-
 # Introduction
 
 In the first part of this module, you explored data collected by K'avi tribal forestry managers on the total number of board feet for all Douglas Firs within a one acre area for four different sites. Based on data analysis and other qualitative factors, you decided which site would be the best for a timber harvest.
@@ -44,7 +33,9 @@ Our graphing theory information was mainly inspired by these resources:
 
 --------------------------------------------------------------------------------
 
-## PART 1: Outlining your presentation
+## Lesson 4.2 
+
+### Outlining your presentation
 
 **Class Questions:**
 
@@ -70,31 +61,20 @@ Our graphing theory information was mainly inspired by these resources:
   
 Now that you have an idea of what your goals are for this graph, we will present a couple different tools in ggplot to give you more control over your graphs. With each tool, we will show show one way you can use that tool on a graph of tree density versus stand age and then we will point you towards resources you can use to explore how to implement that tool with your own graphs. 
 
-## PART 2: Refining your graphs
-
 ```{r}
-# Cleaning environment and setting working directory
-rm(list = ls())
-current_path = rstudioapi::getActiveDocumentContext()$path
-setwd(dirname(current_path))
-set.seed(1)
 
 # Load libraries
 library(tidyverse)
 
-# Read in and reformat data - We are loading in the data again because we cleared all the data out of R above so that we could start with a clean slate. 
-site_1 <- read.csv("site_1.csv") %>% 
-  mutate(site_ID = 1)
-site_2 <- read.csv("site_2.csv") %>% 
-  mutate(site_ID = 2)
-site_3 <- read.csv("site_3.csv") %>% 
-  mutate(site_ID = 3)
-site_4 <- read.csv("site_4.csv") %>% 
-  mutate(site_ID = 4)
+# load in site 1 as example 
+site_1 <- read.csv("site_1.csv")
 
-forest <- rbind(site_1, site_2, site_3, site_4)
+# load in combined data set with all sites 
+forest <- read.csv("forest.csv")
 
 ```
+
+### Refining your graphs
 
 The first part of making an effective graph is picking what kind of graph you want to make. We have generally been using scatter plots, boxplots, and line plots throughout this course but ggplot offers a wide variety of different plot types for you to play with. Generally the first step for picking a plot type is determining how many variables you are trying to represent and what your goal for the plot is. 
 
@@ -123,9 +103,8 @@ These graphs are based on the same information but they portray slightly differe
 You can make whichever graph you decided on here:
 
 ```{r}
-
+# add ggplot code here
 ```
-
 
 Another cool thing that ggplot lets us do is layer different plots on top of one another. Using this we can show both the scatterplot and the line plot. 
 
@@ -138,23 +117,21 @@ ggplot(site_1, aes(x = age, y = tree_density)) +
 Try it out with your plot here:
 
 ```{r}
-
+# add ggplot code here
 ```
 
 **Class Questions:**
 
 Now that you have created a basic plot that technically has all of the information in it, lets thinks about how we would refine the graph to best fill the role you want it to fill. Here are a couple of questions that may help get the conversations started.
 
-* What context would someone need to understand the graph that is not already included in the graph? 
-
-    * How might you include this context? 
+* What context would someone need to understand the graph that is not already included in the graph? How might you include this context? 
 
 * What parts of the graph that you have right now are the most confusing? How could they be made less confusing? 
 
 * Are there any parts of the graph that are not vital? How could you simplify the graph?
 
 
-## PART 3: Informative Labels
+### Informative Labels
 
 One of the first things we can do to make the graph more interpretable is change the text on the graph so that it is meaningful and helpful. 
 We can do this using the `labs()` layer in ggplot. To add this layer all you need to do is add a plus sign at the end of the last layer (geom_point or geom_line) and then add the labs layer in the next line. You can type `?labs` in the console to learn about all the different things you can do in this layer but basically, it lets you add a title or caption, change the axis labels, etc.
@@ -182,10 +159,10 @@ While you add labels to your graph below, think about the data that you are tryi
 ```{r, adding labels}
 #Calls the function ggplot (we have seen this before), adds which data frame
 #the graph is taking information from, and assigns a variable to the x and y axes
-ggplot(forest, aes(x = age, y = board_feet))+
+ggplot(site_1, aes(x = age, y = board_feet))+
 #This tells ggplot what kind of graph to create (a scatter plot), in the
 #aesthetics of the graph we can tell R to differentiate each site by a different color
-  geom_point(aes(color = as.factor(site_ID)))+
+  geom_point(col="blue")+
 #The labs function allows you to adjust the labels of many different aspects of
 #the graph simultaneously. Caption allows you to add a caption to the graph, 
 #while x and y adjust the names of the axes respectively. Finally, title allows
@@ -197,104 +174,35 @@ ggplot(forest, aes(x = age, y = board_feet))+
 In the next code chunk, create your own graph and use `labs()` to add context. 
 
 ```{r}
-
+# add ggplot code here, use labs() to add labels
 ```
 
 
-## PART 4: Adding more sites
+## Representing categories:Adding more sites
 
 Now that we have a plot that describes the trends at one site we can add in the information from the other sites. There are two main ways to do this, either by creating a different plot for each site and then arranging the plots next to one another, or adding all the sites to one plot. 
 
-First we will show you how to arrange multiple different plots side by side using the package patchwork and our example graph of tree density and stand age. The first thing to do is download and then load the package itself. 
+First we will show you how to arrange multiple different plots side by side using `facet_wrap()` and our example graph of tree density and stand age.
+
+Facet wrap is a layer to a ggplot object that takes a discrete variable, like a category, and displays it as different panels. In our example, the `site_ID` is a number, so we first convert it to a factor so that it is recognized as a categorical value. Facet wrap creates a plot for each category of `site_ID`. Read more about facet_wrap [here](https://ggplot2.tidyverse.org/reference/facet_grid.html).
 
 ```{r}
-# If you do not already have patchwork downloaded on your computer, delete the # in the next line to uncomment that code and then run the following line to download the package: 
-#install.packages(patchwork)
+# make site ID a factor 
+forest$site_ID = as.factor(forest$site_ID)
 
-# Loading the package into this session of R
-library(patchwork)
-```
-
-To use patchwork you need to create graphs for each of the sites, and then save each graph as its own variable the same way you would for any other variable. 
-
-```{r, creating the graphs at each site}
-site_1_plot <- ggplot(data = site_1, aes(x = age, y = tree_density))+
-  geom_point()+
-  geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 1")
-
-site_2_plot <- ggplot(data = site_2, aes(x = age, y = tree_density))+
-  geom_point()+
-  geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 2")
-
-site_3_plot <- ggplot(data = site_3, aes(x = age, y = tree_density))+
-  geom_point()+
-  geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 3")
-
-site_4_plot <- ggplot(data = site_4, aes(x = age, y = tree_density))+
-  geom_point()+
-  geom_line()+
-  labs(x = "Site Age", y = "Number of Trees", title = "Number of Trees Over Time at Site 4")
-```
-
-Then, to arrange the the graphs you can use `+` and `/` with the plots you saved above. There are a couple of examples below but you can see all the different ways to use this package to arrange graphs here: https://patchwork.data-imaginist.com/
-
-```{r, combining the plots}
-# + puts the two graphs next to one another
-site_1_plot + site_2_plot
-
-# / Puts the graphs on top of one another
-site_1_plot / site_2_plot
-
-# Then you can get fancy with it!
-(site_1_plot + site_2_plot) / site_3_plot
-
-```
-
-Experiment with patchwork with your own graphs below until you find an arrangement that you think highlights the relationship you are interested in showing between the different sites. 
-
-```{r}
-
+# plot forest data frame with site ID in facet wrap 
+ggplot(data = forest, aes(x = age, y = tree_density))+
+  geom_point() + geom_line() + facet_wrap(~site_ID) + 
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site")
 ```
 
 The second way to show data from multiple sites is to put all of the sites on one graph. We can do this in the `aes()` portion of the ggplot function by telling R to represent which site a point is from with another aspect of the graph. In our example we will use the color of the points and lines.
 
-
-```{r}
-ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
-  geom_point()+
-  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site")
-```
-Note in this graph that the scale for the color on the right hand side of the plot is a continuous gradient of color rather than individual colors. This is because when we set up the site ID during the last lesson we set the ID of each site as a number. When we input a variable as a number, R automatically assumes that variable is a continuous, numerical variable. Since we are using the site ID as different categories for which site each observation is from we need this variable to be a factor (or categorical) variable rather than a number which we can do with the following code.
-
-```{r}
-forest$site_ID <- as.factor(forest$site_ID)
-```
-
-Now we can use the exact same code as above and it will color the points in different/discrete colors for each site rather than a gradient. We can also add back in the lines which were removed in the previous point because the line plots do not work well with the previous color scale.
-
 ```{r}
 ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+
   geom_line()+
   labs(x = "Site Age", y = "Number of Trees per Acre", title = "Number of Trees Over Time at Each Site")
-```
-In the previous two graphs you can also see that R uses different default colors depending on what kind of variable it is working with. When R thought that the site ID was a continuous variable it used a light blue to dark blue gradient but after we converted the site ID to different categories R uses 4 distinct colors. 
-
-**Class Questions**
-
-* How do the different color palettes that R uses relate to the relationships between the different sites? 
-
-  
-* Based on relationships between the different sites, what color palette would be the most appropriate here? (Note: we will talk more about changing the color palettes soon if you would like to)
-
-
-Try adding all the sites onto your graph here:
-
-```{r}
-
 ```
 
 Both of these methods, arranging multiple graphs and adding colors, will show information on how the sites differ but they each have different pros and cons. In the arranged plots, each individual plot is cleaner and simpler whereas there is a lot going on in the combined plot. However, the combined plot lets you see the differences between sites more clearly and it takes up less space in a slide or a paper. 
@@ -302,14 +210,12 @@ Both of these methods, arranging multiple graphs and adding colors, will show in
 **Class Questions:**
 
 * What might be the benefits of putting each site on its own graph? What about including all the sites on the same graph? 
-
-  Potential answer: Puttign each site on its own graph keeps the individual graphs cleaner and simpler while putting all the lines on the same graph highlights the differences between sites. 
   
 * Which format of including multiple sites do you think will best convey the information to your proposed audience? Why? 
 
 For the example plots in the next couple of sections we will be using the combined plot with different colors because some of the other ggplot techniques we want to highlight are easier to show with that plot. 
 
-## PART 5: Legends
+### Editing the Legend
 
 You may have noticed in the previous section that when you added color categories for different sites, ggplot automatically created a legend. This legend on the right hand side of the plot describes what each color means. However, like many things ggplot automatically generates, the legend is not particularly reader-friendly. 
 
@@ -323,15 +229,15 @@ So far the goal of this course has been to help walk you through the foundations
 
 In the next couple of sections we have provided links to a couple of different online resources which address each topic. You are free to explore those links or other resources you may find helpful. We have provided multiple links for each section in case one of the links does not work for any reason. Additionally, here are a couple of links to PDFs about graphing in R that you can save on your device and refer back to later without needing an internet connection:
 
-* https://www.tutorialspoint.com/ggplot2/ggplot2_tutorial.pdf
-* https://ms.mcmaster.ca/~bolker/misc/ggb.pdf
-* https://www.datanovia.com/en/wp-content/uploads/dn-tutorials/book-preview/ggplot2-essentials_preview.pdf
+* (ggplot2 tutorial)[https://www.tutorialspoint.com/ggplot2/ggplot2_tutorial.pdf]
+* (ggplot 2: elegant graphics for data analysis by Hadley Wickham)[https://ms.mcmaster.ca/~bolker/misc/ggb.pdf]
+* (ggplot2 Essentials)[https://www.datanovia.com/en/wp-content/uploads/dn-tutorials/book-preview/ggplot2-essentials_preview.pdf]
 
 Here are a couple of resources about how to change your legend in ggplot. They all cover similar things but you may prefer one over the others:
 
-* http://www.cookbook-r.com/Graphs/Legends_(ggplot2)/
-* https://www.datanovia.com/en/blog/ggplot-legend-title-position-and-labels/
-* http://www.sthda.com/english/wiki/ggplot2-legend-easy-steps-to-change-the-position-and-the-appearance-of-a-graph-legend-in-r-software 
+* [Cookbook for R - Legends](http://www.cookbook-r.com/Graphs/Legends_(ggplot2)/)
+* [GGPlot Legend Title, Position and Labels](https://www.datanovia.com/en/blog/ggplot-legend-title-position-and-labels/)
+* [ggplot2 legend : Easy steps to change the position and the appearance of a graph legend in R software](http://www.sthda.com/english/wiki/ggplot2-legend-easy-steps-to-change-the-position-and-the-appearance-of-a-graph-legend-in-r-software)
 
 Using one of the resources provided above or another resource that you prefer, change one thing about your legend that you have identified to make it more accessible to your audience. 
 
@@ -340,7 +246,7 @@ Using one of the resources provided above or another resource that you prefer, c
 ```
 
 
-## PART 6: Adding visual elements
+### Adding visual elements
 
 Now that you have a plot with multiple site, different colors, and a legend it's time to give you more control over what those colors are and other ways to show groupings. 
 
@@ -348,9 +254,9 @@ To manually set what colors your plot you can use layer scale_color_manual() whi
 
 Colors:
 
-* https://www.datanovia.com/en/blog/awesome-list-of-657-r-color-names/
-* http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
-* https://r-graph-gallery.com/42-colors-names.html
+* [Awesome List Of 657 R Color Names](https://www.datanovia.com/en/blog/awesome-list-of-657-r-color-names/)
+* [An overview of color names in R](https://r-graph-gallery.com/42-colors-names.html)
+* [R Color Brewer palettes](https://r-graph-gallery.com/38-rcolorbrewers-palettes.html)
 
 ```{r}
 ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
@@ -365,10 +271,11 @@ Note that the number of colors you give R must equal the number of categories yo
 
 ```
 
-It is also important to note here that displaying important information with different colors in your plot can make reading your plots hard for colorblind people. There are a couple of different ways to help with this including, picking a color palette that is colorblind friendly or using a couple of different methods to distinguish the different groups. 
+In addition to creating manual color scales, there are preset R color palettes from different packages that we can use when setting the color. In the first example below, we use `scale_color_brewer()` to use a palette from the package [`RColorBrewer`](https://r-graph-gallery.com/38-rcolorbrewers-palettes.html). In the second example we use `scale_color_viridis()` to use a palette from the package [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html).  
 
-There is a package in R that specifically has color-blind friendly palettes that you can use in your graphs. It is called viridis and here are some examples of it.
+It is also important to note here that displaying important information with different colors in your plot can make reading your plots hard for color blindness and/or color vision deficient people. There are a couple of different ways to help with this including, picking a color palette that is colorblind friendly or using a couple of different methods to distinguish the different groups. 
 
+There is a package in R that specifically has color blind friendly palettes that you can use in your graphs. It is called viridis and here are some examples of it.
 
 ```{r}
 # Uncomment this and run it to initially install the package
@@ -398,10 +305,11 @@ Try it out on your own graphs
 
 ```
 
-Another options for making graphs more accessible for color-blind people is by using multiple kinds of visual cues to separate different groups. This can look different for different kinds of plots so here are examples of what this would look like for scatter plots and line plots. Note that the sizes of these elements are exaggerated in the example plots for ease of viewing but you do not have to change the size in your own.  
+Another option for making graphs more accessible for color vision deficiency is by using multiple kinds of visual cues to separate different groups. This can look different for different kinds of plots so here are examples of what this would look like for scatter plots and line plots. Note that the sizes of these elements are exaggerated in the example plots for ease of viewing but you do not have to change the size in your own.  
 
 In scatterplots we can change the shapes of the points. 
 ```{r}
+
 ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, shape = site_ID))+
 #We can use size to make the points larger and easier to see. Larger numbers make
 #the points larger on the graph 
@@ -429,13 +337,13 @@ ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID, linetype =
 * Which of these options do you think is best for your audience?
 
 
-## PART 7: Reviewing your plots
+### Reviewing your plots
 
 Go back to the beginning of this document and look back at what you identified as the key takeaways from the data analysis. Take this as a chance to reflect on if your choice of graph is the best for summarizing this information
 
 Review how you identified your audience. Do the added graph elements that you chose to add benefit this audience? If you could improve the graph in some way, how would you? (even if you don't know how to code this yet)
 
-# If you have extra time: Additional Resources/ Future Directions
+### If you have extra time: Additional Resources/ Future Directions
 
 In the future, if you want to fully customize each element of your graph you will probably run into themes. This topic gets very complicated, very quickly so you do not need to know everything about themes but we want to show you that it is an option if you need it in the future. There are two main ways you might want to use themes, using a predefined theme or using themes to change specific items in your graph.
 
@@ -443,7 +351,10 @@ In the future, if you want to fully customize each element of your graph you wil
 
 Ggplot comes with a couple of predefined themes that you can apply to your graphs. Below we will create the code to apply each predefined themes and then show you what they look like. 
 
-```{r}
+```{r themes}
+# library(patchwork) brings in a package that allows us to combine plots
+library(patchwork)
+
 # This code creates a graph with no added theme
 no_theme <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+  
@@ -454,7 +365,7 @@ no_theme <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID
 theme_bw <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_ID))+
   geom_point()+  
   geom_line()+ 
-  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Black and White Theme", color = "Site")+
+  labs(x = "Site Age", y = "Number of Trees per Acre", title = "Black and White Theme", color = "Site") +
   theme_bw()
 
 # This one makes the linedraw theme
@@ -490,14 +401,14 @@ theme_void <- ggplot(data = forest, aes(x = age, y = tree_density, color = site_
 
 Feel free to check out these resources for a list of all the predefined themes:
 
-* https://ggplot2-book.org/themes
+* https://ggplot2-book.org/themes (Part 17.3)
 * https://www.datanovia.com/en/blog/ggplot-themes-gallery/
 * https://r-charts.com/ggplot2/themes/ 
 * https://r-graph-gallery.com/192-ggplot-themes.html
 
  Explore different predefined themes here:
  
-```{r}
+```{r explore_themes}
 
 ```
  
